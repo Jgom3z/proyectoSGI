@@ -1,0 +1,77 @@
+   /* Estilos para la tabla */
+   table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    
+}
+th {
+    background-color: #f2f2f2;
+    color: #b54f25;
+}
+/* Estilos para la barra de búsqueda y el botón */
+.search-bar {
+    margin-bottom: 20px;
+}
+.search-input {
+    width: 25%;
+    padding: 5px;
+}
+.search-button {
+    padding: 5px 10px;
+    background-color: #b54f25;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.search-create{
+    
+        padding: 5px 10px;
+        background-color: #b54f25;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        float: right; 
+    }
+
+
+  
+    /* Estilo del modal */
+    .modal {
+      display: none; /* Ocultar el modal por defecto */
+      position: fixed; /* Fijo en la pantalla */
+      z-index: 1; /* Asegurar que esté sobre otros elementos */
+      left: 0;
+      top: 0;
+      width: 100%; /* Ocupa el ancho completo */
+      height: 100%; /* Ocupa el alto completo */
+      overflow: auto; /* Permitir desplazamiento si es necesario */
+      background-color: rgba(0,0,0,0.4); /* Fondo oscuro con opacidad */
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* Centrar el modal */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Ancho del modal */
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
