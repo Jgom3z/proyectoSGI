@@ -1,0 +1,30 @@
+
+
+<h1>{{title}}</h1>
+  <div class="search-bar">
+    <input type="text" class="search-input" placeholder="Buscar grupo...">
+    <button class="search-button">Buscar</button>
+    <button class="search-create" onclick="openModal()">Crear</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+       {%for th in ths%}
+
+       <th>{{th}}</th>
+
+       {%endfor%}
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr>
+        {%for td in tds%}
+
+        <td>{{td}}</td>
+ 
+        {%endfor%}
+      </tr>
+      
+  </tbody>
+  </table>

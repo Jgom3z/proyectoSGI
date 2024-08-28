@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Base{% endblock %}</title>
+
+ {%block content%}
+
+ <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createForm" action="/creategrupo" method="POST">
+          <label for="nombre_grupo">Nombre del grupo:</label>
+          <input type="text" id="nombre_grupo" name="nombre_grupo" required><br>
+      
+          <!--<label for="codigo_grup_lac">Código grup lac:</label>
+          <input type="text" id="codigo_grup_lac" name="codigo_grup_lac" required><br>
+      
+          <label for="categoria_colciencias">Categoría Colciencias:</label>
+          <input type="text" id="categoria_colciencias" name="categoria_colciencias" required><br>
+      
+          <label for="area_conocimiento">Área de conocimiento:</label>
+          <input type="text" id="area_conocimiento" name="area_conocimiento" required><br>
+      
+          <label for="id_facultad">ID Facultad:</label>
+          <input type="number" id="id_facultad" name="id_facultad" required><br>
+      
+          <label for="fecha_creacion">Fecha de creación:</label>
+          <input type="date" id="fecha_creacion" name="fecha_creacion" required><br>
+      
+          <label for="fecha_finalizacion">Fecha de finalización:</label>
+          <input type="date" id="fecha_finalizacion" name="fecha_finalizacion"><br>
+      
+          <label for="id_lider">ID Líder:</label>
+          <input type="number" id="id_lider" name="id_lider" required><br>
+      
+          <label for="plan_estrategico">Plan estratégico:</label>
+          <textarea id="plan_estrategico" name="plan_estrategico" required></textarea><br>
+      
+          <label for="categoria_meta">Categoría meta:</label>
+          <input type="text" id="categoria_meta" name="categoria_meta" required><br>
+      
+          <label for="estrategia_meta">Estrategia meta:</label>
+          <textarea id="estrategia_meta" name="estrategia_meta" required></textarea><br>
+      
+          <label for="vision">Visión:</label>
+          <textarea id="vision" name="vision" required></textarea><br>
+      
+          <label for="objetivos">Objetivos:</label>
+          <textarea id="objetivos" name="objetivos" required></textarea><br>
+  
+        
+        -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Crear</button>
+        </div>
+        
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+{%include 'components/table.html'%}
+
+  <!--<h1>Grupos de Investigación</h1>
+  <div class="search-bar">
+    <input type="text" class="search-input" placeholder="Buscar grupo...">
+    <button class="search-button">Buscar</button>
+    <button class="search-create" onclick="openModal()">Crear</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Grupo de investigación</th>
+        <th>Código GrupLac</th>
+        <th>Categoria colciencias</th>
+        <th>Facultad</th>
+        <th>Líder del grupo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grupo in grupos %}
+      <tr>
+          <td>{{ grupo.nombre_grupo }}</td>
+          <td>{{ grupo.codigo_grup_lac }}</td>
+          <td>{{ grupo.categoria_colciencias }}</td>
+          <td>{{ grupo.nombre_facultad }}</td>
+          <td>{{ grupo.nombre_investigador }}</td>
+          <td>{{ grupo.id_grupo }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+  
+-->
+ 
+  {% endblock content %}
+  
+

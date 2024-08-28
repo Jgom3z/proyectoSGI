@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Investigaciones{% endblock %}
+
+<main>
+  {% block content %}
+  
+      <h1>Investigadores</h1>
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Buscar grupo...">
+        <button class="search-button">Buscar</button>
+        <button class="search-create">Crear</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Investigador</th>
+            <th>Linea de investigación</th>
+            <th>Estado</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Casos y Estudios Organizacionales- CEO</td>
+            <td>COL0013049</td>
+            <td>Colciencias</td>
+            <td>Facultad Ciencias Empresariales</td>
+            <td>Erika Maria Londoño Montoya</td>
+          </tr>
+          <!-- Agrega más filas aquí con los datos correspondientes -->
+        </tbody>
+      </table>
+    </main>
+    {% endblock %}

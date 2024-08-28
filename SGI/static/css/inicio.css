@@ -1,0 +1,209 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url("/static/img/inicio/FI.jpg");
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+.header-top {
+    background-color: #b54f25;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 150px; /* Ajusta el ancho del logo según sea necesario */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Empuja .user-info al borde derecho */
+}
+
+.user-info i {
+    margin-right: 20px;
+}
+
+.user-info span {
+    margin-right: 20px; /* Ajusta el espacio alrededor del contador de notificaciones */
+}
+
+.user-info a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.user-info a:hover {
+    text-decoration: underline; /* Subrayado al pasar el mouse */
+}
+
+.sidebar {
+    margin-top: 68px;
+    width: 300px;
+    background-color: #454545;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    color: white;
+    transition: transform 0.3s ease; /* Animación de transición */
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%); /* Oculta la barra lateral desplazándola hacia la izquierda */
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px; /* Tamaño del icono */
+    cursor: pointer;
+}
+
+.sidebar .sidebar-content {
+    padding: 20px;
+}
+
+.sidebar .sidebar-logo {
+    display: flex;
+    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+    margin-bottom: 20px;
+}
+.sidebar .sidebar-logo img {
+    width: auto; /* Ajusta el ancho de la imagen según su contenido */
+    height: 60px; /* Ajusta la altura si es necesario */
+    margin: 0; /* Elimina cualquier margen */
+}
+
+
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+}
+
+.sidebar-toggle i {
+    margin-right: 0; /* Ajusta el margen según sea necesario */
+}
+
+main {
+    margin-left: 300px;
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Animación de transición */
+}
+
+main.expanded {
+    margin-left: 0; /* Ajusta el margen cuando la barra lateral está oculta */
+}
+
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: flex-start; /* Alineación de los elementos */
+    margin-top: 20px;
+}
+
+.carousel {
+    flex: 1; /* Ajusta el tamaño relativo del carrusel */
+    margin-right: 20px; /* Mantén un margen derecho para separación */
+    max-width: 60%; /* O ajusta este valor según tu necesidad */
+}
+
+.objective {
+    flex: 1; /* La sección de objetivo toma 1/3 del ancho disponible */
+    max-width: 40%; /* Controla el ancho máximo */
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 0; /* Elimina el margen izquierdo si es necesario */
+}
+
+.carousel img {
+    max-width: 100%;
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+}
+
+.objective h2 {
+    color: #b54f25;
+    margin-top: 0;
+}
+
+footer {
+    background-color: transparent;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 220px);
+    margin-left: 300px;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-left p {
+    margin-right: 20px;
+}
+
+.footer-right img {
+    height: 50px;
+}
+
+/* Inicialmente oculta el menú desplegable */
+.sidebar .dropdown-menu {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #444; /* Color de fondo del menú desplegable */
+}
+
+.sidebar .dropdown-menu li a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar .dropdown-menu li a:hover {
+    background-color: #555; /* Color de fondo al pasar el ratón */
+}
+
+/* Muestra el menú desplegable cuando el contenedor tiene la clase 'active' */
+.sidebar .dropdown.active .dropdown-menu {
+    display: block;
+}
