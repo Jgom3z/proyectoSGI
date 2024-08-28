@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html class="no-js  page-10 app-F_102105" lang="es-co" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bienvenido</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+
+    
+    <!-- FALTAN ESAS "IMAGENES" ----------------------------------------------------------------------->
+
+    <link rel="shortcut icon" href="/i/favicon.ico">
+    <link rel="icon" sizes="16x16" href="/i/favicon-16x16.png">
+    <link rel="icon" sizes="32x32" href="/i/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/i/favicon-180x180.png">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<style>
+    .t-Body {
+        background-image: url(/SGI/static/img/principales/fondo.jpg);
+        background-repeat: repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    </style>
+
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='/img/principales/logoUSB.png') }}" alt="Logo Universidad de San Buenaventura Medellín">
+        </div>
+        <h1>Bienvenidos</h1>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                <li class="flash-{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        <p>Ingrese los siguientes campos para poder iniciar sesión en el sistema.
+             Si no tiene o no recuerda la contraseña, por favor, haga clic en 
+             <span class="span">Solicitar contraseña.</span></p>
+
+             <form action="{{ url_for('login.login_view') }}" method="post" novalidate autocomplete="off">
+            
+            <input type="text" id="txtEmail" name="txtEmail"
+            placeholder="Número de identificación" required aria-required="true">
+            
+            <input type="password" id="txtContrasena" 
+            placeholder="contraseña" name="txtContrasena" required aria-required="true">
+            
+            <a href="/inicio"<button type="submit">Conectar</button> </a>
+        </a>
+        <a href="#" class="recover-password">Solicitar contraseña</a>
+    </div>
+</body>
+</html>
+
+</html>

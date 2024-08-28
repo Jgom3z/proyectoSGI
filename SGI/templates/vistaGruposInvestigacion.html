@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="no-js page-10 app-F_102105" lang="es-co">
+<head runat="server">
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta charset="utf-8">
+  <title>{% block title %}Base{% endblock %}</title>
+
+  <!-- jQuery primero, luego Popper.js, y luego Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--BOOTSTRAP MODAL-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--CSS-->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gruposI.css') }}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+
+  
+  <link rel="shortcut icon" href="/i/favicon.ico">
+  <link rel="icon" sizes="16x16" href="/i/favicon-16x16.png">
+  <link rel="icon" sizes="32x32" href="/i/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/i/favicon-180x180.png">
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+
+  
+ 
+</head>
+<body>
+  <header>
+    <div class="header-top">
+      <!-- Botón para el menú lateral -->
+      <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <!-- Logo -->
+      <button class="sidebar-toggle">
+        <a href="/vistaInicio"><img class="logo" src="{{ url_for('static', filename='img/principales/logoUSB.png') }}" alt="Logo">
+        </a>
+      </button>
+
+      <!-- Información del usuario (Notificaciones, Perfil, Desconectar) -->
+      <div class="user-info">
+        <i class="fas fa-bell"></i>
+        <span>0</span>
+      <img src="{{ url_for('static', filename='img/user.png') }}">
+      <span></span>
+        <a href="#">Perfil (1000206974)</a>
+        <span></span>
+        <img src="{{ url_for('static', filename='img/logout.png') }}">
+        <span></span>
+        <a href="/login">Desconectar</a>
+      </div>
+    </div>
+  </header>
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li class="dropdown">
+            <a href="/vistaInvestigaciones" class="dropdown-toggle">
+              <i class="fas fa-home"></i> Investigaciones
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/vistaInvestigaciones">Investigaciones</a></li>
+              <li><a href="/vistaGruposInvestigacion">Grupos de investigación</a></li>
+              <li><a href="/vistaLineasInvestigacion">Lineas de investigación</a></li>
+              <li><a href="/vistaSemillerosInvestigacion">Semilleros de investigación</a></li>
+              <li><a href="/vistaProyectosInvestigacion">Proyectos de investigación</a></li>
+              <li><a href="/vistaProyectoFormacion">Proyectos de formación</a></li>
+              <li><a href="/vistaInvestigadores">Investigadores</a></li>
+              <li><a href="/vistaEstudiante">Estudiantes</a></li>
+              <li><a href="/vistaConvocatorias">Convocatorias</a></li>
+              <li><a href="/vistaCertificados">Certificados</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Scripts para ocultar y desplegar el navbar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebarToggle = document.querySelector('.sidebar-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      const content = document.querySelector('main');
+
+      sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('hidden');
+        content.classList.toggle('expanded');
+      });
+
+      const dropdownToggle = document.querySelector('.dropdown-toggle');
+      const dropdown = document.querySelector('.dropdown');
+
+      dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle('active');
+      });
+    });
+  </script>
+  <script>
+    // Función para abrir el modal
+    function openModal() {
+      document.getElementById("createModal").style.display = "block";
+    }
+  
+    // Función para cerrar el modal
+    function closeModal() {
+      document.getElementById("createModal").style.display = "none";
+    }
+  
+    // Cerrar el modal si se hace clic fuera del modal
+    window.onclick = function(event) {
+      if (event.target === document.getElementById("createModal")) {
+        closeModal();
+      }
+    }
+  </script>
+  <main>
+  
+  <!-- Contenido específico de cada página -->
+  <h1>Grupos de Investigación</h1>
+  <div class="search-bar">
+    <input type="text" class="search-input" placeholder="Buscar grupo...">
+    <button class="search-button">Buscar</button>
+    <button class="search-create" onclick="openModal()">Crear</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Grupo de investigación</th>
+        <th>Código GrupLac</th>
+        <th>Categoria colciencias</th>
+        <th>Facultad</th>
+        <th>Líder del grupo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grupo in grupos %}
+      <tr>
+          <td>{{ grupo.nombre_proyecto }}</td>
+          <td>{{ grupo.codigo_grup_lac }}</td>
+          <td>{{ grupo.categoria_colciencias }}</td>
+          <td>{{ grupo.nombre_facultad }}</td>
+          <td>{{ grupo.nombre_investigador }}</td>
+          <td>{{ grupo.id_grupo }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+  <!-- Modal para crear nuevo grupo -->
+  <div id="createModal" class="modal">
+    <div class="modal-content" method = "POST">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Crear Nuevo Grupo de Investigación</h2>
+      <form id="createForm">
+        <label for="nombre_grupo">Nombre del grupo:</label>
+        <input type="text" id="nombre_grupo" name="nombre_grupo" required><br>
+    
+        <label for="codigo_grup_lac">Código grup lac:</label>
+        <input type="text" id="codigo_grup_lac" name="codigo_grup_lac" required><br>
+    
+        <label for="categoria_colciencias">Categoría Colciencias:</label>
+        <input type="text" id="categoria_colciencias" name="categoria_colciencias" required><br>
+    
+        <label for="area_conocimiento">Área de conocimiento:</label>
+        <input type="text" id="area_conocimiento" name="area_conocimiento" required><br>
+    
+        <label for="id_facultad">ID Facultad:</label>
+        <input type="number" id="id_facultad" name="id_facultad" required><br>
+    
+        <label for="fecha_creacion">Fecha de creación:</label>
+        <input type="date" id="fecha_creacion" name="fecha_creacion" required><br>
+    
+        <label for="fecha_finalizacion">Fecha de finalización:</label>
+        <input type="date" id="fecha_finalizacion" name="fecha_finalizacion"><br>
+    
+        <label for="id_lider">ID Líder:</label>
+        <input type="number" id="id_lider" name="id_lider" required><br>
+    
+        <label for="plan_estrategico">Plan estratégico:</label>
+        <textarea id="plan_estrategico" name="plan_estrategico" required></textarea><br>
+    
+        <label for="categoria_meta">Categoría meta:</label>
+        <input type="text" id="categoria_meta" name="categoria_meta" required><br>
+    
+        <label for="estrategia_meta">Estrategia meta:</label>
+        <textarea id="estrategia_meta" name="estrategia_meta" required></textarea><br>
+    
+        <label for="vision">Visión:</label>
+        <textarea id="vision" name="vision" required></textarea><br>
+    
+        <label for="objetivos">Objetivos:</label>
+        <textarea id="objetivos" name="objetivos" required></textarea><br>
+
+      
+        <label for="nombreGrupo">Grupo de investigación:</label>
+        <button type="submit">Guardar</button>
+        <button type="submit">Modificar</button>
+        <button type="submit">Borrar</button>
+        <button type="submit">Consultar</button><br>
+        <br>
+        <label for="facultad">Id</label>
+        <input type="text" id="" name="" required><br>
+
+      </form>
+    </div>
+  </div>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+   <footer>
+    <div class="footer-left">
+      <p>versión 1.0</p>
+      <a href="#">Activar Modo de Lector de Pantalla</a>
+    </div>
+    <div class="footer-right">
+      <img src="{{ url_for('static', filename='img/up-arrow.png') }}" alt="Logo del pie de página">
+    </div>
+  </footer>
+</body>
+</html>
+
