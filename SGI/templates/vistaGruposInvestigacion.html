@@ -1,109 +1,206 @@
 {% extends "base.html" %}
-{% block title %}Base{% endblock %}</title>
+{% block title %}Base{% endblock %}
 
- {%block content%}
+{% block content %}
 
- <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Launch static backdrop modal
-</button>
+<!-- Modal para mostrar detalles del grupo -->
+<div class="modal fade" id="grupoModal" tabindex="-1" aria-labelledby="grupoModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-width">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="grupoModalLabel">Detalles del Grupo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2 id="modalNombreGrupo">Nombre del grupo</h2>
+        <table class="table">
+          <tbody id="modalTableBody">
+            <!-- La información del grupo se insertará aquí mediante JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal para crear grupo -->
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Grupo de Investigación</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="createForm" action="/creategrupo" method="POST">
-          <label for="nombre_grupo">Nombre del grupo:</label>
-          <input type="text" id="nombre_grupo" name="nombre_grupo" required><br>
-      
-          <!--<label for="codigo_grup_lac">Código grup lac:</label>
-          <input type="text" id="codigo_grup_lac" name="codigo_grup_lac" required><br>
-      
-          <label for="categoria_colciencias">Categoría Colciencias:</label>
-          <input type="text" id="categoria_colciencias" name="categoria_colciencias" required><br>
-      
-          <label for="area_conocimiento">Área de conocimiento:</label>
-          <input type="text" id="area_conocimiento" name="area_conocimiento" required><br>
-      
-          <label for="id_facultad">ID Facultad:</label>
-          <input type="number" id="id_facultad" name="id_facultad" required><br>
-      
-          <label for="fecha_creacion">Fecha de creación:</label>
-          <input type="date" id="fecha_creacion" name="fecha_creacion" required><br>
-      
-          <label for="fecha_finalizacion">Fecha de finalización:</label>
-          <input type="date" id="fecha_finalizacion" name="fecha_finalizacion"><br>
-      
-          <label for="id_lider">ID Líder:</label>
-          <input type="number" id="id_lider" name="id_lider" required><br>
-      
-          <label for="plan_estrategico">Plan estratégico:</label>
-          <textarea id="plan_estrategico" name="plan_estrategico" required></textarea><br>
-      
-          <label for="categoria_meta">Categoría meta:</label>
-          <input type="text" id="categoria_meta" name="categoria_meta" required><br>
-      
-          <label for="estrategia_meta">Estrategia meta:</label>
-          <textarea id="estrategia_meta" name="estrategia_meta" required></textarea><br>
-      
-          <label for="vision">Visión:</label>
-          <textarea id="vision" name="vision" required></textarea><br>
-      
-          <label for="objetivos">Objetivos:</label>
-          <textarea id="objetivos" name="objetivos" required></textarea><br>
-  
-        
-        -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Crear</button>
-        </div>
-        
+          <div class="mb-3">
+            <label for="nombre_grupo" class="form-label">Nombre del grupo:</label>
+            <input type="text" id="nombre_grupo" name="nombre_grupo" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="codigo_grup_lac" class="form-label">Código grup lac:</label>
+            <input type="text" id="codigo_grup_lac" name="codigo_grup_lac" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="categoria_colciencias" class="form-label">Categoría Colciencias:</label>
+            <input type="text" id="categoria_colciencias" name="categoria_colciencias" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="area_conocimiento" class="form-label">Área de conocimiento:</label>
+            <input type="text" id="area_conocimiento" name="area_conocimiento" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="id_facultad" class="form-label">ID Facultad:</label>
+            <select id="id_facultad" name="id_facultad" class="form-select" required>
+              <option value="">Seleccione una facultad</option>
+              {% for facultad in facultades %}
+                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_creacion" class="form-label">Fecha de creación:</label>
+            <input type="date" id="fecha_creacion" name="fecha_creacion" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_finalizacion" class="form-label">Fecha de finalización:</label>
+            <input type="date" id="fecha_finalizacion" name="fecha_finalizacion" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="id_lider" class="form-label">ID Líder:</label>
+            <input type="number" id="id_lider" name="id_lider" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="plan_estrategico" class="form-label">Plan estratégico:</label>
+            <textarea id="plan_estrategico" name="plan_estrategico" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="categoria_meta" class="form-label">Categoría meta:</label>
+            <input type="text" id="categoria_meta" name="categoria_meta" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="estrategia_meta" class="form-label">Estrategia meta:</label>
+            <textarea id="estrategia_meta" name="estrategia_meta" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="vision" class="form-label">Visión:</label>
+            <textarea id="vision" name="vision" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="objetivos" class="form-label">Objetivos:</label>
+            <textarea id="objetivos" name="objetivos" class="form-control" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Crear</button>
+          </div>
         </form>
       </div>
-      
     </div>
   </div>
 </div>
-{%include 'components/table.html'%}
 
-  <!--<h1>Grupos de Investigación</h1>
-  <div class="search-bar">
-    <input type="text" class="search-input" placeholder="Buscar grupo...">
-    <button class="search-button">Buscar</button>
-    <button class="search-create" onclick="openModal()">Crear</button>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th>Grupo de investigación</th>
-        <th>Código GrupLac</th>
-        <th>Categoria colciencias</th>
-        <th>Facultad</th>
-        <th>Líder del grupo</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for grupo in grupos %}
-      <tr>
-          <td>{{ grupo.nombre_grupo }}</td> 
-          <td>{{ grupo.codigo_grup_lac }}</td>
-          <td>{{ grupo.categoria_colciencias }}</td>
-          <td>{{ grupo.nombre_facultad }}</td>
-          <td>{{ grupo.nombre_investigador }}</td>
-          <td>{{ grupo.id_grupo }}</td>
-      </tr>
-      {% endfor %}
+<h1>Grupos de Investigación</h1>
+<div class="search-bar">
+  <input type="text" class="search-input" placeholder="Buscar grupo...">
+  <button class="search-button">Buscar</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+    Crear
+  </button>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Grupo de investigación</th>
+      <th>Código GrupLac</th>
+      <th>Categoria colciencias</th>
+      <th>Facultad</th>
+      <th>Líder del grupo</th>
+      <th>Id del grupo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for grupo in grupos %}
+    <tr>
+      <td><a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#grupoModal"
+             data-nombre="{{ grupo.nombre_grupo }}"
+             data-codigo="{{ grupo.codigo_grup_lac }}"
+             data-categoria="{{ grupo.categoria_colciencias }}"
+             data-fecha-creacion="{{ grupo.fecha_creacion }}"
+             data-fecha-finalizacion="{{ grupo.fecha_finalizacion }}"
+             data-facultad="{{ grupo.nombre_facultad }}"
+             data-lider="{{ grupo.nombre_investigador }}"
+             data-area="{{ grupo.area_conocimiento }}"
+             data-plan="{{ grupo.plan_estrategico }}">{{ grupo.nombre_grupo }}</a>
+      </td>
+      <td>{{ grupo.codigo_grup_lac }}</td>
+      <td>{{ grupo.categoria_colciencias }}</td>
+      <td>{{ grupo.nombre_facultad }}</td>
+      <td>{{ grupo.nombre_investigador }}</td>
+      <td>{{ grupo.id_grupo }}</td>
+    </tr>
+    {% endfor %}
   </tbody>
-  </table>
-  
--->
- 
-  {% endblock content %}
-  
+</table>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Agrega un evento click a todos los enlaces con la clase 'a-td'
+    document.querySelectorAll('.a-td').forEach(function(link) {
+      link.addEventListener('click', function(event) {
+        event.preventDefault(); // Evita el comportamiento por defecto del enlace
+
+        // Obtén la información del grupo desde los atributos de datos del enlace
+        var nombreGrupo = this.getAttribute('data-nombre');
+        var codigoGrupo = this.getAttribute('data-codigo');
+        var categoriaColciencias = this.getAttribute('data-categoria');
+        var fechaCreacion = this.getAttribute('data-fecha-creacion');
+        var fechaFinalizacion = this.getAttribute('data-fecha-finalizacion');
+        var nombreFacultad = this.getAttribute('data-facultad');
+        var nombreLider = this.getAttribute('data-lider');
+        var areaConocimiento = this.getAttribute('data-area');
+        var planEstrategico = this.getAttribute('data-plan');
+
+        // Actualiza el contenido del modal
+        document.getElementById('modalNombreGrupo').textContent = nombreGrupo;
+        var tableContent = `
+          <tr>
+            <th>Código Grupo</th>
+            <td>${codigoGrupo}</td>
+          </tr>
+          <tr>
+            <th>Categoría Colciencias</th>
+            <td>${categoriaColciencias}</td>
+          </tr>
+          <tr>
+            <th>Fecha de Creación</th>
+            <td>${fechaCreacion}</td>
+          </tr>
+          <tr>
+            <th>Fecha de Finalización</th>
+            <td>${fechaFinalizacion || 'No disponible'}</td>
+          </tr>
+          <tr>
+            <th>Facultad</th>
+            <td>${nombreFacultad}</td>
+          </tr>
+          <tr>
+            <th>Líder del Grupo</th>
+            <td>${nombreLider}</td>
+          </tr>
+          <tr>
+            <th>Área de Conocimiento</th>
+            <td>${areaConocimiento}</td>
+          </tr>
+          <tr>
+            <th>Plan Estratégico</th>
+            <td>${planEstrategico}</td>
+          </tr>
+        `;
+        document.getElementById('modalTableBody').innerHTML = tableContent;
+      });
+    });
+  });
+</script>
+
+{% endblock content %}

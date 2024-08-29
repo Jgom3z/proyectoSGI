@@ -1,0 +1,22 @@
+
+.modal-dialog.custom-width {
+    max-width: 80%; /* Ajusta el porcentaje según tus necesidades */
+  }
+  
+label{
+ margin-right: auto;
+}
+
+input, textarea, select{
+    width: 300px;
+    margin: 10px 10px ;
+    border-radius:10px;
+    border-color: #b54f25;
+    padding: 10px;
+}
+
+.a-td{
+    text-decoration: none;
+    font-weight: bold;
+    color: #b54f25;
+}

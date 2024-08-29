@@ -1,9 +1,6 @@
-from flask import Flask, render_template, request, jsonify, url_for, redirect, session,Blueprint
-import markupsafe
+from flask import Flask, render_template, request, jsonify, Blueprint
 import requests
 import json
-from pprint import pprint
-
 
 # Crear un Blueprint
 vistaGruposInvestigacion = Blueprint('idVistaGruposInvestigacion', __name__, template_folder='templates')
@@ -13,7 +10,8 @@ API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
 
 @vistaGruposInvestigacion.route('/vistaGruposInvestigacion', methods=['GET'])
 def vista_grupos_investigacion():
-    select_data = {
+    # Obtener datos de grupos
+    select_data_grupos = {
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
@@ -28,31 +26,48 @@ def vista_grupos_investigacion():
         }
     }
 
-    response = requests.post(API_URL, json=select_data)
-
-    # Manejo de errores en la respuesta
-    if response.status_code != 200:
-        return f"Error al consultar la API: {response.status_code}"
-
-    # Parsear la respuesta a JSON
-    data = response.json()
+    response_grupos = requests.post(API_URL, json=select_data_grupos)
+    if response_grupos.status_code != 200:
+        return f"Error al consultar la API: {response_grupos.status_code}"
     
-    # Verifica si 'result' existe y contiene datos
-    if 'result' in data and data['result']:
-        # Extraer el string JSON y cargarlo como objeto Python
-        grupos_str = data['result'][0]['result']
+    data_grupos = response_grupos.json()
+    if 'result' in data_grupos and data_grupos['result']:
+        grupos_str = data_grupos['result'][0]['result']
         grupos = json.loads(grupos_str)
-       
     else:
         grupos = []
-    print(grupos)
-    # Pasar los datos a la plantilla
-    ths = ['grupos de investigacion', 'codigo gruplac', 'categoria colciencias', 'facultad', 'lider de grupo']
-    tds = [grupos]
-    
-    
-    return render_template('vistaGruposInvestigacion.html', tds=grupos, ths= ths)
 
+    # Obtener datos de facultades
+    select_data_facultades = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_facultad",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "id_facultad, nombre_facultad",
+            "order_by": "id_facultad",
+            "limit_clause": ""
+        }
+    }
+
+    response_facultades = requests.post(API_URL, json=select_data_facultades)
+    if response_facultades.status_code != 200:
+        return f"Error al consultar la API: {response_facultades.status_code}"
+
+    data_facultades = response_facultades.json()
+    if 'result' in data_facultades and data_facultades['result']:
+        facultades_str = data_facultades['result'][0]['result']
+        facultades = json.loads(facultades_str)
+    else:
+        facultades = []
+
+
+    # Pasar los datos a la plantilla
+    ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
+    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, ths=ths)
+
+#PARA EL MODAL
 @vistaGruposInvestigacion.route("/creategrupo", methods = ['POST'])
 def create_grupo():
     # Captura los datos del formulario enviado
