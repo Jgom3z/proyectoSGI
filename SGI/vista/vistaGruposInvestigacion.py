@@ -117,6 +117,10 @@ def create_grupo():
         "objetivos": request.form.get('objetivos')
     } 
 
+    # Validar si 'fecha_finalizacion' está vacía o no se proporcionó
+    if not form_data["fecha_finalizacion"]:
+        form_data["fecha_finalizacion"] = None
+
      # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
 
@@ -137,7 +141,7 @@ def create_grupo():
 
     # Verificar la respuesta de la API
     if response.status_code == 200:
-        return jsonify({"message": "Datos guardados exitosamente"}), 200
+        return ({"message": "Datos guardados exitosamente"}), 200
     else:
         # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al guardar los datos")
