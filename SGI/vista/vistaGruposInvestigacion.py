@@ -115,19 +115,33 @@ def create_grupo():
         "estrategia_meta": request.form.get('estrategia_meta'),
         "vision": request.form.get('vision'),
         "objetivos": request.form.get('objetivos')
-    }
+    } 
+
+     # Debug: Imprimir el formulario de datos
+    print("Form Data: ", form_data)  
 
     # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "insert_inv_grupos",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters": [form_data]
-    })
+        "procedure": "insert_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
+        "parameters":{
+            "table_name":"inv_grupos",
+            "json_data": form_data
+                
+        }
+    } 
+    )
+
+       # Debug: Imprimir el estado de la respuesta y su contenido
+    print("Response Status Code: ", response.status_code)
+    print("Response Content: ", response.content)
 
     # Verificar la respuesta de la API
     if response.status_code == 200:
         return jsonify({"message": "Datos guardados exitosamente"}), 200
     else:
-        return jsonify({"message": "Error al guardar los datos"}), 500
+        # Mostrar el mensaje de error detallado
+        error_message = response.json().get("message", "Error desconocido al guardar los datos")
+        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
     
 # from pprint import pprint
 # from flask import Blueprint, request, render_template, redirect, url_for
