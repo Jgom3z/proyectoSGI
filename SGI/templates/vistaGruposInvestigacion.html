@@ -60,7 +60,7 @@
           </div>
           <div class="mb-3">
             <label for="fecha_creacion" class="form-label">Fecha de creación:</label>
-            <input type="date" id="fecha_creacion" name="fecha_creacion" class="form-control" >
+            <input type="date" id="fecha_creacion" name="fecha_creacion" class="form-control" required>
           </div>
           <div class="mb-3">
             <label for="fecha_finalizacion" class="form-label">Fecha de finalización:</label>
@@ -68,12 +68,13 @@
           </div>
           <div class="mb-3">
             <label for="id_lider" class="form-label">ID Líder:</label>
-            <select id="id_facultad" name="id_facultad" class="form-select" required>
+            <select id="id_lider" name="id_lider" class="form-select" required>
               <option value="">Seleccione un lider</option>
               {% for investigador in investigadores %}
                 <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
               {% endfor %}
-            </select>          </div>
+            </select>         
+           </div>
           <div class="mb-3">
             <label for="plan_estrategico" class="form-label">Plan estratégico:</label>
             <textarea id="plan_estrategico" name="plan_estrategico" class="form-control" required></textarea>
@@ -95,8 +96,13 @@
             <textarea id="objetivos" name="objetivos" class="form-control" required></textarea>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-warning">Crear</button>
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <button type="submit" class="btn btn-primary">Eliminar</button>
+            <button type="submit" class="btn btn-primary">Consultar</button>
+
+
           </div>
         </form>
       </div>
