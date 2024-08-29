@@ -62,10 +62,39 @@ def vista_grupos_investigacion():
     else:
         facultades = []
 
+    #obtener datos de investigador lider
+    
+    select_data_investigadores = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigadores",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "id_investigador, nombre_investigador",
+            "order_by": "id_investigador",
+            "limit_clause": ""
+        }
+    }
+
+    response_investigadores = requests.post(API_URL, json=select_data_investigadores)
+    if response_investigadores.status_code != 200:
+        return f"Error al consultar la API: {response_investigadores.status_code}"
+
+    select_data_investigadores = response_investigadores.json()
+    if 'result' in select_data_investigadores and select_data_investigadores['result']:
+        investigadores_str = select_data_investigadores['result'][0]['result']
+        investigadores = json.loads(investigadores_str)
+    else:
+        investigadores = []
+
+ 
+
+
 
     # Pasar los datos a la plantilla
     ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, ths=ths)
+    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, ths=ths)
 
 #PARA EL MODAL
 @vistaGruposInvestigacion.route("/creategrupo", methods = ['POST'])
@@ -99,6 +128,7 @@ def create_grupo():
         return jsonify({"message": "Datos guardados exitosamente"}), 200
     else:
         return jsonify({"message": "Error al guardar los datos"}), 500
+    
 # from pprint import pprint
 # from flask import Blueprint, request, render_template, redirect, url_for
 # from controlador.ControlEntidad import ControlEntidad

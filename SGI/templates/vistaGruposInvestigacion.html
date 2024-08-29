@@ -68,8 +68,12 @@
           </div>
           <div class="mb-3">
             <label for="id_lider" class="form-label">ID Líder:</label>
-            <input type="number" id="id_lider" name="id_lider" class="form-control" required>
-          </div>
+            <select id="id_facultad" name="id_facultad" class="form-select" required>
+              <option value="">Seleccione un lider</option>
+              {% for investigador in investigadores %}
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+              {% endfor %}
+            </select>          </div>
           <div class="mb-3">
             <label for="plan_estrategico" class="form-label">Plan estratégico:</label>
             <textarea id="plan_estrategico" name="plan_estrategico" class="form-control" required></textarea>
