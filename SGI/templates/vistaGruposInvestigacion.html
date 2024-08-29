@@ -98,11 +98,6 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-warning">Crear</button>
-            <button type="submit" class="btn btn-primary">Modificar</button>
-            <button type="submit" class="btn btn-primary">Eliminar</button>
-            <button type="submit" class="btn btn-primary">Consultar</button>
-
-
           </div>
         </form>
       </div>
@@ -141,8 +136,9 @@
              data-facultad="{{ grupo.nombre_facultad }}"
              data-lider="{{ grupo.nombre_investigador }}"
              data-area="{{ grupo.area_conocimiento }}"
-             data-plan="{{ grupo.plan_estrategico }}">{{ grupo.nombre_grupo }}</a>
-      </td>
+             data-plan="{{ grupo.plan_estrategico }}"
+             >{{ grupo.nombre_grupo }}</a>
+             </td>
       <td>{{ grupo.codigo_grup_lac }}</td>
       <td>{{ grupo.categoria_colciencias }}</td>
       <td>{{ grupo.nombre_facultad }}</td>
@@ -206,6 +202,10 @@
             <th>Plan Estratégico</th>
             <td>${planEstrategico}</td>
           </tr>
+           <button type="submit" class="btn btn-primary">Modificar</button><br>
+            <br>
+            <button type="submit" class="btn btn-primary">Eliminar</button><br>
+            <br>
         `;
         document.getElementById('modalTableBody').innerHTML = tableContent;
       });
