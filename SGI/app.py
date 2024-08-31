@@ -6,12 +6,12 @@ from pprint import pprint
 
 from vista.inicio import vistaInicio
 from vista.login import login
-from vista.vistaEstudiante import vistaEstudiante
+from vista.vistaEstudiantes import vistaEstudiantes
 from vista.vistaGruposInvestigacion import vistaGruposInvestigacion
 from vista.vistaInvestigaciones import vistaInvestigaciones
 from vista.vistaInvestigadores import vistaInvestigadores
 from vista.vistaLineasInvestigacion import vistaLineasInvestigacion
-from vista.vistaProyectoFormacion import vistaProyectoFormacion
+from vista.vistaProyectosFormacion import vistaProyectosFormacion
 from vista.vistaProyectosInvestigacion import vistaProyectosInvestigacion
 from vista.vistaSemillerosInvestigacion import vistaSemillerosInvestigacion
 
@@ -20,12 +20,12 @@ app = Flask(__name__)
 # Registro de Blueprints
 app.register_blueprint(vistaInicio)
 app.register_blueprint(login)
-app.register_blueprint(vistaEstudiante)
+app.register_blueprint(vistaEstudiantes)
 app.register_blueprint(vistaGruposInvestigacion)
 app.register_blueprint(vistaInvestigaciones)
 app.register_blueprint(vistaInvestigadores)
 app.register_blueprint(vistaLineasInvestigacion)
-app.register_blueprint(vistaProyectoFormacion)
+app.register_blueprint(vistaProyectosFormacion)
 app.register_blueprint(vistaProyectosInvestigacion)
 app.register_blueprint(vistaSemillerosInvestigacion)
 
