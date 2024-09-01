@@ -99,12 +99,12 @@
         data-nombre="{{ estudiante.nombre_estudiante }}"
         data-codigo="{{ estudiante.codigo }}"
         data-correo="{{ estudiante.correo }}"
-        data-facultad="{{ estudiante.nombre_facultad }}">
+        data-facultad="{{ estudiante.id_facultad }}">
       <td>{{ estudiante.identificacion }}</td>
       <td>{{ estudiante.nombre_estudiante }}</td>
       <td>{{ estudiante.codigo }}</td>
       <td>{{ estudiante.correo }}</td>
-      <td>{{ estudiante.nombre_facultad }}</td>
+      <td>{{ estudiante.id_facultad }}</td>
     </tr>
     {% endfor %}
   </tbody>

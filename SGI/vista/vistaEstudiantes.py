@@ -15,15 +15,25 @@ def vista_estudiantes():
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_estudiantes e INNER JOIN inv_facultad f ON e.id_facultad::integer = f.id_facultad",
+            "table_name": "inv_estudiantes",
             "json_data": {
                 "estado": "En Progreso"  # Ajusta según las necesidades del filtro si aplica
             },
             "where_condition": "",  # Añade condiciones de filtro si las hay
-            "select_columns": "e.identificacion, e.nombre_estudiante AS nombre_completo, e.codigo, e.correo, f.nombre_facultad",
-            "order_by": "e.id_estudiante",  # Puedes ordenar por el campo que prefieras
+            "select_columns": "identificacion,nombre_estudiante, codigo, correo,id_facultad",
+            "order_by": "id_estudiante",  # Puedes ordenar por el campo que prefieras
             "limit_clause": ""  # Agrega un límite si es necesario  
         }
+        # "parameters": {
+        #     "table_name": "inv_estudiantes e INNER JOIN inv_facultad f ON e.id_facultad::integer = f.id_facultad",
+        #     "json_data": {
+        #         "estado": "En Progreso"  # Ajusta según las necesidades del filtro si aplica
+        #     },
+        #     "where_condition": "",  # Añade condiciones de filtro si las hay
+        #     "select_columns": "e.identificacion, e.nombre_estudiante AS nombre_completo, e.codigo, e.correo, f.nombre_facultad",
+        #     "order_by": "e.id_estudiante",  # Puedes ordenar por el campo que prefieras
+        #     "limit_clause": ""  # Agrega un límite si es necesario  
+        # }
     }
 
     try:
