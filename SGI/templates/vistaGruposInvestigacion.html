@@ -5,7 +5,7 @@
 
 <!-- Modal para mostrar detalles del grupo -->
 <div class="modal fade" id="grupoModal" tabindex="-1" aria-labelledby="grupoModalLabel" aria-hidden="true">
-  <div class="modal-dialog custom-width">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="grupoModalLabel">Detalles del Grupo</h1>
@@ -106,19 +106,23 @@
 </div>
 
 
-<h1 style="margin-top: 80px;">Grupos de Investigación</h1>
-<div class="search-bar">
-  <button class="search-button"><img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
-
-  <input type="text" class="search-input" placeholder="Buscar grupo...">
-  <!-- Botón desplegable -->
- 
-
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-    Crear
-  </button>
+<div class="container-top">
+  
+  <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
+  <h1>Grupos de Investigación</h1>
+  <div class="search-bar">
+    <button class="search-button" id="searchButton">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}" alt="Buscar">
+    </button>
+    <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+    <!-- Botón desplegable -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+      Crear
+    </button>
+  </div>
 </div>
-<table class="table">
+
+<table class="table" id="groupsTable">
   <thead>
     <tr>
       <th>Grupo de investigación</th>
@@ -155,6 +159,7 @@
 </table>
 
 <script>
+  
   document.addEventListener('DOMContentLoaded', function() {
     // Agrega un evento click a todos los enlaces con la clase 'a-td'
     document.querySelectorAll('.a-td').forEach(function(link) {
@@ -216,6 +221,7 @@
       });
     });
   });
+
 </script>
 
 {% endblock content %}

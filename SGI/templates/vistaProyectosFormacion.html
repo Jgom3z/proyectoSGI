@@ -4,13 +4,20 @@
 {% block content %}
 
 
+<div class="container-top">
+  <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
+  <h1>Proyectos de formación</h1>
 
-<h1 style="margin-top: 80px;">Proyectos de formación</h1>
-<div class="search-bar">
-  <input type="text" class="search-input" placeholder="Buscar grupo...">
-  <button class="search-button">Buscar</button>
+  <div class="search-bar">
+    <button class="search-button" id="searchButton">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+      <button class="search-create">Crear</button>
+  </div>
 </div>
-<table class="table">
+
+<table class="table" id="groupsTable">
   <thead>
     <tr>
       <th>Proyecto de investigación</th>

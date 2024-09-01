@@ -1,103 +1,66 @@
-$(document).ready(function(){
-    // Activate tooltip
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    // Select/Deselect checkboxes
-    var checkbox = $('table tbody input[type="checkbox"]');
-    $("#selectAll").click(function(){
-        if(this.checked){
-            checkbox.each(function(){
-                this.checked = true;                        
-            });
-        } else{
-            checkbox.each(function(){
-                this.checked = false;                        
-            });
-        } 
+//Scripts para ocultar y desplegar el navbar -->
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const content = document.querySelector('main');
+
+    sidebarToggle.addEventListener('click', function() {
+      sidebar.classList.toggle('hidden');
+      content.classList.toggle('expanded');
     });
 
-    checkbox.click(function(){
-        if(!this.checked){
-            $("#selectAll").prop("checked", false);
-        }
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdown = document.querySelector('.dropdown');
+
+    dropdownToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      dropdown.classList.toggle('active');
+    });
+  });
+
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const table = document.getElementById('groupsTable');
+    const tableBody = table.querySelector('tbody');
+
+    searchButton.addEventListener('click', function() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const rows = tableBody.querySelectorAll('tr');
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let match = false;
+
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(searchTerm)) {
+            match = true;
+          }
+        });
+
+        row.style.display = match ? '' : 'none';
+      });
     });
 
-    // Función para agregar y remover elementos de listas
-    function agregarItem(IDdesde, IDhasta){
-        var option = document.createElement("option");
-        option.text = document.getElementById(IDdesde).value;
-        document.getElementById(IDhasta).add(option);
-        removerItem(IDdesde);
-        selectTodos(IDhasta);
-    }
+    // Opcional: Permitir búsqueda en tiempo real
+    searchInput.addEventListener('input', function() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const rows = tableBody.querySelectorAll('tr');
 
-    function removerItem(IDelemento){
-        var comboBox = document.getElementById(IDelemento);
-        comboBox = comboBox.options[comboBox.selectedIndex];
-        comboBox.remove();
-        selectTodos(IDelemento);
-    }
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let match = false;
 
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(searchTerm)) {
+            match = true;
+          }
+        });
 
-
-    function selectTodos(IDelemento) {
-        var elementos = document.getElementById(IDelemento);
-        elementos = elementos.options;
-        for (var i = 0; i < elementos.length; i++) {
-            elementos[i].selected = "true";
-        }
-    }
-
-    function actualizarValorSeleccionado(combo,txtOculto) {
-        var select = document.getElementById(combo);
-        var valorSeleccionado = select.value;
-        document.getElementById(txtOculto).value = valorSeleccionado;
-    }
-
-    // Asignar las funciones de agregar y borrar a los botones correspondientes
-    $("#btnAgregarItem").click(function(event) {
-        agregarItem('combo1','ListBox1');
-        return false;
+        row.style.display = match ? '' : 'none';
+      });
     });
+  });
 
-    $("#btnBorrarItem").click(function(event) {
-        removerItem('ListBox1');
-        return false;
-    });
-
-    
-    $("#btnAgregarItems").click(function(event) {
-        agregarItem('combos','ListBoxs');
-        return false;
-    });
-
-    $("#btnBorrarItems").click(function(event) {
-        removerItem('ListBoxs');
-        return false;
-    });
-
-    $("#btnAgregarItem3").click(function(event) {
-        agregarItem('combo3','ListBox3');
-        return false;
-    });
-
-    $("#btnBorrarItem3").click(function(event) {
-        removerItem('ListBox3');
-        return false;
-    });
-
-    $("#btnAgregarItem4").click(function(event) {
-        agregarItem('combo4','ListBox4');
-        return false;
-    });
-
-    $("#btnBorrarItem4").click(function(event) {
-        removerItem('ListBox4');
-        return false;
-    });
-    
-});
-
-
-
-  
