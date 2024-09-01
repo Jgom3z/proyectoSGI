@@ -10,13 +10,23 @@ body {
     background-attachment: fixed;
 }
 
+h1{
+    color: gray;
+}
 
 .header-top {
     background-color: #b54f25;
     color: white;
-    padding: 10px;
+    padding: 2px;
     display: flex;
     align-items: center;
+    position: fixed; /* Asegura que el header se mueva con el scroll */
+    width: 100%; /* Asegura que el header ocupe el ancho completo */
+    z-index: 1; /* Asegura que el header esté por encima de otros elementos */
+}
+
+.icons-menu{
+    margin-right: 10px;
 }
 
 .logo {
@@ -48,7 +58,7 @@ body {
 }
 
 .sidebar {
-    margin-top: 68px;
+    margin-top:50px;
     width: 300px;
     background-color: #454545;
     position: fixed;
@@ -98,7 +108,7 @@ body {
     text-decoration: none;
     display: block;
     padding: 10px 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .sidebar nav ul li a i {
@@ -207,3 +217,98 @@ footer {
 .sidebar .dropdown.active .dropdown-menu {
     display: block;
 }
+
+/*tables*/
+/* Estilos generales de la tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    color: #212529;
+  }
+  
+  .table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border: 1px solid #dee2e6;
+  }
+  
+  .table thead th {
+    background-color: #f8f9fa;
+    color: #b54f25;
+  }
+  
+  .table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilos del modal */
+  .modal-dialog.custom-width {
+    max-width: 800px; /* Ajusta el ancho del modal */
+  }
+  
+  .modal-content {
+    border-radius: 0.5rem;
+  }
+  
+  .modal-header {
+    color: gray;
+  }
+  
+  .modal-header .btn-close {
+    filter: invert(1);
+  }
+  
+  .modal-footer {
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .modal-body h2 {
+    margin-top: 0;
+  }
+  
+  /* Estilos del botón de buscar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 0.5rem;
+    margin-right: 800px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+
+  }
+  
+  .search-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #b54f25;
+    color: white;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .search-button:hover {
+    background-color: #c47553;
+  }
+  
+  /* Estilos para los enlaces en la tabla */
+  .a-td {
+    color: #b54f25;
+    text-decoration: none;
+  }
+  
+  .a-td:hover {
+    color: #c47553;
+    text-decoration: none;
+  }
+  

@@ -4,10 +4,10 @@
 
 <main>
   {% block content %}
-      <h1>Semilleros de investigación</h1>
+      <h1 style="margin-top: 80px;">Semilleros de investigación</h1>
       <div class="search-bar">
+        <button class="search-button"><img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
         <input type="text" class="search-input" placeholder="Buscar grupo...">
-        <button class="search-button">Buscar</button>
         <button class="search-create">Crear</button>
       </div>
       <table>

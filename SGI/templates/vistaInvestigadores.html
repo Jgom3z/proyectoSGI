@@ -1,35 +1,116 @@
 {% extends "base.html" %}
+{% block title %}Investigadores{% endblock %}
 
-{% block title %}Investigaciones{% endblock %}
+{% block content %}
 
-<main>
-  {% block content %}
-  
-      <h1>Investigadores</h1>
-      <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Buscar grupo...">
-        <button class="search-button">Buscar</button>
-        <button class="search-create">Crear</button>
+
+<!-- Modal para crear grupo -->
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Investigador</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Investigador</th>
-            <th>Linea de investigación</th>
-            <th>Estado</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Casos y Estudios Organizacionales- CEO</td>
-            <td>COL0013049</td>
-            <td>Colciencias</td>
-            <td>Facultad Ciencias Empresariales</td>
-            <td>Erika Maria Londoño Montoya</td>
-          </tr>
-          <!-- Agrega más filas aquí con los datos correspondientes -->
-        </tbody>
-      </table>
-    </main>
-    {% endblock %}
+      <div class="modal-body">
+        <form id="createForm" action="/createinvestigador" method="POST">
+            <div class="mb-3">
+                <label for="cedula" class="form-label">Cédula:</label>
+                <input type="text" id="cedula" name="cedula" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="nombre_investigador" class="form-label">Nombre del Investigador:</label>
+                <input type="text" id="nombre_investigador" name="nombre_investigador" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="categoria_institucion" class="form-label">Categoría Institución:</label>
+                <input type="text" id="categoria_institucion" name="categoria_institucion" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_facultad" class="form-label">ID Facultad:</label>
+                <select id="id_facultad" name="id_facultad" class="form-select" required>
+                    <option value="">Seleccione una facultad</option>
+                    {% for facultad in facultades %}
+                        <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="categoria_colciencias" class="form-label">Categoría Colciencias:</label>
+                <input type="text" id="categoria_colciencias" name="categoria_colciencias" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="orcid" class="form-label">ORCID:</label>
+                <input type="text" id="orcid" name="orcid" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="tipo_contrato" class="form-label">Tipo de Contrato:</label>
+                <input type="text" id="tipo_contrato" name="tipo_contrato" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="nivel_de_formacion" class="form-label">Nivel de Formación:</label>
+                <input type="text" id="nivel_de_formacion" name="nivel_de_formacion" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo Electrónico:</label>
+                <input type="email" id="correo" name="correo" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
+                <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_final" class="form-label">Fecha de Finalización:</label>
+                <input type="date" id="fecha_finalizacion" name="fecha_final" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="cvlac" class="form-label">CVLAC:</label>
+                <input type="text" id="cvlac" name="cvlac" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="categoria_colciencias_esperada" class="form-label">Categoría Colciencias Esperada:</label>
+                <input type="text" id="categoria_colciencias_esperada" name="categoria_colciencias_esperada" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-warning">Crear</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 style="margin-top: 80px;">Investigadores</h1>
+<div class="search-bar">
+  <button class="search-button"><img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+  <input type="text" class="search-input" placeholder="Buscar grupo...">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+    Crear
+  </button>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Investigador</th>
+      <th>Linea de investigación</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for investigador in investigadores %}
+  <tr>
+    <td>{{ investigador.nombre_investigador }}</td>
+    <td>{{ investigador.nombre_linea }}</td>
+    <td>{{ investigador.estado }}</td>
+  </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock content %}
