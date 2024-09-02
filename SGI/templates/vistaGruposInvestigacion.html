@@ -5,7 +5,7 @@
 
 <!-- Modal para mostrar detalles del grupo -->
 <div class="modal fade" id="grupoModal" tabindex="-1" aria-labelledby="grupoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="grupoModalLabel">Detalles del Grupo</h1>
@@ -25,7 +25,7 @@
 
 <!-- Modal para crear grupo -->
 <div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Grupo de Investigación</h1>
@@ -97,7 +97,89 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-warning">Crear</button>
+            <button type="submit" class="btn btn-warning" id="createButton">Crear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para modificar grupo -->
+<div class="modal fade" id="modalEditGroup" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modificar Grupo de Investigación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="EditForm" action="/updategrupo" method="POST">
+          <div class="mb-3">
+            <label for="nombre_grupo" class="form-label">Nombre del grupo:</label>
+            <input type="text" id="nombre_grupo" name="nombre_grupo" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="codigo_grup_lac" class="form-label">Código grup lac:</label>
+            <input type="text" id="codigo_grup_lac" name="codigo_grup_lac" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="categoria_colciencias" class="form-label">Categoría Colciencias:</label>
+            <input type="text" id="categoria_colciencias" name="categoria_colciencias" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="area_conocimiento" class="form-label">Área de conocimiento:</label>
+            <input type="text" id="area_conocimiento" name="area_conocimiento" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="id_facultad" class="form-label">ID Facultad:</label>
+            <select id="id_facultad" name="id_facultad" class="form-select" required>
+              <option value="">Seleccione una facultad</option>
+              {% for facultad in facultades %}
+                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_creacion" class="form-label">Fecha de creación:</label>
+            <input type="date" id="fecha_creacion" name="fecha_creacion" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_finalizacion" class="form-label">Fecha de finalización:</label>
+            <input type="date" id="fecha_finalizacion" name="fecha_finalizacion" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="id_lider" class="form-label">ID Líder:</label>
+            <select id="id_lider" name="id_lider" class="form-select" required>
+              <option value="">Seleccione un lider</option>
+              {% for investigador in investigadores %}
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+              {% endfor %}
+            </select>         
+           </div>
+          <div class="mb-3">
+            <label for="plan_estrategico" class="form-label">Plan estratégico:</label>
+            <textarea id="plan_estrategico" name="plan_estrategico" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="categoria_meta" class="form-label">Categoría meta:</label>
+            <input type="text" id="categoria_meta" name="categoria_meta" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="estrategia_meta" class="form-label">Estrategia meta:</label>
+            <textarea id="estrategia_meta" name="estrategia_meta" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="vision" class="form-label">Visión:</label>
+            <textarea id="vision" name="vision" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="objetivos" class="form-label">Objetivos:</label>
+            <textarea id="objetivos" name="objetivos" class="form-control" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-warning" id="updateButton">Modificar</button>
           </div>
         </form>
       </div>
@@ -146,6 +228,7 @@
              data-lider="{{ grupo.nombre_investigador }}"
              data-area="{{ grupo.area_conocimiento }}"
              data-plan="{{ grupo.plan_estrategico }}"
+             data-id="{{ grupo.id_grupo }}"
              >{{ grupo.nombre_grupo }}</a>
              </td>
       <td>{{ grupo.codigo_grup_lac }}</td>
@@ -166,6 +249,8 @@
       link.addEventListener('click', function(event) {
         event.preventDefault(); // Evita el comportamiento por defecto del enlace
 
+          
+
         // Obtén la información del grupo desde los atributos de datos del enlace
         var nombreGrupo = this.getAttribute('data-nombre');
         var codigoGrupo = this.getAttribute('data-codigo');
@@ -176,6 +261,7 @@
         var nombreLider = this.getAttribute('data-lider');
         var areaConocimiento = this.getAttribute('data-area');
         var planEstrategico = this.getAttribute('data-plan');
+        var idGrupo = this.getAttribute('data-id'); // Obtén el ID del grupo
 
         // Actualiza el contenido del modal
         document.getElementById('modalNombreGrupo').textContent = nombreGrupo;
@@ -212,15 +298,116 @@
             <th>Plan Estratégico</th>
             <td>${planEstrategico}</td>
           </tr>
-           <button type="submit" class="btn btn-primary">Modificar</button><br>
-            <br>
-            <button type="submit" class="btn btn-primary">Eliminar</button><br>
-            <br>
+
+          <br>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalEditGroup">Modificar</button>
+          <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
+          <br>
         `;
         document.getElementById('modalTableBody').innerHTML = tableContent;
+
+          // Agrega el evento click para el botón de eliminar
+        document.getElementById('deleteButton').addEventListener('click', function() {
+          if (confirm('¿Estás seguro de que deseas eliminar este grupo?')) {
+            // Aquí debes hacer la llamada a la API para eliminar el grupo utilizando el idGrupo
+            fetch('/deletegrupo', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ id_grupo: idGrupo })
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data})))
+            .then(data => {
+              if (data.status === 200 && data.body.message.includes("eliminaron")) {
+                            alert(data.body.message);
+
+                            // Cerrar el modal utilizando JavaScript puro
+                            let modal = document.getElementById('grupoModal');
+                            let backdrop = document.querySelector('.modal-backdrop');
+                            modal.classList.remove('show');
+                            modal.setAttribute('aria-hidden', 'true');
+                            modal.style.display = 'none';
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                            document.body.classList.remove('modal-open');
+                            document.body.style.removeProperty('padding-right');
+                            
+                            // Recargar la página después de cerrar el modal
+                            setTimeout(() => location.reload(), 500); 
+                        } else {
+                            alert('Error al eliminar el grupo: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al eliminar el grupo: ' + error.message);
+                    });
+              }
+        });
+        // Agrega alerta click para el botón de modificar
+        document.getElementById('updateButton').addEventListener('click', function() {
+              if (data.status === 200 && data.body.message.includes("modificaron")) {
+                            alert(data.body.message);
+
+                            // Cerrar el modal utilizando JavaScript puro
+                            let modal = document.getElementById('grupoModal');
+                            let backdrop = document.querySelector('.modal-backdrop');
+                            modal.classList.remove('show');
+                            modal.setAttribute('aria-hidden', 'true');
+                            modal.style.display = 'none';
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                            document.body.classList.remove('modal-open');
+                            document.body.style.removeProperty('padding-right');
+                            
+                            // Recargar la página después de cerrar el modal
+                            setTimeout(() => location.reload(), 500); 
+                        } else {
+                            alert('Error al modificar el grupo: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al modificar el grupo: ' + error.message);
+                    });
+
+         // Agrega alerta click para el botón de crear
+         document.getElementById('createButton').addEventListener('click', function() {
+              if (data.status === 200 && data.body.message.includes("correctamente")) {
+                            alert(data.body.message);
+
+                            // Cerrar el modal utilizando JavaScript puro
+                            let modal = document.getElementById('grupoModal');
+                            let backdrop = document.querySelector('.modal-backdrop');
+                            modal.classList.remove('show');
+                            modal.setAttribute('aria-hidden', 'true');
+                            modal.style.display = 'none';
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                            document.body.classList.remove('modal-open');
+                            document.body.style.removeProperty('padding-right');
+                            
+                            // Recargar la página después de cerrar el modal
+                            setTimeout(() => location.reload(), 500); 
+                        } else {
+                            alert('Error al crear el grupo: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al crear el grupo: ' + error.message);
+                    });
+              
+        });
       });
     });
-  });
+  
+
+  
 
 </script>
 

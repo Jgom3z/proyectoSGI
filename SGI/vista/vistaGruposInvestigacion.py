@@ -141,7 +141,9 @@ def create_grupo():
 
     # Verificar la respuesta de la API
     if response.status_code == 200:
-        return ({"message": "Datos guardados exitosamente"}), 200
+        output_params = response.json().get("outputParams", {})
+        mensaje = output_params.get("mensaje", "Operación exitosa")
+        return jsonify({"message": mensaje}), 200
     else:
         # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al guardar los datos")
@@ -151,31 +153,31 @@ def create_grupo():
 def delete_grupo():
     # Captura los datos del formulario enviado
     print(request)
-    form_data = {
-        "nombre_grupo": request.form.get('nombre_grupo')  
-    } 
+    form_data = {"id_grupo": request.json.get('id_grupo')}
 
      # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
 
     # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
+        "procedure": "delete_json_entity", 
         "parameters":{
             "table_name":"inv_grupos",
-            "where_condition": "nombre_grupo = nombre_grupo"
+            "where_condition": f"id_grupo = {form_data['id_grupo']}"
                 
         }
     } 
     )
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
+    # Debug: Imprimir el estado de la respuesta y su contenido
     print("Response Status Code: ", response.status_code)
     print("Response Content: ", response.content)
 
     # Verificar la respuesta de la API
     if response.status_code == 200:
-        return jsonify({"message": "Grupo Eliminado exitosamente"}), 200
+        output_params = response.json().get("outputParams", {})
+        mensaje = output_params.get("mensaje", "Operación exitosa")
+        return jsonify({"message": mensaje}), 200
     else:
         # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al eliminar el grupo")
@@ -206,11 +208,11 @@ def update_grupo():
 
     # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
+        "procedure": "update_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
         "parameters":{
             "table_name":"inv_grupos",
             "json_data": form_data,
-            "where_condition": "nombre_grupo = nombre_grupo"
+            "where_condition": f"id_grupo = {form_data['id_grupo']}"
                 
         }
     } 
@@ -222,7 +224,9 @@ def update_grupo():
 
     # Verificar la respuesta de la API
     if response.status_code == 200:
-        return jsonify({"message": "Grupo actualizado exitosamente"}), 200
+        output_params = response.json().get("outputParams", {})
+        mensaje = output_params.get("mensaje", "Operación exitosa")
+        return jsonify({"message": mensaje}), 200
     else:
         # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
