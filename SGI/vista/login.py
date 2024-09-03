@@ -4,7 +4,7 @@ import markupsafe
 import requests
 
 
-from controlador.ControlEntidad import ControlEntidad
+
 
 # Define el Blueprint para login
 login = Blueprint('login', __name__, template_folder='templates')

@@ -212,7 +212,7 @@ def update_grupo():
         "parameters":{
             "table_name":"inv_grupos",
             "json_data": form_data,
-            "where_condition": f"id_grupo = {form_data['id_grupo']}"
+            "where_condition": f"nombre_grupo = {form_data['nombre_grupo']}"
                 
         }
     } 
