@@ -115,11 +115,98 @@ def vista_grupos_investigacion():
     else:
         lineas = []
 
-  
+    #obtener datos de proyectos asociados al grupo
+    # Obtener datos de proyectos asociados al grupo
+    # Obtener datos de proyectos asociados al grupo
+    select_data_proyectos = {
+        "projectName": "SGI",
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_proyecto p INNER JOIN inv_grupos g ON p.id_grupo_lider = g.id_lider",
+            "json_data": {},
+            "where_condition": "p.id_grupo_lider = g.id_lider",  # Condición para asegurar que los ids coincidan
+            "select_columns": "p.nombre_proyecto, p.id_grupo_lider, p.nombre_convocatoria",
+            "order_by": "p.nombre_proyecto",
+            "limit_clause": ""
+        }
+    }
+
+    response_proyectos = requests.post(API_URL, json=select_data_proyectos)
+
+    if response_proyectos.status_code != 200:
+        return f"Error al consultar la API: {response_proyectos.status_code}"
+
+    data_proyectos = response_proyectos.json()
+
+        # Verifica si 'result' existe y no está vacío
+    if 'result' in data_proyectos and data_proyectos['result']:
+            proyectos_str = data_proyectos['result'][0].get('result')  # Utiliza .get() para evitar el NoneType error
+            
+            # Verifica si 'proyectos_str' no es None
+            if proyectos_str:
+                try:
+                    proyectos = json.loads(proyectos_str)  # Carga solo si no es None
+                except json.JSONDecodeError as e:
+                    print(f"Error al decodificar JSON: {e}")
+                    proyectos = []
+            else:
+                print("El campo 'result' es None o vacío.")
+                proyectos = []
+    else:
+            print("No se encontraron resultados en la respuesta de la API.")
+            proyectos = []
+
+    #obtener datos de investigadores asociados
+    select_data_investigadores_asociados ={
+    "procedure": "select_json_entity",
+    "parameters": {
+        "table_name": "inv_investigador_proyecto",
+        "json_data": {},
+        "where_condition": "", 
+        "select_columns": "id_investigador_proyecto, id_investigador, id_proyecto, tipo_participacion, horas_fase_1, horas_fase_2, horas_fase_3, horas_fase_4, horas_fase_5, horas_fase_6, estado",
+        "order_by": "id_investigador_proyecto",
+        "limit_clause": ""
+        }
+    }
+
+    response_investigadores_asociados = requests.post(API_URL, json=select_data_investigadores_asociados)
+    if  response_investigadores_asociados.status_code != 200:
+        return f"Error al consultar la API: { response_investigadores_asociados.status_code}"
+    
+    data_investigadores_asociados =  response_investigadores_asociados.json()
+    if 'result' in data_lineas and data_investigadores_asociados['result']:
+        investigadores_asociados_str = data_investigadores_asociados['result'][0]['result']
+        investigadores_asociados = json.loads(investigadores_asociados_str)
+    else:
+        investigadores_asociados = []
+
+    #obtener datos de semilleros
+    select_data_semilleros ={
+    "procedure": "select_json_entity",
+    "parameters": {
+        "table_name": "inv_semilleros",
+        "json_data": {},
+        "where_condition": "", 
+        "select_columns": "nombre_semillero, objetivos, descripcion_semillero",
+        "order_by": "id_semillero",  
+        "limit_clause": ""
+        }
+    }
+
+    response_semilleros = requests.post(API_URL, json=select_data_semilleros)
+    if  response_semilleros.status_code != 200:
+        return f"Error al consultar la API: { response_semilleros.status_code}"
+    
+    data_semilleros =  response_semilleros.json()
+    if 'result' in data_semilleros and data_semilleros['result']:
+        semilleros_str = data_semilleros['result'][0]['result']
+        semilleros = json.loads(semilleros_str)
+    else:
+        semilleros = []
 
     # Pasar los datos a la plantilla
     ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, lineas=lineas, ths=ths)
+    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, lineas=lineas, proyectos = proyectos, investigadores_asociados = investigadores_asociados, semilleros = semilleros, ths=ths)
 
 #PARA EL MODAL
 @vistaGruposInvestigacion.route("/creategrupo", methods = ['POST'])
