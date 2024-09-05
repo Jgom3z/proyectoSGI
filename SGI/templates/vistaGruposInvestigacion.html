@@ -115,6 +115,7 @@
       </div>
       <div class="modal-body">
         <form id="EditForm" action="/updategrupo" method="POST">
+          <input type="hidden" id="editGroupId" name="id_grupo"> <!-- ID oculto para enviar en la solicitud -->
           <div class="mb-3">
             <label for="nombre_grupo" class="form-label">Nombre del grupo:</label>
             <input type="text" id="nombre_grupo" name="nombre_grupo" class="form-control" required>
@@ -155,8 +156,8 @@
               {% for investigador in investigadores %}
                 <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
               {% endfor %}
-            </select>         
-           </div>
+            </select>
+          </div>
           <div class="mb-3">
             <label for="plan_estrategico" class="form-label">Plan estratégico:</label>
             <textarea id="plan_estrategico" name="plan_estrategico" class="form-control" required></textarea>
@@ -186,7 +187,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="container-top">
   
@@ -266,7 +266,7 @@
         // Actualiza el contenido del modal
         document.getElementById('modalNombreGrupo').textContent = nombreGrupo;
         var tableContent = `
-          <tr>
+          <tr>                    
             <th>Código Grupo</th>
             <td>${codigoGrupo}</td>
           </tr>
@@ -300,9 +300,9 @@
           </tr>
 
           <br>
-          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalEditGroup">Modificar</button>
-          <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
-          <br>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalEditGroup" style="margin-right: 10px;">Modificar</button>
+        <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
+          
         `;
         document.getElementById('modalTableBody').innerHTML = tableContent;
 
@@ -409,6 +409,36 @@
 
   
 
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Configurar el modal de edición
+    document.querySelectorAll('.btn-edit').forEach(button => {
+      button.addEventListener('click', function () {
+        const groupId = this.getAttribute('data-id');
+        fetch(`/grupos/${groupId}`)
+          .then(response => response.json())
+          .then(data => {
+            // Llena los campos del formulario con la información del grupo
+            document.getElementById('editGroupId').value = data.id_grupo;
+            document.getElementById('nombre_grupo').value = data.nombre_grupo;
+            document.getElementById('codigo_grup_lac').value = data.codigo_grup_lac;
+            document.getElementById('categoria_colciencias').value = data.categoria_colciencias;
+            document.getElementById('area_conocimiento').value = data.area_conocimiento;
+            document.getElementById('id_facultad').value = data.id_facultad;
+            document.getElementById('fecha_creacion').value = data.fecha_creacion;
+            document.getElementById('fecha_finalizacion').value = data.fecha_finalizacion || '';
+            document.getElementById('id_lider').value = data.id_lider;
+            document.getElementById('plan_estrategico').value = data.plan_estrategico;
+            document.getElementById('categoria_meta').value = data.categoria_meta;
+            document.getElementById('estrategia_meta').value = data.estrategia_meta;
+            document.getElementById('vision').value = data.vision;
+            document.getElementById('objetivos').value = data.objetivos;
+          });
+      });
+    });
+  });
 </script>
 
 {% endblock content %}

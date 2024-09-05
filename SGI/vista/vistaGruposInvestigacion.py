@@ -188,6 +188,7 @@ def update_grupo():
     # Captura los datos del formulario enviado
     print(request)
     form_data = {
+        "id_grupo": request.form.get('id_grupo'),  
         "nombre_grupo": request.form.get('nombre_grupo'),
         "codigo_grup_lac": request.form.get('codigo_grup_lac'),
         "categoria_colciencias": request.form.get('categoria_colciencias'),
@@ -201,33 +202,29 @@ def update_grupo():
         "estrategia_meta": request.form.get('estrategia_meta'),
         "vision": request.form.get('vision'),
         "objetivos": request.form.get('objetivos')
-    }  
+    }
 
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
+    print("Form Data: ", form_data)
 
-    # Enviar los datos a la API
+    if not form_data["id_grupo"]:
+        return jsonify({"message": "Error: 'id_grupo' es requerido para actualizar."}), 400
+
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "update_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_grupos",
+        "procedure": "update_json_entity",  # Supongamos que tienes un procedimiento almacenado para actualizar
+        "parameters": {
+            "table_name": "inv_grupos",
             "json_data": form_data,
-            "where_condition": f"nombre_grupo = {form_data['nombre_grupo']}"
-                
+            "where_condition": f"id_grupo = {form_data['id_grupo']}"  # Usar 'id_grupo' en la condición
         }
-    } 
-    )
+    })
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
     print("Response Status Code: ", response.status_code)
     print("Response Content: ", response.content)
 
-    # Verificar la respuesta de la API
     if response.status_code == 200:
         output_params = response.json().get("outputParams", {})
         mensaje = output_params.get("mensaje", "Operación exitosa")
         return jsonify({"message": mensaje}), 200
     else:
-        # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
         return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500

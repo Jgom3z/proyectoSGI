@@ -10,7 +10,6 @@ API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
 
 @vistaInvestigadores.route('/vistaInvestigadores', methods=['GET'])
 def vista_investigadores():
-    # Obtener datos de investigadores
     select_data_investigadores = {
     "projectName": "SGI",
     "procedure": "select_json_entity",
@@ -38,7 +37,6 @@ def vista_investigadores():
     else:
         investigadores = []
 
-    # Obtener datos de facultades
     select_data_facultades = {
         "projectName": 'SGI',
         "procedure": "select_json_entity",
@@ -64,16 +62,13 @@ def vista_investigadores():
         facultades = []
 
    
-    # Pasar los datos a la plantilla
     ths = ['Investigador', 'Linea de investigación', 'Estado']
     return render_template('vistaInvestigadores.html',  facultades=facultades, investigadores = investigadores, ths=ths)
 
-#PARA EL MODAL
 @vistaInvestigadores.route("/createinvestigador", methods = ['POST'])
 def create_investigador():
-    # Captura los datos del formulario enviado
     print(request)
-    form_data = {
+    form_data = {       
     "cedula": request.form.get('cedula'),
     "nombre_investigador": request.form.get('nombre_investigador'),
     "categoria_institucion": request.form.get('categoria_institucion'),
@@ -90,16 +85,13 @@ def create_investigador():
     "categoria_colciencias_esperada": request.form.get('categoria_colciencias_esperada')
     } 
 
-    # Validar si 'fecha_finalizacion' está vacía o no se proporcionó
     if not form_data["fecha_final"]:
         form_data["fecha_final"] = None
 
-     # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
 
-    # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "insert_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
+        "procedure": "insert_json_entity", 
         "parameters":{
             "table_name":"inv_investigadores",
             "json_data": form_data
@@ -108,32 +100,26 @@ def create_investigador():
     } 
     )
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
     print("Response Status Code: ", response.status_code)
     print("Response Content: ", response.content)
 
-    # Verificar la respuesta de la API
     if response.status_code == 200:
         return ({"message": "Datos guardados exitosamente"}), 200
     else:
-        # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al guardar los datos")
         return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
     
 @vistaInvestigadores.route("/deleteinvestigador", methods = ['POST'])
 def delete_investigador():
-    # Captura los datos del formulario enviado
-    print(request)
+    print(request)  
     form_data = {
         "nombre_investigador": request.form.get('nombre_investigador')  
     } 
 
-     # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
 
-    # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
+        "procedure": "delete_json_entity",  
         "parameters":{
             "table_name":"inv_investigadores",
             "where_condition": "nombre_investigador = nombre_investigador"
@@ -142,21 +128,19 @@ def delete_investigador():
     } 
     )
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
+      
     print("Response Status Code: ", response.status_code)
     print("Response Content: ", response.content)
 
-    # Verificar la respuesta de la API
+    
     if response.status_code == 200:
         return jsonify({"message": "Investigador Eliminado exitosamente"}), 200
     else:
-        # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al eliminar el investigador")
         return jsonify({"message": f"Error al eliminar el investigador: {error_message}"}), 500
     
 @vistaInvestigadores.route("/updateinvestigador", methods = ['POST'])
 def update_investigador():
-    # Captura los datos del formulario enviado
     print(request)
     form_data = {
     "cedula": request.form.get('cedula'),
@@ -176,10 +160,8 @@ def update_investigador():
 
     }  
 
-     # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
 
-    # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
         "procedure": "delete_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
         "parameters":{
@@ -191,11 +173,9 @@ def update_investigador():
     } 
     )
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
     print("Response Status Code: ", response.status_code)
     print("Response Content: ", response.content)
 
-    # Verificar la respuesta de la API
     if response.status_code == 200:
         return jsonify({"message": "Investigador actualizado exitosamente"}), 200
     else:
