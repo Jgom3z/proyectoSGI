@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify, Blueprint
+from datetime import datetime
 import requests
 import json
 
@@ -187,6 +188,8 @@ def delete_grupo():
 def update_grupo():
     # Captura los datos del formulario enviado
     print(request)
+    # Captura el ID del grupo y los demás datos del formulario enviado
+    id_grupo = request.form.get('id_grupo')
     form_data = {
         "nombre_grupo": request.form.get('nombre_grupo'),
         "codigo_grup_lac": request.form.get('codigo_grup_lac'),
@@ -203,8 +206,18 @@ def update_grupo():
         "objetivos": request.form.get('objetivos')
     }  
 
+     # Verifica y limpia las fechas
+    
+    if form_data["fecha_creacion"]:
+        form_data["fecha_creacion"] = datetime.strptime(form_data["fecha_creacion"], "%Y-%m-%d").date().strftime("%Y-%m-%d")
+    if form_data["fecha_finalizacion"]:
+        form_data["fecha_finalizacion"] = datetime.strptime(form_data["fecha_finalizacion"], "%Y-%m-%d").date().strftime("%Y-%m-%d")
+    else:
+        form_data["fecha_finalizacion"] = None
+
      # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
+    print("Form Data: ", form_data)
+    print("ID Grupo: ", id_grupo)  
 
     # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
@@ -212,7 +225,7 @@ def update_grupo():
         "parameters":{
             "table_name":"inv_grupos",
             "json_data": form_data,
-            "where_condition": f"nombre_grupo = {form_data['nombre_grupo']}"
+            "where_condition": f"id_grupo = {id_grupo}"
                 
         }
     } 
