@@ -245,11 +245,12 @@ footer {
   
   /* Estilos del modal */
   .modal-dialog.custom-width {
-    max-width: 800px; /* Ajusta el ancho del modal */
+    max-width: 1000px; /* Ajusta el ancho del modal */
   }
-  
+ 
   .modal-content {
     border-radius: 0.5rem;
+    max-width: 800px;
   }
   
   .modal-header {

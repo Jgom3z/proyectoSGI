@@ -5,23 +5,119 @@
 
 <!-- Modal para mostrar detalles del grupo -->
 <div class="modal fade" id="grupoModal" tabindex="-1" aria-labelledby="grupoModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="max-width: 1500px;">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="grupoModalLabel">Detalles del Grupo</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h2 id="modalNombreGrupo">Nombre del grupo</h2>
-        <table class="table">
-          <tbody id="modalTableBody">
-            <!-- La información del grupo se insertará aquí mediante JavaScript -->
-          </tbody>
-        </table>
+        <!-- Tabs para organizar la información -->
+        <ul class="nav nav-tabs" id="grupoTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true">Grupo</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="false">Lineas de investigación</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false">Proyectos de investigación</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Investigadores-tab" data-bs-toggle="tab" data-bs-target="#investigadores" type="button" role="tab" aria-controls="investigadores" aria-selected="false">Investigadores integrantes</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="semilleros-tab" data-bs-toggle="tab" data-bs-target="#semilleros" type="button" role="tab" aria-controls="semilleros" aria-selected="false">Semilleros de investigación</button>
+          </li>
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="grupoTabContent">
+          <!-- Información General -->
+          <div class="tab-pane fade show active" id="info-general" role="tabpanel" aria-labelledby="info-general-tab">
+            <h2 id="modalNombreGrupo">Nombre del grupo</h2>
+            <table class="table">
+              <tbody id="modalTableBody">
+                <!-- La información general del grupo se insertará aquí mediante JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Lineas -->
+          <div class="tab-pane fade" id="lineas" role="tabpanel" aria-labelledby="lineas-tab">
+            <table class="table" id="groupsTable">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for linea in lineas %}
+                <tr>
+                  <td>{{ linea.nombre_linea }} </td>
+                  <td>{{ linea.descripcion }}</td>
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <ul id="listaLineas">
+              <!-- Aquí puedes cargar la lista de investigadores relacionados al grupo -->
+            </ul>
+          </div>
+
+          <!-- Proyectos -->
+          <div class="tab-pane fade" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+            <table class="table" >
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>id grupo lider</th>
+                  <th>nombre convocatoria</th>
+
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for proyecto in proyectos %}
+                <tr>
+                  <td>{{ proyecto.nombre_proyecto }} </td>
+                  <td>{{ proyecto.id_grupo_lider }} </td>
+                  <td>{{ proyecto.nombre_convocatoria }} </td>
+
+
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <ul id="listaProyectos">
+              <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
+            </ul>
+          </div>
+          <!--Investigadores-->
+          <div class="tab-pane fade" id="investigadores" role="tabpanel" aria-labelledby="investigadores-tab">
+            <p>Proyectos en los que está involucrado el grupo.</p>
+            <ul id="listaInvestigadores">
+              <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
+            </ul>
+          </div>
+
+           <!--semilleros-->
+           <div class="tab-pane fade" id="semilleros" role="tabpanel" aria-labelledby="semilleros-tab">
+            <p>Proyectos en los que está involucrado el grupo.</p>
+            <ul id="listasemilleros">
+              <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- Modal para crear grupo -->
 <div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -158,8 +254,8 @@
               {% for investigador in investigadores %}
                 <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
               {% endfor %}
-            </select>         
-           </div>
+            </select>
+          </div>
           <div class="mb-3">
             <label for="plan_estrategico_edit" class="form-label">Plan estratégico:</label>
             <textarea id="plan_estrategico_edit" name="plan_estrategico" class="form-control" required></textarea>
@@ -189,7 +285,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="container-top">
   

@@ -90,12 +90,36 @@ def vista_grupos_investigacion():
         investigadores = []
 
  
+    # Obtener datos de líneas asociadas al grupo
+    select_data_lineas = {
+        
+            "projectName": "SGI",
+            "procedure": "select_json_entity",
+            "parameters": {
+            "table_name": "inv_linea_grupo l INNER JOIN inv_grupos g ON l.id_grupo = g.id_grupo",
+            "json_data": {},
+            "where_condition": "l.id_grupo = g.id_grupo",  
+            "select_columns": "g.id_grupo, l.nombre_linea, l.descripcion",
+            "order_by": "g.id_grupo",
+            "limit_clause": ""
+    }
+}
+    response_lineas = requests.post(API_URL, json=select_data_lineas)
+    if response_lineas.status_code != 200:
+        return f"Error al consultar la API: {response_lineas.status_code}"
+    
+    data_lineas = response_lineas.json()
+    if 'result' in data_lineas and data_lineas['result']:
+        lineas_str = data_lineas['result'][0]['result']
+        lineas = json.loads(lineas_str)
+    else:
+        lineas = []
 
-
+  
 
     # Pasar los datos a la plantilla
     ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, ths=ths)
+    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, lineas=lineas, ths=ths)
 
 #PARA EL MODAL
 @vistaGruposInvestigacion.route("/creategrupo", methods = ['POST'])
@@ -191,6 +215,7 @@ def update_grupo():
     # Captura el ID del grupo y los demás datos del formulario enviado
     id_grupo = request.form.get('id_grupo')
     form_data = {
+        "id_grupo": request.form.get('id_grupo'),  
         "nombre_grupo": request.form.get('nombre_grupo'),
         "codigo_grup_lac": request.form.get('codigo_grup_lac'),
         "categoria_colciencias": request.form.get('categoria_colciencias'),
@@ -204,7 +229,7 @@ def update_grupo():
         "estrategia_meta": request.form.get('estrategia_meta'),
         "vision": request.form.get('vision'),
         "objetivos": request.form.get('objetivos')
-    }  
+    }
 
      # Verifica y limpia las fechas
     
@@ -221,26 +246,22 @@ def update_grupo():
 
     # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "update_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_grupos",
+        "procedure": "update_json_entity",  # Supongamos que tienes un procedimiento almacenado para actualizar
+        "parameters": {
+            "table_name": "inv_grupos",
             "json_data": form_data,
             "where_condition": f"id_grupo = {id_grupo}"
                 
         }
-    } 
-    )
+    })
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
     print("Response Status Code: ", response.status_code)
     print("Response Content: ", response.content)
 
-    # Verificar la respuesta de la API
     if response.status_code == 200:
         output_params = response.json().get("outputParams", {})
         mensaje = output_params.get("mensaje", "Operación exitosa")
         return jsonify({"message": mensaje}), 200
     else:
-        # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
         return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500
