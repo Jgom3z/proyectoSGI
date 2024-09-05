@@ -89,12 +89,36 @@ def vista_grupos_investigacion():
         investigadores = []
 
  
+    # Obtener datos de líneas asociadas al grupo
+    select_data_lineas = {
+        
+            "projectName": "SGI",
+            "procedure": "select_json_entity",
+            "parameters": {
+            "table_name": "inv_linea_grupo l INNER JOIN inv_grupos g ON l.id_grupo = g.id_grupo",
+            "json_data": {},
+            "where_condition": "l.id_grupo = g.id_grupo",  
+            "select_columns": "g.id_grupo, l.nombre_linea, l.descripcion",
+            "order_by": "g.id_grupo",
+            "limit_clause": ""
+    }
+}
+    response_lineas = requests.post(API_URL, json=select_data_lineas)
+    if response_lineas.status_code != 200:
+        return f"Error al consultar la API: {response_lineas.status_code}"
+    
+    data_lineas = response_lineas.json()
+    if 'result' in data_lineas and data_lineas['result']:
+        lineas_str = data_lineas['result'][0]['result']
+        lineas = json.loads(lineas_str)
+    else:
+        lineas = []
 
-
+  
 
     # Pasar los datos a la plantilla
     ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, ths=ths)
+    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, lineas=lineas, ths=ths)
 
 #PARA EL MODAL
 @vistaGruposInvestigacion.route("/creategrupo", methods = ['POST'])
