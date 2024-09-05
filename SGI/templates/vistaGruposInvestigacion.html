@@ -97,9 +97,44 @@
               <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
             </ul>
           </div>
+
+
           <!--Investigadores-->
           <div class="tab-pane fade" id="investigadores" role="tabpanel" aria-labelledby="investigadores-tab">
-            <p>Proyectos en los que está involucrado el grupo.</p>
+            <table class="table" >
+              <thead>
+                <tr>
+                   <th>ID Investigador</th>
+                   <th>ID Proyecto</th>
+                   <th>Tipo de Participación</th>
+                   <th>Horas Fase 1</th>
+                   <th>Horas Fase 2</th>
+                   <th>Horas Fase 3</th>
+                   <th>Horas Fase 4</th>
+                   <th>Horas Fase 5</th>
+                   <th>Horas Fase 6</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for investigador_asociado in investigadores_asociados %}
+                <tr>
+                  <td>{{ investigador_asociado.id_investigador }}</td>
+                  <td>{{ investigador_asociado.id_proyecto }}</td>
+                  <td>{{ investigador_asociado.tipo_participacion }}</td>
+                  <td>{{ investigador_asociado.horas_fase_1 }}</td>
+                  <td>{{ investigador_asociado.horas_fase_2 }}</td>
+                  <td>{{ investigador_asociado.horas_fase_3 }}</td>
+                  <td>{{ investigador_asociado.horas_fase_4 }}</td>
+                  <td>{{ investigador_asociado.horas_fase_5 }}</td>
+                  <td>{{ investigador_asociado.horas_fase_6 }}</td>
+                  
+
+
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
             <ul id="listaInvestigadores">
               <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
             </ul>
@@ -107,9 +142,28 @@
 
            <!--semilleros-->
            <div class="tab-pane fade" id="semilleros" role="tabpanel" aria-labelledby="semilleros-tab">
-            <p>Proyectos en los que está involucrado el grupo.</p>
-            <ul id="listasemilleros">
-              <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
+            <table class="table" >
+              <thead>
+                <tr>
+                   <th>Nombre</th>
+                   <th>Objetivo</th>
+                   <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for semillero in semilleros %}
+                <tr>
+                  <td>{{ semillero.nombre_semillero }}</td>
+                  <td>{{ semillero.objetivos }}</td>
+                  <td>{{ semillero.descripcion_semillero }}</td>
+                  
+
+
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>              
             </ul>
           </div>
         </div>
