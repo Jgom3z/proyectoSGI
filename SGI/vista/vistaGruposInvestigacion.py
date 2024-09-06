@@ -16,7 +16,7 @@ def vista_grupos_investigacion():
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_grupos g INNER JOIN inv_investigadores p ON p.id_investigador = g.id_lider INNER JOIN inv_facultad f ON f.id_facultad = g.id_facultad",
+            "table_name": "inv_grupos g LEFT JOIN inv_investigadores p ON p.id_investigador = g.id_lider LEFT JOIN inv_facultad f ON f.id_facultad = g.id_facultad",
             "json_data": {
                 "estado": "En Progreso"
             },
@@ -352,3 +352,36 @@ def update_grupo():
     else:
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
         return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500
+    
+
+@vistaGruposInvestigacion.route('/get_grupoInvestigacion', methods=['POST'])
+def get_grupoInvestigacion():
+    id=request.form.get('id_grupo') 
+    # Obtener datos de grupos
+    select_data_grupos = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_grupos",
+            "json_data": {
+                "estado": "En Progreso"
+            },
+            "where_condition": f'id_grupo={id}',
+            "select_columns": "*",
+            "order_by": "",
+            "limit_clause": ""
+        }
+    }
+
+    response_grupos = requests.post(API_URL, json=select_data_grupos)
+    if response_grupos.status_code != 200:
+        return f"Error al consultar la API: {response_grupos.status_code}"
+    
+    data_grupos = response_grupos.json()
+    if 'result' in data_grupos and data_grupos['result']:
+        grupos_str = data_grupos['result'][0]['result']
+        grupos = json.loads(grupos_str)
+    else:
+        grupos = []
+    print(grupos)
+    return grupos

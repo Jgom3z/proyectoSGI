@@ -401,8 +401,39 @@
 
 
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  // // Agrega el evento click al botón de Modificar
+  function loadData(id) {
+          // Llama al backend para obtener los datos de la cita usando el ID
+          $.ajax({
+            url: "/get_grupoInvestigacion",
+            type: "POST",
+            data: { id_grupo: id },
+            success: function (data) {
+              // Asignar valores a los campos
+              document.getElementById('id_grupo_edit').value = data[0].id_grupo;  // Asigna el ID del grupo
+              document.getElementById('nombre_grupo_edit').value = data[0].nombre_grupo;
+              document.getElementById('codigo_grup_lac_edit').value = data[0].codigo_grup_lac;
+              document.getElementById('categoria_colciencias_edit').value = data[0].categoria_colciencias;
+              document.getElementById('fecha_creacion_edit').value = data[0].fecha_creacion;
+              document.getElementById('fecha_finalizacion_edit').value = data[0].fecha_finalizacion;
+              document.getElementById('id_facultad_edit').value = data[0].id_facultad; // Asegúrate de que el valor coincida con la ID de la facultad
+              document.getElementById('id_lider_edit').value = data[0].id_lider; // Asegúrate de que el valor coincida con la ID del líder
+              document.getElementById('area_conocimiento_edit').value = data[0].area_conocimiento;
+              document.getElementById('plan_estrategico_edit').value = data[0].plan_estrategico;
+              document.getElementById('categoria_meta_edit').value = data[0].categoria_meta;
+              document.getElementById('estrategia_meta_edit').value = data[0].estrategia_meta;
+              document.getElementById('vision_edit').value = data[0].vision;
+              document.getElementById('objetivos_edit').value = data[0].objetivos;
+            
+            },
+            error: function () {
+              alert("Error al cargar datos");
+            },
+          });
+        }
+
   document.addEventListener('DOMContentLoaded', function() {
     // Agrega un evento click a todos los enlaces con la clase 'a-td'
     document.querySelectorAll('.a-td').forEach(function(link) {
@@ -481,7 +512,7 @@
             <td>${objetivos}</td>
           </tr>
           <br>
-          <button type="button" class="btn btn-secondary" id="modalEditGroupButton" data-bs-toggle="modal" data-bs-target="#modalEditGroup">Modificar</button>
+          <button type="button" class="btn btn-secondary" id="modalEditGroupButton" data-bs-toggle="modal" data-bs-target="#modalEditGroup" onclick="loadData(${idGrupo})">Modificar</button>
           <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
           <br>
         `;
@@ -528,25 +559,29 @@
           }
         });
 
-        // Agrega el evento click al botón de Modificar
-        document.querySelector('#modalEditGroupButton').addEventListener('click', function() {
-          // Pasa la información al modal de edición
-          document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
-          document.getElementById('nombre_grupo_edit').value = nombreGrupo;
-          document.getElementById('codigo_grup_lac_edit').value = codigoGrupo;
-          document.getElementById('categoria_colciencias_edit').value = categoriaColciencias;
-          document.getElementById('fecha_creacion_edit').value = fechaCreacion;
-          document.getElementById('fecha_finalizacion_edit').value = fechaFinalizacion;
-          document.getElementById('id_facultad_edit').value = nombreFacultad; // Asegúrate de que el valor coincida con la ID de la facultad
-          document.getElementById('id_lider_edit').value = nombreLider; // Asegúrate de que el valor coincida con la ID del líder
-          document.getElementById('area_conocimiento_edit').value = areaConocimiento;
-          document.getElementById('plan_estrategico_edit').value = planEstrategico;
-          document.getElementById('categoria_meta_edit').value = categoriaMeta;
-          document.getElementById('estrategia_meta_edit').value = estrategiaMeta;
-          document.getElementById('vision_edit').value = vision;
-          document.getElementById('objetivos_edit').value = objetivos;
-          // Asigna otros campos adicionales
-        });
+
+        
+
+
+        // document.querySelector('#modalEditGroupButton').addEventListener('click', function() {
+        //   // Pasa la información al modal de edición
+        //   console.log(nombreFacultad);
+        //   document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
+        //   document.getElementById('nombre_grupo_edit').value = nombreGrupo;
+        //   document.getElementById('codigo_grup_lac_edit').value = codigoGrupo;
+        //   document.getElementById('categoria_colciencias_edit').value = categoriaColciencias;
+        //   document.getElementById('fecha_creacion_edit').value = fechaCreacion;
+        //   document.getElementById('fecha_finalizacion_edit').value = fechaFinalizacion;
+        //   document.getElementById('id_facultad_edit').value = nombreFacultad; // Asegúrate de que el valor coincida con la ID de la facultad
+        //   document.getElementById('id_lider_edit').value = nombreLider; // Asegúrate de que el valor coincida con la ID del líder
+        //   document.getElementById('area_conocimiento_edit').value = areaConocimiento;
+        //   document.getElementById('plan_estrategico_edit').value = planEstrategico;
+        //   document.getElementById('categoria_meta_edit').value = categoriaMeta;
+        //   document.getElementById('estrategia_meta_edit').value = estrategiaMeta;
+        //   document.getElementById('vision_edit').value = vision;
+        //   document.getElementById('objetivos_edit').value = objetivos;
+        //   // Asigna otros campos adicionales
+        // });
 
          // Agrega el evento click al botón de finalizar modificacion
          document.getElementById('updateButton').addEventListener('click', function(event) {
