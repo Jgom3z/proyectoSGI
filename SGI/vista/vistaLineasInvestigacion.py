@@ -210,7 +210,7 @@ def vista_lineas_investigacion():
 
 
 #PARA EL MODAL
-@vistaLineasInvestigacion.route("/createLinea", methods = ['POST'])
+@vistaLineasInvestigacion.route("/createlinea", methods = ['POST'])
 def create_linea():
     # Captura los datos del formulario enviado
     print(request)
@@ -259,7 +259,7 @@ def create_linea():
 def linea_grupo():
     # Captura los datos del formulario enviado
     print(request)
-    form_data = {"id_linea": request.json.get('id_linea')}
+    form_data = {"id_linea_grupo": request.json.get('id_linea_grupo')}
 
      # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
@@ -269,7 +269,7 @@ def linea_grupo():
         "procedure": "delete_json_entity", 
         "parameters":{
             "table_name":"inv_linea_grupo",
-            "where_condition": f"id_linea = {form_data['id_linea']}"
+            "where_condition": f"id_linea_grupo = {form_data['id_linea_grupo']}"
                 
         }
     } 

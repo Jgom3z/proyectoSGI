@@ -155,28 +155,45 @@ def vista_grupos_investigacion():
             proyectos = []
 
     #obtener datos de investigadores asociados
-    select_data_investigadores_asociados ={
-    "procedure": "select_json_entity",
-    "parameters": {
-        "table_name": "inv_investigadores",
-        "json_data": {},
-        "where_condition": "JOIN inv_investigador_proyecto ON inv_investigadores.id_investigador = inv_investigador_proyecto.id_investigador",
-        "select_columns": "inv_investigadores.nombre_investigador, inv_investigador_proyecto.estado",
-        "order_by": "inv_investigadores.id_investigador",
-        "limit_clause": ""
+    # Obtén los datos de investigadores asociados
+    select_data_investigadores_asociados = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigadores",
+            "json_data": {},
+            "where_condition": "JOIN inv_investigador_proyecto ON inv_investigadores.id_investigador = inv_investigador_proyecto.id_investigador",
+            "select_columns": "inv_investigadores.nombre_investigador, inv_investigador_proyecto.estado",
+            "order_by": "inv_investigadores.id_investigador",
+            "limit_clause": ""
+        }
     }
-}
 
-
+    # Realiza la solicitud a la API
     response_investigadores_asociados = requests.post(API_URL, json=select_data_investigadores_asociados)
-    if  response_investigadores_asociados.status_code != 200:
-        return f"Error al consultar la API: { response_investigadores_asociados.status_code}"
-    
-    data_investigadores_asociados =  response_investigadores_asociados.json()
-    if 'result' in data_lineas and data_investigadores_asociados['result']:
-        investigadores_asociados_str = data_investigadores_asociados['result'][0]['result']
-        investigadores_asociados = json.loads(investigadores_asociados_str)
+
+    # Verifica si la solicitud fue exitosa
+    if response_investigadores_asociados.status_code != 200:
+        return f"Error al consultar la API: {response_investigadores_asociados.status_code}"
+
+    # Carga la respuesta JSON
+    data_investigadores_asociados = response_investigadores_asociados.json()
+
+    # Verifica si la respuesta contiene 'result' y si está correctamente formateada
+    if 'result' in data_investigadores_asociados and data_investigadores_asociados['result']:
+        investigadores_asociados_str = data_investigadores_asociados['result'][0].get('result')
+        
+        # Comprueba si 'investigadores_asociados_str' no es None y es una cadena JSON válida
+        if investigadores_asociados_str:
+            try:
+                investigadores_asociados = json.loads(investigadores_asociados_str)
+            except json.JSONDecodeError as e:
+                print(f"Error al decodificar JSON: {e}")
+                investigadores_asociados = []
+        else:
+            print("Error: 'result' está vacío o es None")
+            investigadores_asociados = []
     else:
+        print("Error: no se encontró la clave 'result' o está vacía")
         investigadores_asociados = []
 
     #obtener datos de semilleros
