@@ -159,7 +159,7 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for=descripcion" class="form-label">Descripcion:</label>
+            <label for="descripcion" class="form-label">Descripcion:</label>
             <input type="text" id="descripcion" name="descripcion" class="form-control" required>
           </div>
           <div class="mb-3">
@@ -213,70 +213,55 @@
       <div class="modal-body">
         <form id="EditForm"  method="POST">
           <!-- ID del grupo (oculto) -->
-          <input type="hidden" id="id_grupo_edit" name="id_grupo">
+          <input type="hidden" id="id_linea_grupo_edit" name="id_linea_grupo">
 
           <div class="mb-3">
-            <label for="nombre_grupo_edit" class="form-label">Nombre del grupo:</label>
-            <input type="text" id="nombre_grupo_edit" name="nombre_grupo" class="form-control" required>
-          </div>
+            <label for="nombre_linea_edit" class="form-label">Nombre de la línea:</label>
+            <input type="text" id="nombre_linea_edit" name="nombre_linea" class="form-control" required>
+                      </div>
           <div class="mb-3">
-            <label for="codigo_grup_lac_edit" class="form-label">Código grup lac:</label>
-            <input type="text" id="codigo_grup_lac_edit" name="codigo_grup_lac" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="categoria_colciencias_edit" class="form-label">Categoría Colciencias:</label>
-            <input type="text" id="categoria_colciencias_edit" name="categoria_colciencias" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="area_conocimiento_edit" class="form-label">Área de conocimiento:</label>
-            <input type="text" id="area_conocimiento_edit" name="area_conocimiento" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="id_facultad_edit" class="form-label">ID Facultad:</label>
-            <select id="id_facultad_edit" name="id_facultad" class="form-select" required>
-              <option value="">Seleccione una facultad</option>
-              {% for facultad in facultades %}
-                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+            <label for="id_grupo_edit" class="form-label">ID grupo:</label>
+            <select id="id_grupo_edit" name="id_grupo" class="form-select" required>
+              <option value="">Seleccione un grupo</option>
+              {% for grupo in grupos %}
+                <option value="{{ grupo.id_grupo }}">{{ grupo.nombre_grupo }}</option>
               {% endfor %}
             </select>
           </div>
           <div class="mb-3">
-            <label for="fecha_creacion_edit" class="form-label">Fecha de creación:</label>
-            <input type="date" id="fecha_creacion_edit" name="fecha_creacion" class="form-control" required>
+            <label for="descripcion_edit" class="form-label">Descripcion:</label>
+            <input type="text" id="descripcion_edit" name="descripcion" class="form-control" required>
           </div>
           <div class="mb-3">
-            <label for="fecha_finalizacion_edit" class="form-label">Fecha de finalización:</label>
-            <input type="date" id="fecha_finalizacion_edit" name="fecha_finalizacion" class="form-control">
-          </div>
-          <div class="mb-3">
-            <label for="id_lider_edit" class="form-label">ID Líder:</label>
+            <label for="id_lider_edit" class="form-label">ID lider:</label>
             <select id="id_lider_edit" name="id_lider" class="form-select" required>
-              <option value="">Seleccione un líder</option>
+              <option value="">Seleccione un lider</option>
               {% for investigador in investigadores %}
                 <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
               {% endfor %}
             </select>
           </div>
           <div class="mb-3">
-            <label for="plan_estrategico_edit" class="form-label">Plan estratégico:</label>
-            <textarea id="plan_estrategico_edit" name="plan_estrategico" class="form-control" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="categoria_meta_edit" class="form-label">Categoría meta:</label>
-            <input type="text" id="categoria_meta_edit" name="categoria_meta" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="estrategia_meta_edit" class="form-label">Estrategia meta:</label>
-            <textarea id="estrategia_meta_edit" name="estrategia_meta" class="form-control" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="vision_edit" class="form-label">Visión:</label>
-            <textarea id="vision_edit" name="vision" class="form-control" required></textarea>
+            <label for="temas_de_trabajo_edit" class="form-label">Temas de trabajo:</label>
+            <textarea id="temas_de_trabajo_edit" name="temas_de_trabajo" class="form-control" required></textarea>
           </div>
           <div class="mb-3">
             <label for="objetivos_edit" class="form-label">Objetivos:</label>
             <textarea id="objetivos_edit" name="objetivos" class="form-control" required></textarea>
           </div>
+          <div class="mb-3">
+            <label for="vision_edit" class="form-label">vision:</label>
+            <textarea id="vision_edit" name="vision" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="estado_edit" class="form-label">Estado:</label>
+            <input type="text" id="estado_edit" name="estado" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="mision_edit" class="form-label">Mision:</label>
+            <input type="text" id="mision_edit" name="mision" class="form-control" required>
+          </div>
+          
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-warning" id="updateButton">Modificar</button>
@@ -450,7 +435,7 @@
         // Agrega el evento click al botón de Modificar
         document.querySelector('#modalEditLineButton').addEventListener('click', function() {
           // Pasa la información al modal de edición
-          document.getElementById('id_linea_edit').value = idLinea;  // Asigna el ID de la línea
+          document.getElementById('id_linea_grupo_edit').value = idLinea;  // Asigna el ID de la línea
           document.getElementById('nombre_linea_edit').value = nombreLinea;
           document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
           document.getElementById('descripcion_edit').value = descripcion;
