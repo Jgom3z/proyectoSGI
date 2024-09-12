@@ -444,6 +444,7 @@
         event.preventDefault(); // Evita el comportamiento por defecto del enlace
 
         // Obtén la información del grupo desde los atributos de datos del enlace
+        var idGrupo = this.getAttribute('data-id'); // Obtén el ID del grupo
         var nombreGrupo = this.getAttribute('data-nombre');
         var codigoGrupo = this.getAttribute('data-codigo');
         var categoriaColciencias = this.getAttribute('data-categoria');
@@ -457,7 +458,7 @@
         var estrategiaMeta = this.getAttribute('data-estrategiaMeta');
         var vision = this.getAttribute('data-vision');
         var objetivos = this.getAttribute('data-objetivos');
-        var idGrupo = this.getAttribute('data-id'); // Obtén el ID del grupo
+        
 
         // Actualiza el contenido del modal de detalles
         document.getElementById('modalNombreGrupo').textContent = nombreGrupo;
