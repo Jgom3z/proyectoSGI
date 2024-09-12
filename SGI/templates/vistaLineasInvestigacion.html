@@ -1,43 +1,531 @@
 {% extends "base.html" %}
+{% block title %}Lineas de investigación{% endblock %}
 
-{% block title %}Líneas de investigación{% endblock %}
+{% block content %}
 
-<main>
-  {% block content %}
-  <div class="container-top">
-    <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
-    <h1>Lineas de investigación</h1>
-
-      <div class="search-bar">
-        <button class="search-button" id="searchButton">
-          <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
-
-          <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
-          <button class="search-create">Crear</button>
+<!-- Modal para mostrar detalles del grupo -->
+<div class="modal fade" id="lineaModal" tabindex="-1" aria-labelledby="lineaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="max-width: 1500px;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="lineaModalLabel">Detalles de la linea</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <!-- Tabs para organizar la información -->
+        <ul class="nav nav-tabs" id="lineaTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true" style="color: #b54f25;">Linea</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="lineas" aria-selected="false" style="color: #b54f25;">Proyectos de investigación</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="investigadores-tab" data-bs-toggle="tab" data-bs-target="#investigadores" type="button" role="tab" aria-controls="investigadores" aria-selected="false" style="color: #b54f25;">Investigadores integrantes</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="semilleros-tab" data-bs-toggle="tab" data-bs-target="#semilleros" type="button" role="tab" aria-controls="semilleros" aria-selected="false" style="color: #b54f25;">Semilleros de investigación</button>
+          </li>
+         
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="lineaTabContent">
+          <!-- Información General -->
+          <div class="tab-pane fade show active" id="info-general" role="tabpanel" aria-labelledby="info-general-tab">
+            <br>
+            <div class="header-container">
+              <h4 id="modalNombreLinea" >Nombre de la linea</h4>
+              <button type="button" class="btn btn-secondary" id="modalEditLineButton" data-bs-toggle="modal" data-bs-target="#modalEditLine">Editar</button>
+            </div>
+          
+            <table class="table">
+              <tbody id="modalTableBody">
+              </tbody>
+            </table>
+          </div>
+          
+
+          <!-- proyectos -->
+          <div class="tab-pane fade" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+            <table class="table" id="proyectosTable">
+              <thead>
+                <tr>
+                  <th>Proyecto de investigación</th>
+                  <th>Fecha de inicio</th>
+                  <th>Fecha de finalización</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for proyecto in proyectos %}
+                <tr>
+                  <td>{{ proyecto.nombre_proyecto }} </td>
+                  <td>{{ proyecto.fecha_inicio }}</td>
+                  <td>{{ proyecto.fecha_final}}</td>
+
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <ul id="listaProyectos">
+            </ul>
+          </div>
+
+          
+
+
+          <!--Investigadores-->
+          <div class="tab-pane fade" id="investigadores" role="tabpanel" aria-labelledby="investigadores-tab">
+            <table class="table" >
+              <thead>
+                <tr>
+                   <th>Investigador</th>
+                   <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for investigador_asociado in investigadores_asociados %}
+                <tr>
+                  <td>{{ investigador_asociado.nombre_investigador }}</td>
+                  <td>{{ investigador_asociado.estado }}</td>
+                  
+
+
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <ul id="listaInvestigadores">
+              <!-- Aquí puedes cargar la lista de proyectos relacionados al grupo -->
+            </ul>
+          </div>
+
+           <!--semilleros-->
+           <div class="tab-pane fade" id="semilleros" role="tabpanel" aria-labelledby="semilleros-tab">
+            <table class="table" >
+              <thead>
+                <tr>
+                   <th>Semillero de investigación</th>
+                   <th>Fecha de inicio</th>
+                   <th>Fecha de finalización</th>
+                   <th>Líder de semillero</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for semillero in semilleros %}
+                <tr>
+                  <td>{{ semillero.nombre_semillero }}</td>
+                  <td>{{ semillero.fecha_inicio }}</td>
+                  <td>{{ semillero.fecha_final }}</td>
+                  <td>{{ semillero.nombre_investigador}}</td>
+
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>              
+            </ul>
+          </div>
+        </div>
       </div>
-      <table class="table" id="groupsTable">
-        <thead>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para crear linea -->
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear linea de Investigación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createForm" action="/createlinea" method="POST">
+          <div class="mb-3">
+            <label for="nombre_linea" class="form-label">Nombre de la linea:</label>
+            <input type="text" id="nombre_linea" name="nombre_linea" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="id_grupo" class="form-label">ID grupo:</label>
+            <select id="id_grupo" name="id_grupo" class="form-select" required>
+              <option value="">Seleccione un grupo</option>
+              {% for grupo in grupos %}
+                <option value="{{ grupo.id_grupo}}">{{ grupo.nombre_grupo }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for=descripcion" class="form-label">Descripcion:</label>
+            <input type="text" id="descripcion" name="descripcion" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="id_lider" class="form-label">ID lider:</label>
+            <select id="id_lider" name="id_lider" class="form-select" required>
+              <option value="">Seleccione un lider</option>
+              {% for investigador in investigadores %}
+                <option value="{{ investigador.id_investigador}}">{{ investigador.nombre_investigador }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="temas_de_trabajo" class="form-label">Temas de trabajo:</label>
+            <textarea id="temas_de_trabajo" name="temas_de_trabajo" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="objetivos" class="form-label">Objetivos:</label>
+            <textarea id="objetivos" name="objetivos" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="vision" class="form-label">vision:</label>
+            <textarea id="vision" name="vision" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="estado" class="form-label">Estado:</label>
+            <input type="text" id="estado" name="estado" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="mision" class="form-label">Mision:</label>
+            <input type="text" id="mision" name="mision" class="form-control" required>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-secondary" id="createButton">Crear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para modificar linea -->
+<div class="modal fade" id="modalEditline" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modificar linea de Investigación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="EditForm"  method="POST">
+          <!-- ID del grupo (oculto) -->
+          <input type="hidden" id="id_grupo_edit" name="id_grupo">
+
+          <div class="mb-3">
+            <label for="nombre_grupo_edit" class="form-label">Nombre del grupo:</label>
+            <input type="text" id="nombre_grupo_edit" name="nombre_grupo" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="codigo_grup_lac_edit" class="form-label">Código grup lac:</label>
+            <input type="text" id="codigo_grup_lac_edit" name="codigo_grup_lac" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="categoria_colciencias_edit" class="form-label">Categoría Colciencias:</label>
+            <input type="text" id="categoria_colciencias_edit" name="categoria_colciencias" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="area_conocimiento_edit" class="form-label">Área de conocimiento:</label>
+            <input type="text" id="area_conocimiento_edit" name="area_conocimiento" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="id_facultad_edit" class="form-label">ID Facultad:</label>
+            <select id="id_facultad_edit" name="id_facultad" class="form-select" required>
+              <option value="">Seleccione una facultad</option>
+              {% for facultad in facultades %}
+                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_creacion_edit" class="form-label">Fecha de creación:</label>
+            <input type="date" id="fecha_creacion_edit" name="fecha_creacion" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_finalizacion_edit" class="form-label">Fecha de finalización:</label>
+            <input type="date" id="fecha_finalizacion_edit" name="fecha_finalizacion" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="id_lider_edit" class="form-label">ID Líder:</label>
+            <select id="id_lider_edit" name="id_lider" class="form-select" required>
+              <option value="">Seleccione un líder</option>
+              {% for investigador in investigadores %}
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="plan_estrategico_edit" class="form-label">Plan estratégico:</label>
+            <textarea id="plan_estrategico_edit" name="plan_estrategico" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="categoria_meta_edit" class="form-label">Categoría meta:</label>
+            <input type="text" id="categoria_meta_edit" name="categoria_meta" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="estrategia_meta_edit" class="form-label">Estrategia meta:</label>
+            <textarea id="estrategia_meta_edit" name="estrategia_meta" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="vision_edit" class="form-label">Visión:</label>
+            <textarea id="vision_edit" name="vision" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="objetivos_edit" class="form-label">Objetivos:</label>
+            <textarea id="objetivos_edit" name="objetivos" class="form-control" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-warning" id="updateButton">Modificar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-top">
+  <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
+  <h1>Lineas de Investigación</h1>
+
+  <div class="search-bar">
+    <button class="search-button" id="searchButton">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+      Crear
+    </button>
+  </div>
+</div>
+
+<table class="table" id="linesTable">
+  <thead>
+    <tr>
+      <th>Linea de investigación</th>
+      <th>Grupo de investigación</th>
+      <th>Jefe de linea</th>
+      <th>Estado</th>
+      <th>Facultad</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for linea in lineas %}
+    <tr>
+      <td><a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#lineaModal"
+             data-id_linea="{{ linea.id_linea_grupo }}"
+             data-nombre="{{ linea.nombre_linea }}"
+             data-id_grupo="{{ linea.id_grupo }}"
+             data-descripcion="{{ linea.descripcion }}"
+             data-id_lider="{{ linea.id_lider }}"
+             data-temas_de_trabajo="{{ linea.temas_de_trabajo }}"
+             data-objetivos="{{ linea.objetivos }}"
+             data-vision="{{ linea.vision }}"
+             data-estado="{{ linea.estado }}"
+             data-mision="{{ linea.mision }}"
+        
+             >{{ linea.nombre_linea }}</a>
+             </td>
+      <td>{{ linea.nombre_grupo }}</td>
+      <td>{{ linea.nombre_investigador }}</td>
+      <td>{{ linea.estado }}</td>
+      <td>{{ linea.nombre_facultad }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Agrega un evento click a todos los enlaces con la clase 'a-td'
+    document.querySelectorAll('.a-td').forEach(function(link) {
+      link.addEventListener('click', function(event) {
+        event.preventDefault(); // Evita el comportamiento por defecto del enlace
+
+        var nombreLinea = this.getAttribute('data-nombre');
+        var idGrupo = this.getAttribute('data-id_grupo');
+        var descripcion = this.getAttribute('data-descripcion');
+        var idLider = this.getAttribute('data-id_lider');
+        var temasDeTrabajo = this.getAttribute('data-temas_de_trabajo');
+        var objetivos = this.getAttribute('data-objetivos');
+        var vision = this.getAttribute('data-vision');
+        var estado = this.getAttribute('data-estado');
+        var mision = this.getAttribute('data-mision');
+
+        // Actualiza el contenido del modal de detalles
+        document.getElementById('modalNombreLinea').textContent = nombreLinea;
+        var tableContent = `
           <tr>
-            <th>Lìnea de investigación</th>
-            <th>Grupo de investigación</th>
-            <th>Jefe de línea</th>
-            <th>Estado</th>
-            <th>Facultad</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Casos y Estudios Organizacionales- CEO</td>
-            <td>COL0013049</td>
-            <td>Colciencias</td>
-            <td>Facultad Ciencias Empresariales</td>
-            <td>Erika Maria Londoño Montoya</td>
-          </tr>
-          <!-- Agrega más filas aquí con los datos correspondientes -->
-        </tbody>
-      </table>
-    </main>
+          <th>ID Línea</th>
+          <td>${idLinea}</td>
+      </tr>
+      <tr>
+          <th>Nombre Línea</th>
+          <td>${nombreLinea}</td>
+      </tr>
+      <tr>
+          <th>ID Grupo</th>
+          <td>${idGrupo}</td>
+      </tr>
+      <tr>
+          <th>Descripción</th>
+          <td>${descripcion}</td>
+      </tr>
+      <tr>
+          <th>ID Líder</th>
+          <td>${idLider}</td>
+      </tr>
+      <tr>
+          <th>Temas de Trabajo</th>
+          <td>${temasDeTrabajo}</td>
+      </tr>
+      <tr>
+          <th>Objetivos</th>
+          <td>${objetivos}</td>
+      </tr>
+      <tr>
+          <th>Visión</th>
+          <td>${vision}</td>
+      </tr>
+      <tr>
+          <th>Estado</th>
+          <td>${estado}</td>
+      </tr>
+      <tr>
+          <th>Misión</th>
+          <td>${mision}</td>
+      </tr>
+      <br>
+
+          <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
+          <br>
+        `;
+        document.getElementById('modalTableBody').innerHTML = tableContent;
+
+        document.getElementById('deleteButton').addEventListener('click', function() {
+          if (confirm('¿Estás seguro de que deseas eliminar esta linea?')) {
+            fetch('/deletelinea', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ id_linea_grupo: idLinea })
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data})))
+            .then(data => {
+              if (data.status === 200 && data.body.message.includes("correctamente")) {
+                alert(data.body.message);
+
+                // Cerrar el modal utilizando JavaScript puro
+                let modal = document.getElementById('lineaModal');
+                let backdrop = document.querySelector('.modal-backdrop');
+                modal.classList.remove('show');
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+                if (backdrop) {
+                    backdrop.remove();
+                }
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('padding-right');
+                
+                // Recargar la página después de cerrar el modal
+                setTimeout(() => location.reload(), 500); 
+              } else {
+                alert('Error al eliminar la linea: ' + data.body.message);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Error al eliminar la linea: ' + error.message);
+            });
+          }
+        });
+
+        // Agrega el evento click al botón de Modificar
+        document.querySelector('#modalEditLineButton').addEventListener('click', function() {
+          // Pasa la información al modal de edición
+          document.getElementById('id_linea_edit').value = idLinea;  // Asigna el ID de la línea
+          document.getElementById('nombre_linea_edit').value = nombreLinea;
+          document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
+          document.getElementById('descripcion_edit').value = descripcion;
+          document.getElementById('id_lider_edit').value = idLider;  // Asegúrate de que el valor coincida con la ID del líder
+          document.getElementById('temas_de_trabajo_edit').value = temasDeTrabajo;
+          document.getElementById('objetivos_edit').value = objetivos;
+          document.getElementById('vision_edit').value = vision;
+          document.getElementById('estado_edit').value = estado;
+          document.getElementById('mision_edit').value = mision;
+
+          // Asigna otros campos adicionales
+        });
+
+         // Agrega el evento click al botón de finalizar modificacion
+         document.getElementById('updateButton').addEventListener('click', function(event) {
+            var form = document.getElementById('EditForm');
+            var formData = new FormData(form);
+
+            fetch('/updatelinea', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Mostrar un mensaje de confirmación
+                    alert(data.message);
+                    // Recargar la página
+                    window.location.reload();
+                } else {
+                    alert("Error al procesar la solicitud.");
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("Ocurrió un error al procesar la solicitud.");
+            });
+        });
+
+        // Agrega el evento click al botón de finalizar cracion
+        document.getElementById('createButton').addEventListener('click', function(event) {
+        console.log('Botón clickeado'); // Verificar si el evento se está capturando
+        var form = document.getElementById('createForm');
+        var formData = new FormData(form);
+
+        fetch('/createlinea', {  // Nota: Verifica que la URL coincida con tu endpoint
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                // Mostrar un mensaje de confirmación
+                alert(data.message);
+                // Recargar la página
+                window.location.reload();
+            } else {
+                alert("Error al procesar la solicitud.");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("Ocurrió un error al procesar la solicitud.");
+        });
+    });
+          
+
+          
+        });
+      });
+    });
   
-  
-    {% endblock %}
+</script> 
+
+
+
+
+{% endblock content %}

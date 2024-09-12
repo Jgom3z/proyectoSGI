@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Base{% endblock %}
+{% block title %}Grupos de investación{% endblock %}
 
 {% block content %}
 
@@ -15,19 +15,19 @@
         <!-- Tabs para organizar la información -->
         <ul class="nav nav-tabs" id="grupoTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true">Grupo</button>
+            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true" style="color: #b54f25;">Grupo</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="false">Lineas de investigación</button>
+            <button class="nav-link" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="false" style="color: #b54f25;">Lineas de investigación</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false">Proyectos de investigación</button>
+            <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false" style="color: #b54f25;">Proyectos de investigación</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="Investigadores-tab" data-bs-toggle="tab" data-bs-target="#investigadores" type="button" role="tab" aria-controls="investigadores" aria-selected="false">Investigadores integrantes</button>
+            <button class="nav-link" id="Investigadores-tab" data-bs-toggle="tab" data-bs-target="#investigadores" type="button" role="tab" aria-controls="investigadores" aria-selected="false" style="color: #b54f25;">Investigadores integrantes</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="semilleros-tab" data-bs-toggle="tab" data-bs-target="#semilleros" type="button" role="tab" aria-controls="semilleros" aria-selected="false">Semilleros de investigación</button>
+            <button class="nav-link" id="semilleros-tab" data-bs-toggle="tab" data-bs-target="#semilleros" type="button" role="tab" aria-controls="semilleros" aria-selected="false"  style="color: #b54f25;">Semilleros de investigación</button>
           </li>
         </ul>
 
@@ -35,13 +35,18 @@
         <div class="tab-content" id="grupoTabContent">
           <!-- Información General -->
           <div class="tab-pane fade show active" id="info-general" role="tabpanel" aria-labelledby="info-general-tab">
-            <h2 id="modalNombreGrupo">Nombre del grupo</h2>
+            <br>
+            <div class="header-container">
+              <h4 id="modalNombreGrupo" >Nombre del grupo</h4>
+              <button type="button" class="btn btn-secondary" id="modalEditGroupButton" data-bs-toggle="modal" data-bs-target="#modalEditGroup">Editar</button>
+            </div>
+          
             <table class="table">
               <tbody id="modalTableBody">
-                <!-- La información general del grupo se insertará aquí mediante JavaScript -->
               </tbody>
             </table>
           </div>
+          
 
           <!-- Lineas -->
           <div class="tab-pane fade" id="lineas" role="tabpanel" aria-labelledby="lineas-tab">
@@ -247,7 +252,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-warning" id="createButton">Crear</button>
+            <button type="submit" class="btn btn-secondary" id="createButton">Crear</button>
           </div>
         </form>
       </div>
@@ -341,16 +346,14 @@
 </div>
 
 <div class="container-top">
-  
   <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
   <h1>Grupos de Investigación</h1>
+
   <div class="search-bar">
     <button class="search-button" id="searchButton">
-      <img src="{{ url_for('static', filename='img/lupa.png') }}" alt="Buscar">
-    </button>
-    <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
-    <!-- Botón desplegable -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
       Crear
     </button>
   </div>
@@ -481,7 +484,6 @@
             <td>${objetivos}</td>
           </tr>
           <br>
-          <button type="button" class="btn btn-secondary" id="modalEditGroupButton" data-bs-toggle="modal" data-bs-target="#modalEditGroup">Modificar</button>
           <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
           <br>
         `;

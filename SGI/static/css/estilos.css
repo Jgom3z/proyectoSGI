@@ -217,6 +217,16 @@ footer {
 
 /*tables*/
 /* Estilos generales de la tabla */
+
+.header-container {
+  display: flex;
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+  align-items: center; /* Alinea verticalmente los elementos */
+  margin-bottom: 10px; /* Espacio inferior si es necesario */
+}
+
+
+
 .table {
     width: 80%;
     border-collapse: collapse;
@@ -311,6 +321,9 @@ footer {
   }
   
      /* Estilos para la tabla */
+
+    
+
      table {
         width: 100%;
         border-collapse: collapse;
@@ -322,10 +335,10 @@ footer {
         text-align: left;
         
     }
-    th {
-        background-color: #f2f2f2;
-        color: #b54f25;
+    .modal-content th{
+      color: #b54f25;
     }
+  
     /* Estilos para la barra de búsqueda y el botón */
     .search-bar {
         margin-bottom: 20px;
@@ -433,4 +446,9 @@ footer {
      .a-enlaces:hover{
       text-decoration: none;
       color: #b54f25;
+     }
+
+     #modalNombreGrupo
+     {
+      color: #b54f25
      }
