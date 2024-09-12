@@ -280,7 +280,7 @@
 
   <div class="search-bar">
     <button class="search-button" id="searchButton">
-      <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+      <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
       <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
       Crear
@@ -436,30 +436,30 @@
 
         // Agrega el evento click al botón de Modificar
           
-      function loadData(id) {
-              // Llama al backend para obtener los datos de la cita usando el ID
-              $.ajax({
-                url: "/get_lineaGrupo",
-                type: "POST",
-                data: { id_linea_grupo: id },
-                success: function (data) {
-                  // Asignar valores a los campos
-                  document.getElementById('id_linea_grupo_edit').value = data[0].id_linea_grupo;  // Asigna el ID del grupo
-                  document.getElementById('nombre_linea_edit').value = data[0].nombre_linea;
-                  document.getElementById('id_linea_grupo_edit').value = data[0].id_linea_grupo;
-                  document.getElementById('descripcion_edit').value = data[0].descripcion;
-                  document.getElementById('id_lider_edit').value = data[0].id_lider;
-                  document.getElementById('temas_de_trabajo_edit').value = data[0].temas_de_trabajo;
-                  document.getElementById('objetivos_edit').value = data[0].objetivos; 
-                  document.getElementById('vision_edit').value = data[0].vision; 
-                  document.getElementById('estado_edit').value = data[0].estado;
-                  document.getElementById('mision_edit').value = data[0].mision;
-                },
-                error: function () {
-                  alert("Error al cargar datos");
-                },
-              });
-            }
+      // function loadData(id) {
+      //         // Llama al backend para obtener los datos de la cita usando el ID
+      //         $.ajax({
+      //           url: "/get_lineaGrupo",
+      //           type: "POST",
+      //           data: { id_linea_grupo: id },
+      //           success: function (data) {
+      //             // Asignar valores a los campos
+      //             document.getElementById('id_linea_grupo_edit').value = data[0].id_linea_grupo;  // Asigna el ID del grupo
+      //             document.getElementById('nombre_linea_edit').value = data[0].nombre_linea;
+      //             document.getElementById('id_linea_grupo_edit').value = data[0].id_linea_grupo;
+      //             document.getElementById('descripcion_edit').value = data[0].descripcion;
+      //             document.getElementById('id_lider_edit').value = data[0].id_lider;
+      //             document.getElementById('temas_de_trabajo_edit').value = data[0].temas_de_trabajo;
+      //             document.getElementById('objetivos_edit').value = data[0].objetivos; 
+      //             document.getElementById('vision_edit').value = data[0].vision; 
+      //             document.getElementById('estado_edit').value = data[0].estado;
+      //             document.getElementById('mision_edit').value = data[0].mision;
+      //           },
+      //           error: function () {
+      //             alert("Error al cargar datos");
+      //           },
+      //         });
+      //       }
 
 
 
@@ -478,7 +478,7 @@
               document.getElementById('mision_edit').value = mision;
 
               // Asigna otros campos adicionales
-            });
+             });
 
          // Agrega el evento click al botón de finalizar modificacion
          document.getElementById('updateButton').addEventListener('click', function(event) {
