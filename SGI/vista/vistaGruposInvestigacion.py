@@ -115,8 +115,6 @@ def vista_grupos_investigacion():
     else:
         lineas = []
 
-    #obtener datos de proyectos asociados al grupo
-    # Obtener datos de proyectos asociados al grupo
     # Obtener datos de proyectos asociados al grupo
     select_data_proyectos = {
         "projectName": "SGI",
@@ -160,14 +158,15 @@ def vista_grupos_investigacion():
     select_data_investigadores_asociados ={
     "procedure": "select_json_entity",
     "parameters": {
-        "table_name": "inv_investigador_proyecto",
+        "table_name": "inv_investigadores",
         "json_data": {},
-        "where_condition": "", 
-        "select_columns": "id_investigador_proyecto, id_investigador, id_proyecto, tipo_participacion, horas_fase_1, horas_fase_2, horas_fase_3, horas_fase_4, horas_fase_5, horas_fase_6, estado",
-        "order_by": "id_investigador_proyecto",
+        "where_condition": "JOIN inv_investigador_proyecto ON inv_investigadores.id_investigador = inv_investigador_proyecto.id_investigador",
+        "select_columns": "inv_investigadores.nombre_investigador, inv_investigador_proyecto.estado",
+        "order_by": "inv_investigadores.id_investigador",
         "limit_clause": ""
-        }
     }
+}
+
 
     response_investigadores_asociados = requests.post(API_URL, json=select_data_investigadores_asociados)
     if  response_investigadores_asociados.status_code != 200:
