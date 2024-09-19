@@ -16,14 +16,12 @@ def vista_lineas_investigacion():
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_linea_grupo l LEFT JOIN inv_grupos g ON g.id_grupo = l.id_linea_grupo INNER JOIN inv_investigadores i f ON i.id_lider = l.id_lider",
-            "json_data": {
-                "estado": "En Progreso"
-            },
-            "where_condition": "",
-            "select_columns": "l.id_linea_grupo, l.nombre_linea, g.nombre_grupo, i.nombre_investigador, l.estado, i.facultad",
-            "order_by": "l.id_linea_grupo",
-            "limit_clause": ""
+        "table_name": "inv_linea_grupo l LEFT JOIN inv_grupos g ON g.id_grupo = l.id_grupo INNER JOIN inv_investigadores i ON i.id_investigador = l.id_lider LEFT JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
+        "json_data": {},
+        "where_condition": "",
+        "select_columns": "l.id_linea_grupo, l.nombre_linea, g.nombre_grupo, i.nombre_investigador, l.estado, f.nombre_facultad",
+        "order_by": "l.id_linea_grupo",
+        "limit_clause": ""
         }
     }
 
@@ -39,6 +37,7 @@ def vista_lineas_investigacion():
         lineas = json.loads(lineas_str)
     else:
         lineas = []
+
 
        # Obtener datos de grupos
     select_data_grupos = {

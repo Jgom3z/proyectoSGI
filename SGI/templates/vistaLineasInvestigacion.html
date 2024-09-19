@@ -3,6 +3,7 @@
 
 {% block content %}
 
+
 <!-- Modal para modificar linea -->
 <div class="modal fade" id="modalEditline" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -301,21 +302,8 @@
   <tbody>
     {% for linea in lineas %}
     <tr>
-      <td><a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#lineaModal"
-             data-id_linea="{{ linea.id_linea_grupo }}"
-             data-nombre="{{ linea.nombre_linea }}"
-             data-id_grupo="{{ linea.id_grupo }}"
-             data-descripcion="{{ linea.descripcion }}"
-             data-id_lider="{{ linea.id_lider }}"
-             data-temas_de_trabajo="{{ linea.temas_de_trabajo }}"
-             data-objetivos="{{ linea.objetivos }}"
-             data-vision="{{ linea.vision }}"
-             data-estado="{{ linea.estado }}"
-             data-mision="{{ linea.mision }}"
-        
-             >{{ linea.nombre_linea }}</a>
-             </td>
-      <td>{{ linea.nombre_grupo }}</td>
+      <td>{{ linea.nombre_linea }}</td>
+      <td><a>{{ linea.nombre_grupo }}</a></td>
       <td>{{ linea.nombre_investigador }}</td>
       <td>{{ linea.estado }}</td>
       <td>{{ linea.nombre_facultad }}</td>
