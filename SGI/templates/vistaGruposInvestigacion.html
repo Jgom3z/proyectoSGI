@@ -351,7 +351,7 @@
 
   <div class="search-bar">
     <button class="search-button" id="searchButton">
-      <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+      <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
       <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
       Crear
@@ -516,8 +516,7 @@
             <td>${objetivos}</td>
           </tr>
           <br>
-          <button type="button" class="btn btn-secondary" id="modalEditGroupButton" data-bs-toggle="modal" data-bs-target="#modalEditGroup" onclick="loadData(${idGrupo})">Modificar</button>
-          <button type="submit" class="btn btn-danger" id="deleteButton">Eliminar</button>
+          <button type="submit" class="btn btn-danger" id="deleteButton" style = "margin-left:10px;">Eliminar</button>
           <br>
         `;
         document.getElementById('modalTableBody').innerHTML = tableContent;
@@ -562,30 +561,25 @@
             });
           }
         });
-
-
-        
-
-
-        // document.querySelector('#modalEditGroupButton').addEventListener('click', function() {
-        //   // Pasa la información al modal de edición
-        //   console.log(nombreFacultad);
-        //   document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
-        //   document.getElementById('nombre_grupo_edit').value = nombreGrupo;
-        //   document.getElementById('codigo_grup_lac_edit').value = codigoGrupo;
-        //   document.getElementById('categoria_colciencias_edit').value = categoriaColciencias;
-        //   document.getElementById('fecha_creacion_edit').value = fechaCreacion;
-        //   document.getElementById('fecha_finalizacion_edit').value = fechaFinalizacion;
-        //   document.getElementById('id_facultad_edit').value = nombreFacultad; // Asegúrate de que el valor coincida con la ID de la facultad
-        //   document.getElementById('id_lider_edit').value = nombreLider; // Asegúrate de que el valor coincida con la ID del líder
-        //   document.getElementById('area_conocimiento_edit').value = areaConocimiento;
-        //   document.getElementById('plan_estrategico_edit').value = planEstrategico;
-        //   document.getElementById('categoria_meta_edit').value = categoriaMeta;
-        //   document.getElementById('estrategia_meta_edit').value = estrategiaMeta;
-        //   document.getElementById('vision_edit').value = vision;
-        //   document.getElementById('objetivos_edit').value = objetivos;
+        document.querySelector('#modalEditGroupButton').addEventListener('click', function() {
+        // Pasa la información al modal de edición
+        console.log(nombreFacultad);
+        document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
+        document.getElementById('nombre_grupo_edit').value = nombreGrupo;
+        document.getElementById('codigo_grup_lac_edit').value = codigoGrupo;
+        document.getElementById('categoria_colciencias_edit').value = categoriaColciencias;
+        document.getElementById('fecha_creacion_edit').value = fechaCreacion;
+        document.getElementById('fecha_finalizacion_edit').value = fechaFinalizacion;
+        document.getElementById('id_facultad_edit').value = nombreFacultad; // Asegúrate de que el valor coincida con la ID de la facultad
+        document.getElementById('id_lider_edit').value = nombreLider; // Asegúrate de que el valor coincida con la ID del líder
+        document.getElementById('area_conocimiento_edit').value = areaConocimiento;
+        document.getElementById('plan_estrategico_edit').value = planEstrategico;
+        document.getElementById('categoria_meta_edit').value = categoriaMeta;
+        document.getElementById('estrategia_meta_edit').value = estrategiaMeta;
+        document.getElementById('vision_edit').value = vision;
+        document.getElementById('objetivos_edit').value = objetivos;
         //   // Asigna otros campos adicionales
-        // });
+         });
 
          // Agrega el evento click al botón de finalizar modificacion
          document.getElementById('updateButton').addEventListener('click', function(event) {
