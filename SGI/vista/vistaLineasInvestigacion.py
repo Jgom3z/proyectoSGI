@@ -11,20 +11,19 @@ API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
 
 @vistaLineasInvestigacion.route('/vistaLineasInvestigacion', methods=['GET'])
 def vista_lineas_investigacion():
-    select_data_lineas =  {
-    "projectName": "SGI",
-    "procedure": "select_json_entity",
-    "parameters": {
-        "table_name": "inv_linea_grupo lg INNER JOIN inv_grupos g ON lg.id_grupo = g.id_grupo INNER JOIN inv_investigadores i ON lg.id_lider = i.id_investigador INNER JOIN inv_facultad f ON g.id_facultad = f.id_facultad",
-        "json_data": {
-            "estado": "En Progreso"  
-        },
-        "where_condition": "", 
-        "select_columns": "lg.nombre_linea, g.nombre AS nombre_grupo, i.nombre_investigador AS jefe_linea, lg.estado, f.nombre_facultad AS nombre_facultad",
-        "order_by": "",  
-        "limit_clause": "" 
+    # Obtener datos de lineas
+    select_data_lineas = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+        "table_name": "inv_linea_grupo l LEFT JOIN inv_grupos g ON g.id_grupo = l.id_grupo INNER JOIN inv_investigadores i ON i.id_investigador = l.id_lider LEFT JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
+        "json_data": {},
+        "where_condition": "",
+        "select_columns": "l.id_linea_grupo, l.nombre_linea, g.nombre_grupo, i.nombre_investigador, l.estado, f.nombre_facultad",
+        "order_by": "l.id_linea_grupo",
+        "limit_clause": ""
+        }
     }
-}
 
 # Realiza la solicitud a la API
     response_lineas = requests.post(API_URL, json=select_data_lineas)
@@ -38,6 +37,7 @@ def vista_lineas_investigacion():
         lineas = json.loads(lineas_str)
     else:
         lineas = []
+
 
        # Obtener datos de grupos
     select_data_grupos = {
