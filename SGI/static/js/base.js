@@ -64,3 +64,7 @@
     });
   });
 
+  document.querySelector('.custom-menu-button').addEventListener('click', function() {
+    const menuList = document.querySelector('.custom-menu-list');
+    menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
+});

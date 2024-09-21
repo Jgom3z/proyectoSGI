@@ -3,43 +3,393 @@
 
 {% block content %}
 
+<!-- Modal para mostrar detalles del proyectof -->
+<div class="modal fade" id="proyectofModal" tabindex="-1" aria-labelledby="proyectoiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="max-width: 1500px;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="proyectofModalLabel">Detalles del proyecto de formación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs para organizar la información -->
+        <ul class="nav nav-tabs" id="proyectofTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true" style="color: #b54f25;">proyecto de formación</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="false" style="color: #b54f25;">Estudiantes</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false" style="color: #b54f25;">Prodcutos</button>
+          </li>
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="proyectofTabContent">
+          <!-- Información General -->
+          <div class="tab-pane fade show active" id="info-general" role="tabpanel" aria-labelledby="info-general-tab">
+            <br>
+            <div class="header-container">
+              <h4 id="modalNombreproyectof" >Nombre del proyecto de formación</h4>
+              <button type="button" class="btn btn-secondary" id="modalEditGroupButton" data-bs-toggle="modal" data-bs-target="#modalEditGroup">Editar</button>
+            </div>
+          
+            <table class="table">
+              <tbody id="modalTableBody">
+              </tbody>
+            </table>
+          </div>
+          
+
+          
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para crear proyectof -->
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear proyecto de formación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createForm" action="/createproyectof" method="POST">
+          <form id="proyectoForm">
+            <div class="mb-3">
+              <label for="id_proyecto_formacion" class="form-label">ID del Proyecto de Formación:</label>
+              <input type="number" id="id_proyecto_formacion" name="id_proyecto_formacion" class="form-control" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="nombre_proy_form" class="form-label">Nombre del Proyecto de Formación:</label>
+              <input type="text" id="nombre_proy_form" name="nombre_proy_form" class="form-control" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
+              <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="fecha_terminacion" class="form-label">Fecha de Terminación:</label>
+              <input type="date" id="fecha_terminacion" name="fecha_terminacion" class="form-control" required>
+            </div>
+          
+            <div class="mb-3"> 
+              <label for="linea_investigacion" class="form-label">Línea de Investigación:</label>
+              <select id="linea_investigacion" name="linea_investigacion" class="form-select" required>
+                <option value="">Seleccione una línea de investigación</option>
+                {% for linea in lineas_investigacion %}
+                  <option value="{{ linea.id_linea }}">{{ linea.nombre_linea }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+          
+            <div class="mb-3"> 
+              <label for="id_investigador" class="form-label">ID Investigador:</label>
+              <select id="id_investigador" name="id_investigador" class="form-select" required>
+                <option value="">Seleccione un investigador</option>
+                {% for investigador in investigadores %}
+                  <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <div class="mb-3"> 
+              <label for="id_proyecto" class="form-label">ID Proyecto:</label>
+              <select id="id_proyecto" name="id_proyecto" class="form-select" required>
+                <option value="">Seleccione un proyecto</option>
+                {% for proyecto in proyectos %}
+                  <option value="{{ proyecto.id_proyecto }}">{{ proyecto.nombre_proyecto }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3"> 
+              <label for="id_semillero" class="form-label">ID Semillero:</label>
+              <select id="id_semillero" name="id_semillero" class="form-select" required>
+                <option value="">Seleccione un semillero</option>
+                {% for semillero in semilleros %}
+                  <option value="{{ semillero.id_semillero }}">{{ semillero.nombre_semillero}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            
+            <div class="mb-3">
+              <label for="objetivos" class="form-label">Objetivos:</label>
+              <textarea id="objetivos" name="objetivos" class="form-control" required></textarea>
+            </div>
+          
+            <div class="mb-3">
+              <label for="nivel" class="form-label">Nivel:</label>
+              <input type="text" id="nivel" name="nivel" class="form-control" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="modalidad" class="form-label">Modalidad:</label>
+              <input type="text" id="modalidad" name="modalidad" class="form-control" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="cod_proy_form" class="form-label">Código del Proyecto de Formación:</label>
+              <input type="text" id="cod_proy_form" name="cod_proy_form" class="form-control" required>
+            </div>
+          
+            <div class="mb-3"> 
+              <label for="id_investigador" class="form-label">ID Investigador:</label>
+              <select id="id_investigador" name="id_investigador" class="form-select" required>
+                <option value="">Seleccione un codirector</option>
+                {% for investigador in investigadores %}
+                  <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          
+            <div class="mb-3"> 
+              <label for="linea_investigacion" class="form-label">Línea de Investigación:</label>
+              <select id="linea_investigacion" name="linea_investigacion" class="form-select" required>
+                <option value="">Seleccione una línea de investigación</option>
+                {% for linea in lineas%}
+                  <option value="{{ linea.id_linea }}">{{ linea.nombre_linea }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-secondary" id="createButton">Crear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para modificar grupo -->
+<div class="modal fade" id="modalEditProyectof" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modificar proyecto de formación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="EditForm"  method="POST">
+          <!-- ID del grupo (oculto) -->
+          <input type="hidden" id="id_proyectof_edit" name="id_proyectof">
+
+          <div class="mb-3">
+            <label for="id_proyecto_formacion_edit" class="form-label">ID del Proyecto de Formación:</label>
+            <input type="number" id="id_proyecto_formacion_edit" name="id_proyecto_formacion" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="nombre_proy_form_edit" class="form-label">Nombre del Proyecto de Formación:</label>
+            <input type="text" id="nombre_proy_form_edit" name="nombre_proy_form" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="fecha_inicio_edit" class="form-label">Fecha de Inicio:</label>
+            <input type="date" id="fecha_inicio_edit" name="fecha_inicio" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="fecha_terminacion_edit" class="form-label">Fecha de Terminación:</label>
+            <input type="date" id="fecha_terminacion_edit" name="fecha_terminacion" class="form-control" required>
+          </div>
+          
+          <div class="mb-3"> 
+            <label for="linea_investigacion_edit" class="form-label">Línea de Investigación:</label>
+            <select id="linea_investigacion_edit" name="linea_investigacion" class="form-select" required>
+              <option value="">Seleccione una línea de investigación</option>
+              {% for linea in lineas %}
+                <option value="{{ linea.id_linea }}">{{ linea.nombre_linea }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-3"> 
+            <label for="id_investigador_edit" class="form-label">ID Investigador:</label>
+            <select id="id_investigador_edit" name="id_investigador" class="form-select" required>
+              <option value="">Seleccione un investigador</option>
+              {% for investigador in investigadores %}
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-3"> 
+            <label for="id_proyecto_edit" class="form-label">ID Proyecto:</label>
+            <select id="id_proyecto_edit" name="id_proyecto" class="form-select" required>
+              <option value="">Seleccione un proyecto</option>
+              {% for proyecto in proyectos %}
+                <option value="{{ proyecto.id_proyecto }}">{{ proyecto.nombre_proyecto }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-3"> 
+            <label for="id_semillero_edit" class="form-label">ID Semillero:</label>
+            <select id="id_semillero_edit" name="id_semillero" class="form-select" required>
+              <option value="">Seleccione un semillero</option>
+              {% for semillero in semilleros %}
+                <option value="{{ semillero.id_semillero }}">{{ semillero.nombre_semillero }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label for="objetivos_edit" class="form-label">Objetivos:</label>
+            <textarea id="objetivos_edit" name="objetivos" class="form-control" required></textarea>
+          </div>
+          
+          <div class="mb-3">
+            <label for="nivel_edit" class="form-label">Nivel:</label>
+            <input type="text" id="nivel_edit" name="nivel" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="modalidad_edit" class="form-label">Modalidad:</label>
+            <input type="text" id="modalidad_edit" name="modalidad" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="cod_proy_form_edit" class="form-label">Código del Proyecto de Formación:</label>
+            <input type="text" id="cod_proy_form_edit" name="cod_proy_form" class="form-control" required>
+          </div>
+          
+          <div class="mb-3"> 
+            <label for="id_codirector_edit" class="form-label">ID Codirector:</label>
+            <select id="id_codirector_edit" name="id_codirector" class="form-select" required>
+              <option value="">Seleccione un codirector</option>
+              {% for investigador in investigadores %}
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-3"> 
+            <label for="linea_investigacion_edit" class="form-label">Línea de Investigación:</label>
+            <select id="linea_investigacion_edit" name="linea_investigacion" class="form-select" required>
+              <option value="">Seleccione una línea de investigación</option>
+              {% for linea in lineas_investigacion %}
+                <option value="{{ linea.id_linea }}">{{ linea.nombre_linea }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+         
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-warning" id="updateButton">Modificar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container-top">
   <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
   <h1>Proyectos de formación</h1>
 
   <div class="search-bar">
-    <button class="search-button" id="searchButton">
-      <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
+    <div class="custom-menu">
+      <button class="custom-menu-button">Acciones ⬇️</button>
+      <div class="custom-menu-list">
+          <li> <img src="{{ url_for('static', filename='img/layout.png') }}"> Columnas </li>
+          <li> <img src="{{ url_for('static', filename='img/filter.png') }}"> Filtro </li>
+          <li> <img src="{{ url_for('static', filename='img/cells.png') }}"> Datos ➡️ 
+            <ul class="custom-submenu">
+              <li>Ordenar</li>
+              <li>Agregar</li>
+              <li>Calcular</li>
+              <li>Flashback</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/wrench.png') }}"> Formato ➡️
+            <ul class="custom-submenu">
+              <li>Divisiòn de control</li>
+              <li>Resaltar</li>
+              <li>Filas por página</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/chart.png') }}"> Gráfico</li>
+          <li><img src="{{ url_for('static', filename='img/database.png') }}"> Agrupar por</li>
+          <li> <img src="{{ url_for('static', filename='img/dynamic.png') }}"> Dinamica </li>
+          <li><img src="{{ url_for('static', filename='img/flag.png') }}"> Informe ➡️
+            <ul class="custom-submenu">
+              <li>Guardar informe</li>
+              <li>Restablecer</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/download.png') }}"> Descargar</li>
+          <li> <img src="{{ url_for('static', filename='img/communication.png') }}"> Suscripción</li>
+          <li><img src="{{ url_for('static', filename='img/question.png') }}"> Ayuda</li>
 
-      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
-      <button class="search-create">Crear</button>
+
+</div>
+      
+  </div>
+    <button class="search-button" id="searchButton">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar proyectof...">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+      Crear
+    </button>
   </div>
 </div>
 
 <table class="table" id="groupsTable">
   <thead>
     <tr>
+      <th>Proyecto de formación</th>
+      <th>Asesor</th>
       <th>Proyecto de investigación</th>
+      <th>Nivel</th>
+      <th>Modalidad</th>
       <th>Código</th>
-      <th>Fecha de inicio</th>
-      <th>Fecha de finalización</th>
-      <th>Convocatoria</th>
     </tr>
   </thead>
   <tbody>
     {% for proyectof in proyectosf %}
-    <tr>
-      <td>proyectof.</td>
-      <td>{{ proyectof.nom_proyecto_form }}</td>
+    
+      <td>
+        <a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#proyectoModal"
+           data-id="{{ proyectof.id_proyecto_formacion }}"
+           data-nombre="{{ proyectof.nombre_proy_form }}"
+           data-fecha-inicio="{{ proyectof.fecha_inicio }}"
+           data-fecha-terminacion="{{ proyectof.fecha_terminacion }}"
+           data-linea-investigacion="{{ proyectof.linea_investigacion }}"
+           data-id-investigador="{{ proyectof.id_investigador }}"
+           data-id-proyecto="{{ proyectof.id_proyecto }}"
+           data-id-semillero="{{ proyectof.id_semillero }}"
+           data-objetivos="{{ proyectof.objetivos }}"
+           data-nivel="{{ proyectof.nivel }}"
+           data-modalidad="{{ proyectof.modalidad }}"
+           data-codigo="{{ proyectof.cod_proy_form }}"
+           data-id-codirector="{{ proyectof.id_codirector }}"
+           data-id-linea="{{ proyectof.id_linea }}">
+           {{ proyectof.nombre_proy_form }}</a>
+      </td>
+      <td>{{ proyectof.asesor }}</td>
+      <td>{{ proyectof.nombre_proyecto }}</td>
+      <td>{{ proyectof.nivel }}</td>
+      <td>{{ proyectof.modalidad }}</td>
       <td>{{ proyectof.codigo }}</td>
-      <td>{{ proyectof.fecha_inicio }}</td>
-      <td>{{ proyectof.fecha_terminacion}}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock content %}
