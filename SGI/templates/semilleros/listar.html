@@ -14,7 +14,7 @@ investigación{%endblock %} {% block content %} {% include
           <button
             class="btn btn-usb btn-outline-secondary"
             type="button"
-            id="button-addon1"
+            id="searchSemilleroBtn"
           >
             <img
               src="{{ url_for('static', filename='icons/search.svg') }}"
@@ -27,6 +27,7 @@ investigación{%endblock %} {% block content %} {% include
             placeholder="Buscar semillero..."
             aria-label="Example text with button addon"
             aria-describedby="button-addon1"
+            id="searchSemillero"
           />
         </div>
       </div>
@@ -44,7 +45,7 @@ investigación{%endblock %} {% block content %} {% include
   </div>
 </div>
 
-<table class="table" id="groupsTable" style="width: 100%;">
+<table class="table" id="Semilleros" style="width: 100%;">
   <thead>
     <tr>
       <th>Semillero de investigación</th>
@@ -88,5 +89,8 @@ investigación{%endblock %} {% block content %} {% include
     {% endif %}
   </div>
 </table>
+<script>
+  TableFilter("searchSemillero", "searchSemilleroBtn", "Semilleros")
+</script>
 
 {% endblock content%}
