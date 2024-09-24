@@ -350,7 +350,7 @@
   <h1>Grupos de Investigación</h1>
 
   <div class="search-bar">
-    <div class="custom-menu">
+  <!--<div class="custom-menu">
       <button class="custom-menu-button">Acciones ⬇️</button>
       <div class="custom-menu-list">
           <li> <img src="{{ url_for('static', filename='img/layout.png') }}"> Columnas </li>
@@ -384,19 +384,19 @@
           <li><img src="{{ url_for('static', filename='img/question.png') }}"> Ayuda</li>
 
 
-</div>
+</div>-->
       
   </div>
-    <button class="search-button" id="searchButton">
+    <button class="search-button" id="searchGrupoBtn">
       <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
-      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+      <input type="text" class="search-input" id="searchGrupoInput" placeholder="Buscar grupo...">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
       Crear
     </button>
   </div>
 </div>
 
-<table class="table" id="groupsTable">
+<table class="table" id="Grupos">
   <thead>
     <tr>
       <th>Grupo de investigación</th>
@@ -457,5 +457,8 @@
     {% endfor %}
   </tbody>
 </table>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  TableFilter("searchGrupoInput", "searchGrupoBtn", "Grupos")
+</script>
+
 {% endblock content %}
