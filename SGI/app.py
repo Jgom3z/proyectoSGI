@@ -3,7 +3,9 @@ import markupsafe
 import requests
 import json
 from pprint import pprint
+from dotenv import load_dotenv
 
+load_dotenv()
 #Iconos
 from vista.inicio import vistaInicio
 from vista.login import login
