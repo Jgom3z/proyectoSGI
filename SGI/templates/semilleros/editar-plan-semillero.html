@@ -1,0 +1,55 @@
+<div
+  class="modal fade"
+  id="editarPlan"
+  tabindex="-1"
+  aria-labelledby="editarPlanLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarPlanLabel">Editar Plan Semillero</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" action="/semilleros/editarPlanSemillero" method="POST">
+          <input type="hidden" name="plan_id_plan_trabajo" id="plan_id_plan_trabajo">
+          <input type="hidden" name="plan_id_semillero" id="plan_id_semillero">
+        <div class="col-md-12">
+            <label for="proyecto_activos" class="form-label">Proyectos Activos
+            </label>
+            <textarea name="plan_proyecto_activos" id="plan_proyecto_activos" class="form-control" required></textarea>            
+        </div>
+        <div class="col-md-12">
+            <label for="metas_periodo" class="form-label">Metas Periodo</label>
+            <textarea name="plan_metas_periodo" id="plan_metas_periodo" class="form-control" required></textarea>            
+        </div>
+        <div class="col-md-12">
+            <label for="resultados_obtenidos" class="form-label">Resultados obtenidos</label>
+            <textarea name="plan_resultados_obtenidos" id="plan_resultados_obtenidos" class="form-control" required></textarea>            
+        </div>
+        <div class="col-md-6">
+          <label for="periodo" class="form-label">Periodo</label>
+          <input type="text" name="plan_periodo" id="plan_periodo" class="form-control" placeholder="Ej: 2024" required>        
+        </div>
+        
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

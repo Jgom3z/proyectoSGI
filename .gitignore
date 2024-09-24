@@ -1,0 +1,21 @@
+# Entornos virtuales
+SGI/venv/
+SGI/__pycache__/
+SGI/.env
+
+
+# Archivos de entorno
+*.env
+
+
+
+# Archivos compilados de Python
+SGI/__pycache__/
+SGI/*.py[cod]
+SGI/*$py.class
+
+# Archivos de log
+SGI/*.log
+
+SGI/instance/
+SGI/.cache/
