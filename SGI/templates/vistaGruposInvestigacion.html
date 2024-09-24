@@ -350,6 +350,43 @@
   <h1>Grupos de Investigación</h1>
 
   <div class="search-bar">
+    <div class="custom-menu">
+      <button class="custom-menu-button">Acciones ⬇️</button>
+      <div class="custom-menu-list">
+          <li> <img src="{{ url_for('static', filename='img/layout.png') }}"> Columnas </li>
+          <li> <img src="{{ url_for('static', filename='img/filter.png') }}"> Filtro </li>
+          <li> <img src="{{ url_for('static', filename='img/cells.png') }}"> Datos ➡️ 
+            <ul class="custom-submenu">
+              <li>Ordenar</li>
+              <li>Agregar</li>
+              <li>Calcular</li>
+              <li>Flashback</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/wrench.png') }}"> Formato ➡️
+            <ul class="custom-submenu">
+              <li>Divisiòn de control</li>
+              <li>Resaltar</li>
+              <li>Filas por página</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/chart.png') }}"> Gráfico</li>
+          <li><img src="{{ url_for('static', filename='img/database.png') }}"> Agrupar por</li>
+          <li> <img src="{{ url_for('static', filename='img/dynamic.png') }}"> Dinamica </li>
+          <li><img src="{{ url_for('static', filename='img/flag.png') }}"> Informe ➡️
+            <ul class="custom-submenu">
+              <li>Guardar informe</li>
+              <li>Restablecer</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/download.png') }}"> Descargar</li>
+          <li> <img src="{{ url_for('static', filename='img/communication.png') }}"> Suscripción</li>
+          <li><img src="{{ url_for('static', filename='img/question.png') }}"> Ayuda</li>
+
+
+</div>
+      
+  </div>
     <button class="search-button" id="searchButton">
       <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
       <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
@@ -364,7 +401,7 @@
     <tr>
       <th>Grupo de investigación</th>
       <th>Código GrupLac</th>
-      <th>Categoria colciencias</th>
+      <th>Categoría Colciencias</th>
       <th>Facultad</th>
       <th>Líder del grupo</th>
       <th>Id del grupo</th>
@@ -373,276 +410,52 @@
   <tbody>
     {% for grupo in grupos %}
     <tr>
-      <td><a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#grupoModal"
-             data-id="{{ grupo.id_grupo }}"
-             data-nombre="{{ grupo.nombre_grupo }}"
-             data-codigo="{{ grupo.codigo_grup_lac }}"
-             data-categoria="{{ grupo.categoria_colciencias }}"
-             data-fecha-creacion="{{ grupo.fecha_creacion }}"
-             data-fecha-finalizacion="{{ grupo.fecha_finalizacion }}"
-             data-facultad="{{ grupo.nombre_facultad }}"
-             data-lider="{{ grupo.nombre_investigador }}"
-             data-area="{{ grupo.area_conocimiento }}"
-             data-plan="{{ grupo.plan_estrategico }}"
-             data-categoriaMeta="{{ grupo.categoria_meta }}"
-             data-estrategiaMeta="{{ grupo.estrategia_meta }}"
-             data-vision="{{ grupo.vision }}"
-             data-objetivos="{{ grupo.objetivos }}"
-        
-             >{{ grupo.nombre_grupo }}</a>
-             </td>
+      <td>
+        <a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#grupoModal"
+           data-id="{{ grupo.id_grupo }}"
+           data-nombre="{{ grupo.nombre_grupo }}"
+           data-codigo="{{ grupo.codigo_grup_lac }}"
+           data-categoria="{{ grupo.categoria_colciencias }}"
+           data-fecha-creacion="{{ grupo.fecha_creacion }}"
+           data-fecha-finalizacion="{{ grupo.fecha_finalizacion }}"
+           data-facultad="{{ grupo.nombre_facultad }}"
+           data-lider="{{ grupo.nombre_investigador }}"
+           data-area="{{ grupo.area_conocimiento }}"
+           data-plan="{{ grupo.plan_estrategico }}"
+           data-categoriaMeta="{{ grupo.categoria_meta }}"
+           data-estrategiaMeta="{{ grupo.estrategia_meta }}"
+           data-vision="{{ grupo.vision }}"
+           data-objetivos="{{ grupo.objetivos }}">
+          {{ grupo.nombre_grupo }}
+        </a>
+      </td>
       <td>{{ grupo.codigo_grup_lac }}</td>
       <td>{{ grupo.categoria_colciencias }}</td>
       <td>{{ grupo.nombre_facultad }}</td>
-      <td>{{ grupo.nombre_investigador }}</td>
+      <td>
+        <a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#investigadorModal"
+           data-id-investigador="{{ grupo.id_investigador }}"
+           data-categoria-colciencias="{{ grupo.categoria_colciencias_investigador }}"
+           data-tipo-contrato="{{ grupo.tipo_contrato }}"
+           data-nivel-formacion="{{ grupo.nivel_de_formacion }}"
+           data-orcid="{{ grupo.orcid }}"
+           data-correo="{{ grupo.correo }}"
+           data-telefono="{{ grupo.telefono }}"
+           data-fecha-inicio="{{ grupo.fecha_inicio }}"
+           data-fecha-final="{{ grupo.fecha_final }}"
+           data-categoria-colciencias-esperada="{{ grupo.categoria_colciencias_esperada }}"
+           data-cvlac="{{ grupo.cvlac }}"
+           data-cedula="{{ grupo.cedula }}"
+           data-nombre-investigador="{{ grupo.nombre_investigador }}"
+           data-categoria-institucion="{{ grupo.categoria_institucion }}"
+           data-id-facultad="{{ grupo.id_facultad }}">
+          {{ grupo.nombre_investigador }}
+        </a>
+      </td>
       <td>{{ grupo.id_grupo }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-  // // Agrega el evento click al botón de Modificar
-  function loadData(id) {
-          // Llama al backend para obtener los datos de la cita usando el ID
-          $.ajax({
-            url: "/get_grupoInvestigacion",
-            type: "POST",
-            data: { id_grupo: id },
-            success: function (data) {
-              // Asignar valores a los campos
-              document.getElementById('id_grupo_edit').value = data[0].id_grupo;  // Asigna el ID del grupo
-              document.getElementById('nombre_grupo_edit').value = data[0].nombre_grupo;
-              document.getElementById('codigo_grup_lac_edit').value = data[0].codigo_grup_lac;
-              document.getElementById('categoria_colciencias_edit').value = data[0].categoria_colciencias;
-              document.getElementById('fecha_creacion_edit').value = data[0].fecha_creacion;
-              document.getElementById('fecha_finalizacion_edit').value = data[0].fecha_finalizacion;
-              document.getElementById('id_facultad_edit').value = data[0].id_facultad; // Asegúrate de que el valor coincida con la ID de la facultad
-              document.getElementById('id_lider_edit').value = data[0].id_lider; // Asegúrate de que el valor coincida con la ID del líder
-              document.getElementById('area_conocimiento_edit').value = data[0].area_conocimiento;
-              document.getElementById('plan_estrategico_edit').value = data[0].plan_estrategico;
-              document.getElementById('categoria_meta_edit').value = data[0].categoria_meta;
-              document.getElementById('estrategia_meta_edit').value = data[0].estrategia_meta;
-              document.getElementById('vision_edit').value = data[0].vision;
-              document.getElementById('objetivos_edit').value = data[0].objetivos;
-            
-            },
-            error: function () {
-              alert("Error al cargar datos");
-            },
-          });
-        }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    // Agrega un evento click a todos los enlaces con la clase 'a-td'
-    document.querySelectorAll('.a-td').forEach(function(link) {
-      link.addEventListener('click', function(event) {
-        event.preventDefault(); // Evita el comportamiento por defecto del enlace
-
-        // Obtén la información del grupo desde los atributos de datos del enlace
-        var idGrupo = this.getAttribute('data-id'); // Obtén el ID del grupo
-        var nombreGrupo = this.getAttribute('data-nombre');
-        var codigoGrupo = this.getAttribute('data-codigo');
-        var categoriaColciencias = this.getAttribute('data-categoria');
-        var fechaCreacion = this.getAttribute('data-fecha-creacion');
-        var fechaFinalizacion = this.getAttribute('data-fecha-finalizacion');
-        var nombreFacultad = this.getAttribute('data-facultad');
-        var nombreLider = this.getAttribute('data-lider');
-        var areaConocimiento = this.getAttribute('data-area');
-        var planEstrategico = this.getAttribute('data-plan');
-        var categoriaMeta = this.getAttribute('data-categoriaMeta');
-        var estrategiaMeta = this.getAttribute('data-estrategiaMeta');
-        var vision = this.getAttribute('data-vision');
-        var objetivos = this.getAttribute('data-objetivos');
-        
-
-        // Actualiza el contenido del modal de detalles
-        document.getElementById('modalNombreGrupo').textContent = nombreGrupo;
-        var tableContent = `
-          <tr>
-            <th>ID Grupo</th>
-            <td>${idGrupo}</td>
-          </tr>
-          <tr>
-            <th>Código Grupo</th>
-            <td>${codigoGrupo}</td>
-          </tr>
-          <tr>
-            <th>Categoría Colciencias</th>
-            <td>${categoriaColciencias}</td>
-          </tr>
-          <tr>
-            <th>Fecha de Creación</th>
-            <td>${fechaCreacion}</td>
-          </tr>
-          <tr>
-            <th>Fecha de Finalización</th>
-            <td>${fechaFinalizacion}</td>
-          </tr>
-          <tr>
-            <th>Facultad</th>
-            <td>${nombreFacultad}</td>
-          </tr>
-          <tr>
-            <th>Líder del Grupo</th>
-            <td>${nombreLider}</td>
-          </tr>
-          <tr>
-            <th>Área de Conocimiento</th>
-            <td>${areaConocimiento}</td>
-          </tr>
-          <tr>
-            <th>Plan Estratégico</th>
-            <td>${planEstrategico}</td>
-          </tr>
-          <tr>
-            <th>Categoría Meta</th>
-            <td>${categoriaMeta}</td>
-          </tr>
-          <tr>
-            <th>Estrategia Meta</th>
-            <td>${estrategiaMeta}</td>
-          </tr>
-          <tr>
-            <th>Visión</th>
-            <td>${vision}</td>
-          </tr>
-          <tr>
-            <th>Objetivos</th>
-            <td>${objetivos}</td>
-          </tr>
-          <br>
-          <button type="submit" class="btn btn-danger" id="deleteButton" style = "margin-left:10px;">Eliminar</button>
-          <br>
-        `;
-        document.getElementById('modalTableBody').innerHTML = tableContent;
-
-        // Agrega el evento click al botón de eliminar
-        document.getElementById('deleteButton').addEventListener('click', function() {
-          if (confirm('¿Estás seguro de que deseas eliminar este grupo?')) {
-            // Aquí debes hacer la llamada a la API para eliminar el grupo utilizando el idGrupo
-            fetch('/deletegrupo', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ id_grupo: idGrupo })
-            })
-            .then(response => response.json().then(data => ({ status: response.status, body: data})))
-            .then(data => {
-              if (data.status === 200 && data.body.message.includes("correctamente")) {
-                alert(data.body.message);
-
-                // Cerrar el modal utilizando JavaScript puro
-                let modal = document.getElementById('grupoModal');
-                let backdrop = document.querySelector('.modal-backdrop');
-                modal.classList.remove('show');
-                modal.setAttribute('aria-hidden', 'true');
-                modal.style.display = 'none';
-                if (backdrop) {
-                    backdrop.remove();
-                }
-                document.body.classList.remove('modal-open');
-                document.body.style.removeProperty('padding-right');
-                
-                // Recargar la página después de cerrar el modal
-                setTimeout(() => location.reload(), 500); 
-              } else {
-                alert('Error al eliminar el grupo: ' + data.body.message);
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              alert('Error al eliminar el grupo: ' + error.message);
-            });
-          }
-        });
-        document.querySelector('#modalEditGroupButton').addEventListener('click', function() {
-        // Pasa la información al modal de edición
-        console.log(nombreFacultad);
-        document.getElementById('id_grupo_edit').value = idGrupo;  // Asigna el ID del grupo
-        document.getElementById('nombre_grupo_edit').value = nombreGrupo;
-        document.getElementById('codigo_grup_lac_edit').value = codigoGrupo;
-        document.getElementById('categoria_colciencias_edit').value = categoriaColciencias;
-        document.getElementById('fecha_creacion_edit').value = fechaCreacion;
-        document.getElementById('fecha_finalizacion_edit').value = fechaFinalizacion;
-        document.getElementById('id_facultad_edit').value = nombreFacultad; // Asegúrate de que el valor coincida con la ID de la facultad
-        document.getElementById('id_lider_edit').value = nombreLider; // Asegúrate de que el valor coincida con la ID del líder
-        document.getElementById('area_conocimiento_edit').value = areaConocimiento;
-        document.getElementById('plan_estrategico_edit').value = planEstrategico;
-        document.getElementById('categoria_meta_edit').value = categoriaMeta;
-        document.getElementById('estrategia_meta_edit').value = estrategiaMeta;
-        document.getElementById('vision_edit').value = vision;
-        document.getElementById('objetivos_edit').value = objetivos;
-        //   // Asigna otros campos adicionales
-         });
-
-         // Agrega el evento click al botón de finalizar modificacion
-         document.getElementById('updateButton').addEventListener('click', function(event) {
-            var form = document.getElementById('EditForm');
-            var formData = new FormData(form);
-
-            fetch('/updategrupo', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    // Mostrar un mensaje de confirmación
-                    alert(data.message);
-                    // Recargar la página
-                    window.location.reload();
-                } else {
-                    alert("Error al procesar la solicitud.");
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert("Ocurrió un error al procesar la solicitud.");
-            });
-        });
-
-        // Agrega el evento click al botón de finalizar cracion
-        document.getElementById('createButton').addEventListener('click', function(event) {
-        console.log('Botón clickeado'); // Verificar si el evento se está capturando
-        var form = document.getElementById('createForm');
-        var formData = new FormData(form);
-
-        fetch('/createGrupo', {  // Nota: Verifica que la URL coincida con tu endpoint
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                // Mostrar un mensaje de confirmación
-                alert(data.message);
-                // Recargar la página
-                window.location.reload();
-            } else {
-                alert("Error al procesar la solicitud.");
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert("Ocurrió un error al procesar la solicitud.");
-        });
-    });
-          
-
-          
-        });
-      });
-    });
-  
-</script> 
-
-
-
-
 {% endblock content %}

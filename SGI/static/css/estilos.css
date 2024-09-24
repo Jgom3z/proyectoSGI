@@ -289,7 +289,7 @@ footer {
   .search-input {
     flex: 1;
     padding: 0.5rem;
-    margin-right: 800px;
+    margin-right: 300px;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 
@@ -452,3 +452,80 @@ footer {
      {
       color: #b54f25
      }
+
+     /* Estilos generales */
+/* Estilos generales */
+.custom-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-menu-button {
+  background-color: #b54f25;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.custom-menu-list {
+  display: none;
+  position: absolute;
+  background-color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #b54f25;
+  width: 250px; /* Ancho ajustado */
+}
+
+.custom-menu-list li {
+  padding: 10px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-menu-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Submenú */
+.custom-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: white;
+  border: 1px solid #b54f25;
+  width: 250px; /* Ancho ajustado del submenú */
+  list-style-type: none; /* También elimina las viñetas del submenú */
+}
+
+.custom-menu-list li:hover .custom-submenu {
+  display: block;
+}
+
+
+
+/* Mostrar el menú principal cuando se hace hover en el botón */
+.custom-menu-button:hover + .custom-menu-list,
+.custom-menu-list:hover {
+  display: block;
+}
+
+/* Estilo de la línea divisora */
+
+
+.custom-menu-list li:hover {
+  background-color: #b550255a;
+}
+
+/* Mostrar el menú principal cuando se hace hover en el botón */
+.custom-menu-button:hover + .custom-menu-list,
+.custom-menu-list:hover {
+  display: block;
+}
