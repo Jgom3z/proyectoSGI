@@ -3,8 +3,68 @@
 
 {% block content %}
 
+<div class="modal fade" id="investigadorModal" tabindex="-1" aria-labelledby="investigadorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="max-width: 1500px;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="investigadorModalLabel">Detalles del investigqador</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs para organizar la información -->
+        <ul class="nav nav-tabs" id="investigadorTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true">Investigador</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false">Proyectos</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab" aria-controls="productos" aria-selected="false">Productos</button>
+          </li>
+          </ul>
 
-<!-- Modal para crear grupo -->
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="investigadorTabContent">
+          <div class="tab-pane fade show active" id="info-general" role="tabpanel" aria-labelledby="info-general-tab">
+            <br><!-- Información General -->
+          <div class="header-container">
+            <h4 id="modalNombreInvestigador" >Nombre del Investigador</h4>
+            <button type="button" class="btn btn-secondary" id="modalEditInvestiButton" data-bs-toggle="modal" data-bs-target="#modalEditInvesti">Editar</button>
+          </div>
+
+            <table class="table">
+              <tbody id="modalTableBody">
+                <!-- La información general del investigador se insertará aquí mediante JavaScript -->
+              </tbody>
+            </table>
+            </div>
+          
+
+          <!-- Proyectos-->
+          <div class="tab-pane fade" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+            
+          </div>
+
+          <!-- Productos -->
+          <div class="tab-pane fade" id="productos" role="tabpanel" aria-labelledby="productos-tab">
+            
+          </div>
+
+
+          <!--Investigadores-->
+         
+     </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- Modal para crear investigador -->
 <div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -89,34 +149,96 @@
   <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
   <h1>Investigadores</h1>
 
-<div class="search-bar">
-  <button class="search-button" id="searchButton">
-    <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
-    <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-    Crear
-  </button>
+  <div class="search-bar">
+    <div class="custom-menu">
+      <button class="custom-menu-button">Acciones ⬇️</button>
+      <div class="custom-menu-list">
+          <li> <img src="{{ url_for('static', filename='img/layout.png') }}"> Columnas </li>
+          <li> <img src="{{ url_for('static', filename='img/filter.png') }}"> Filtro </li>
+          <li> <img src="{{ url_for('static', filename='img/cells.png') }}"> Datos ➡️ 
+            <ul class="custom-submenu">
+              <li>Ordenar</li>
+              <li>Agregar</li>
+              <li>Calcular</li>
+              <li>Flashback</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/wrench.png') }}"> Formato ➡️
+            <ul class="custom-submenu">
+              <li>Divisiòn de control</li>
+              <li>Resaltar</li>
+              <li>Filas por página</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/chart.png') }}"> Gráfico</li>
+          <li><img src="{{ url_for('static', filename='img/database.png') }}"> Agrupar por</li>
+          <li> <img src="{{ url_for('static', filename='img/dynamic.png') }}"> Dinamica </li>
+          <li><img src="{{ url_for('static', filename='img/flag.png') }}"> Informe ➡️
+            <ul class="custom-submenu">
+              <li>Guardar informe</li>
+              <li>Restablecer</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/download.png') }}"> Descargar</li>
+          <li> <img src="{{ url_for('static', filename='img/communication.png') }}"> Suscripción</li>
+          <li><img src="{{ url_for('static', filename='img/question.png') }}"> Ayuda</li>
+
+
 </div>
+      
+  </div>
+    <button class="search-button" id="searchButton">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+      Crear
+    </button>
+  </div>
 </div>
 <table class="table" id="groupsTable">
 
   <thead>
     <tr>
+      <th>Identificación</th>
       <th>Investigador</th>
-      <th>Linea de investigación</th>
-      <th>Estado</th>
+      <th>Facultad</th>
+      <th>Nivel de formación</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
     </tr>
   </thead>
   <tbody>
     {% for investigador in investigadores %}
   <tr>
-    <td>{{ investigador.nombre_investigador }}</td>
-    <td>{{ investigador.nombre_linea }}</td>
-    <td>{{ investigador.estado }}</td>
+    <td>{{ investigador.cedula }}</td>
+    <td><a class="a-td" href="#" data-bs-toggle="modal" data-bs-target="#investigadorModal"
+      data-id-investigador="{{ investigador.id_investigador }}"
+      data-categoria-colciencias="{{ investigador.categoria_colciencias }}"
+      data-tipo-contrato="{{ investigador.tipo_contrato }}"
+      data-nivel-formacion="{{ investigador.nivel_de_formacion }}"
+      data-orcid="{{ investigador.orcid }}"
+      data-correo="{{ investigador.correo }}"
+      data-telefono="{{ investigador.telefono }}"
+      data-fecha-inicio="{{ investigador.fecha_inicio }}"
+      data-fecha-final="{{ investigador.fecha_final }}"
+      data-categoria-colciencias-esperada="{{ investigador.categoria_colciencias_esperada }}"
+      data-cvlac="{{ investigador.cvlac }}"
+      data-cedula="{{ investigador.cedula }}"
+      data-nombre-investigador="{{ investigador.nombre_investigador }}"
+      data-categoria-institucion="{{ investigador.categoria_institucion }}"
+      data-id-facultad="{{ investigador.id_facultad }}"
+
+ 
+      >{{ investigador.nombre_investigador }}</a></td>
+    <td>{{ investigador.id_facultad }}</td>
+    <td>{{ investigador.nivel_de_formacion }}</td>
+    <td>{{ investigador.correo }}</td>
+    <td>{{ investigador.telefono }}</td>
+  
+ 
+
   </tr>
     {% endfor %}
   </tbody>
 </table>
-
-
 {% endblock content %}

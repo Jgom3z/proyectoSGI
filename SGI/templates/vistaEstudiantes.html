@@ -1,71 +1,90 @@
 {% extends "base.html" %}
-{% block title %}Base{% endblock %}
+{% block title %}Estudiantes{% endblock %}
 
 {% block content %}
 
-<!-- Modal para mostrar detalles del estudiante -->
 <div class="modal fade" id="estudianteModal" tabindex="-1" aria-labelledby="estudianteModalLabel" aria-hidden="true">
-  <div class="modal-dialog custom-width">
-    <div class="modal-content">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="max-width: 1500px;">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="estudianteModalLabel">Detalles del Estudiante</h1>
+        <h1 class="modal-title fs-5" id="estudianteModalLabel">Detalles del estudiante</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h2 id="modalNombreEstudiante">Nombre del Estudiante</h2>
-        <table class="table">
-          <tbody id="modalTableBody">
-            <!-- La información del estudiante se insertará aquí mediante JavaScript -->
-          </tbody>
-        </table>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-warning" id="modifyButton">Modificar</button>
-          <button type="button" class="btn btn-danger" id="deleteButton">Eliminar</button>
-        </div>
-      </div>
+        <!-- Tabs para organizar la información -->
+        <ul class="nav nav-tabs" id="estudianteTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-general-tab" data-bs-toggle="tab" data-bs-target="#info-general" type="button" role="tab" aria-controls="info-general" aria-selected="true">Estudiante</button>
+          </li>
+         
+          </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="estudianteTabContent">
+          <div class="tab-pane fade show active" id="info-general" role="tabpanel" aria-labelledby="info-general-tab">
+            <br><!-- Información General -->
+          <div class="header-container">
+            <h4 id="modalNombreEstudiante" >Nombre del estudiante</h4>
+            <button type="button" class="btn btn-secondary" id="modalEditEstuButton" data-bs-toggle="modal" data-bs-target="#modalEditEstu">Editar</button>
+          </div>
+
+            <table class="table">
+              <tbody id="modalTableBody">
+                <!-- La información general del estudiante se insertará aquí mediante JavaScript -->
+              </tbody>
+            </table>
+            </div>
+     </div>
     </div>
   </div>
 </div>
+</div>
+</div>
+</div>
+
+
 
 <!-- Modal para crear estudiante -->
 <div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Añadir estudiante</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Estudiante</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="createEstudianteForm" action="/createestudiante" method="POST">
-          <div class="mb-3">
-            <label for="identificacion" class="form-label">Identificación:</label>
-            <input type="text" id="identificacion" name="identificacion" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="nombre_estudiante" class="form-label">Nombre del estudiante:</label>
-            <input type="text" id="nombre_estudiante" name="nombre_estudiante" class="form-control" required>
-          </div>
+        <form id="createForm" action="/createestudiante" method="POST">
+            
           <div class="mb-3">
             <label for="codigo" class="form-label">Código:</label>
             <input type="text" id="codigo" name="codigo" class="form-control" required>
+        </div>
+            <div class="mb-3">
+                <label for="id_facultad" class="form-label">ID Facultad:</label>
+                <select id="id_facultad" name="id_facultad" class="form-select" required>
+                    <option value="">Seleccione una facultad</option>
+                    {% for facultad in facultades %}
+                        <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo:</label>
+              <input type="email" id="correo" name="correo" class="form-control" required>
           </div>
+          
           <div class="mb-3">
-            <label for="correo" class="form-label">Correo:</label>
-            <input type="email" id="correo" name="correo" class="form-control" required>
+              <label for="identificacion" class="form-label">Identificación:</label>
+              <input type="text" id="identificacion" name="identificacion" class="form-control" required>
           </div>
+          
           <div class="mb-3">
-            <label for="id_facultad" class="form-label">ID Facultad:</label>
-            <select id="id_facultad" name="id_facultad" class="form-select" required>
-              <option value="">Seleccione una facultad</option>
-              {% for facultad in facultades %}
-                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
-              {% endfor %}
-            </select>
+              <label for="nombre_estudiante" class="form-label">Nombre del estudiante:</label>
+              <input type="text" id="nombre_estudiante" name="nombre_estudiante" class="form-control" required>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer"></div>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-warning">Crear</button>
+            <button type="submit" class="btn btn-secondary" id="createButton">Crear</button>
           </div>
         </form>
       </div>
@@ -76,20 +95,59 @@
 <div class="container-top">
   <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
   <h1>Estudiantes</h1>
+  
 
-<div class="search-bar">
-  <button class="search-button" id="searchButton">
-    <img src="{{ url_for('static', filename='img/lupa.png') }}""></button>
-    <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-    Crear
-  </button>
-</div>
-</div>
+  <div class="search-bar">
+    <div class="custom-menu">
+      <button class="custom-menu-button">Acciones ⬇️</button>
+      <div class="custom-menu-list">
+          <li> <img src="{{ url_for('static', filename='img/layout.png') }}"> Columnas </li>
+          <li> <img src="{{ url_for('static', filename='img/filter.png') }}"> Filtro </li>
+          <li> <img src="{{ url_for('static', filename='img/cells.png') }}"> Datos ➡️ 
+            <ul class="custom-submenu">
+              <li>Ordenar</li>
+              <li>Agregar</li>
+              <li>Calcular</li>
+              <li>Flashback</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/wrench.png') }}"> Formato ➡️
+            <ul class="custom-submenu">
+              <li>Divisiòn de control</li>
+              <li>Resaltar</li>
+              <li>Filas por página</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/chart.png') }}"> Gráfico</li>
+          <li><img src="{{ url_for('static', filename='img/database.png') }}"> Agrupar por</li>
+          <li> <img src="{{ url_for('static', filename='img/dynamic.png') }}"> Dinamica </li>
+          <li><img src="{{ url_for('static', filename='img/flag.png') }}"> Informe ➡️
+            <ul class="custom-submenu">
+              <li>Guardar informe</li>
+              <li>Restablecer</li>
+          </ul>
+          </li>
+          <li> <img src="{{ url_for('static', filename='img/download.png') }}"> Descargar</li>
+          <li> <img src="{{ url_for('static', filename='img/communication.png') }}"> Suscripción</li>
+          <li><img src="{{ url_for('static', filename='img/question.png') }}"> Ayuda</li>
 
+
+</div>
+      
+  </div>
+    <button class="search-button" id="searchButton">
+      <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+      Crear
+    </button>
+  </div>
+</div>
 <table class="table" id="groupsTable">
+
   <thead>
     <tr>
+      <th></th>
       <th>Identificación</th>
       <th>Nombre completo</th>
       <th>Código</th>
@@ -99,62 +157,19 @@
   </thead>
   <tbody>
     {% for estudiante in estudiantes %}
-    <tr class="a-td"
-        data-identificacion="{{ estudiante.identificacion }}"
-        data-nombre="{{ estudiante.nombre_estudiante }}"
-        data-codigo="{{ estudiante.codigo }}"
-        data-correo="{{ estudiante.correo }}"
-        data-facultad="{{ estudiante.id_facultad }}">
-      <td>{{ estudiante.identificacion }}</td>
-      <td>{{ estudiante.nombre_estudiante }}</td>
-      <td>{{ estudiante.codigo }}</td>
-      <td>{{ estudiante.correo }}</td>
-      <td>{{ estudiante.id_facultad }}</td>
-    </tr>
+  <tr>
+    <td><button type="button" class="btn btn" id="modalEditEstuButton" data-bs-toggle="modal" data-bs-target="#modalEditEstu">✏️</button>
+ </td>
+    <td>{{ estudiante.identificacion }}</td>
+    <td>{{ estudiante.nombre_estudiante }}</a></td>
+    <td>{{ estudiante.codigo }}</td>
+    <td>{{ estudiante.correo }}</td>
+    <td>{{ estudiante.id_facultad }}</td>
+  
+ 
+
+  </tr>
     {% endfor %}
   </tbody>
 </table>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Agrega un evento click a todos los enlaces con la clase 'a-td'
-    document.querySelectorAll('.a-td').forEach(function(row) {
-      row.addEventListener('click', function(event) {
-        // Obtén la información del estudiante desde los atributos de datos del enlace
-        var identificacion = this.getAttribute('data-identificacion');
-        var nombreEstudiante = this.getAttribute('data-nombre');
-        var codigoEstudiante = this.getAttribute('data-codigo');
-        var correo = this.getAttribute('data-correo');
-        var nombreFacultad = this.getAttribute('data-facultad');
-
-        // Actualiza el contenido del modal
-        document.getElementById('modalNombreEstudiante').textContent = nombreEstudiante;
-        var tableContent = `
-          <tr>
-            <th>Identificación</th>
-            <td>${identificacion}</td>
-          </tr>
-          <tr>
-            <th>Nombre completo</th>
-            <td>${nombreEstudiante}</td>
-          </tr>
-          <tr>
-            <th>Código</th>
-            <td>${codigoEstudiante}</td>
-          </tr>
-          <tr>
-            <th>Correo</th>
-            <td>${correo}</td>
-          </tr>
-          <tr>
-            <th>Facultad</th>
-            <td>${nombreFacultad}</td>
-          </tr>
-        `;
-        document.getElementById('modalTableBody').innerHTML = tableContent;
-      });
-    });
-  });
-</script>
-
 {% endblock content %}

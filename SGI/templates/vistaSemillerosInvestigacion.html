@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Semilleros de investigación{% endblock %}
+
+<main>
+  {% block content %}
+  <div class="container-top">
+    <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
+    <h1>Semilleros de investigación</h1>
+
+    <div class="search-bar">
+      <div class="custom-menu">
+        <button class="custom-menu-button">Acciones ⬇️</button>
+        <div class="custom-menu-list">
+            <li> <img src="{{ url_for('static', filename='img/layout.png') }}"> Columnas </li>
+            <li> <img src="{{ url_for('static', filename='img/filter.png') }}"> Filtro </li>
+            <li> <img src="{{ url_for('static', filename='img/cells.png') }}"> Datos ➡️ 
+              <ul class="custom-submenu">
+                <li>Ordenar</li>
+                <li>Agregar</li>
+                <li>Calcular</li>
+                <li>Flashback</li>
+            </ul>
+            </li>
+            <li> <img src="{{ url_for('static', filename='img/wrench.png') }}"> Formato ➡️
+              <ul class="custom-submenu">
+                <li>Divisiòn de control</li>
+                <li>Resaltar</li>
+                <li>Filas por página</li>
+            </ul>
+            </li>
+            <li> <img src="{{ url_for('static', filename='img/chart.png') }}"> Gráfico</li>
+            <li><img src="{{ url_for('static', filename='img/database.png') }}"> Agrupar por</li>
+            <li> <img src="{{ url_for('static', filename='img/dynamic.png') }}"> Dinamica </li>
+            <li><img src="{{ url_for('static', filename='img/flag.png') }}"> Informe ➡️
+              <ul class="custom-submenu">
+                <li>Guardar informe</li>
+                <li>Restablecer</li>
+            </ul>
+            </li>
+            <li> <img src="{{ url_for('static', filename='img/download.png') }}"> Descargar</li>
+            <li> <img src="{{ url_for('static', filename='img/communication.png') }}"> Suscripción</li>
+            <li><img src="{{ url_for('static', filename='img/question.png') }}"> Ayuda</li>
+  
+  
+  </div>
+        
+    </div>
+      <button class="search-button" id="searchButton">
+        <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+        Crear
+      </button>
+    </div>
+      </div>
+      <table class="table" id="groupsTable">
+        <thead>
+          <tr>
+            <th>Semillero de investigación</th>
+            <th>Línea de investigación</th>
+            <th>Fecha de inicio</th>
+            <th>Lider del Semillero</th>
+            <th>Facultad</th>
+            <th>Grupo de investigación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Casos y Estudios Organizacionales- CEO</td>
+            <td>COL0013049</td>
+            <td>Colciencias</td>
+            <td>Facultad Ciencias Empresariales</td>
+            <td>Erika Maria Londoño Montoya</td>
+          </tr>
+          <!-- Agrega más filas aquí con los datos correspondientes -->
+        </tbody>
+      </table>
+  
+    </main>
+  
+    <footer>
+      <div class="footer-left">
+        <p>versión 1.0</p>
+        <a href="#">Activar Modo de Lector de Pantalla</a>
+      </div>
+      <div class="footer-right">
+        <img src="path-to-footer-image.png" alt="Footer Design">
+      </div>
+    </footer>
+  </body>
+  
+
+</html>
+
+{% endblock %}

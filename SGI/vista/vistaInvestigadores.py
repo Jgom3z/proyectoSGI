@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, Blueprint
 import requests
 import json
+from datetime import datetime
+
 
 # Crear un Blueprint
 vistaInvestigadores = Blueprint('idVistaInvestigadores', __name__, template_folder='templates')
@@ -11,20 +13,19 @@ API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
 @vistaInvestigadores.route('/vistaInvestigadores', methods=['GET'])
 def vista_investigadores():
     select_data_investigadores = {
-    "projectName": "SGI",
-    "procedure": "select_json_entity",
-    "parameters": {
-        "table_name": "inv_investigadores i INNER JOIN inv_linea_investigador li ON i.id_investigador = li.id_investigador INNER JOIN inv_linea_grupo lg ON li.id_linea = li.id_linea",
-        "json_data": {
-            "estado": "En Progreso"
-        },
-        "where_condition": "",
-        "select_columns": "i.nombre_investigador, lg.nombre_linea, li.estado",
-        "order_by": "i.nombre_investigador",
-        "limit_clause": ""
+        "projectName": "SGI",
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigadores i INNER JOIN inv_facultad f ON i.id_facultad = f.id_facultad",
+            "json_data": {
+                "estado": "Activo"
+            },
+            "where_condition": "",
+            "select_columns": "i.cedula, i.nombre_investigador, f.nombre_facultad, i.nivel_formacion, i.correo, i.telefono",
+            "order_by": "i.nombre_investigador",
+            "limit_clause": ""
+        }
     }
-}
-
 
     response_investigadores = requests.post(API_URL, json=select_data_investigadores)
     if response_investigadores.status_code != 200:
@@ -68,7 +69,7 @@ def vista_investigadores():
 @vistaInvestigadores.route("/createinvestigador", methods = ['POST'])
 def create_investigador():
     print(request)
-    form_data = {       
+    form_data = { 
     "cedula": request.form.get('cedula'),
     "nombre_investigador": request.form.get('nombre_investigador'),
     "categoria_institucion": request.form.get('categoria_institucion'),
@@ -142,7 +143,9 @@ def delete_investigador():
 @vistaInvestigadores.route("/updateinvestigador", methods = ['POST'])
 def update_investigador():
     print(request)
+    id_investigador = request.form.get('id_investigador')
     form_data = {
+    "id_investigador": request.form.get('id_investigador'),  
     "cedula": request.form.get('cedula'),
     "nombre_investigador": request.form.get('nombre_investigador'),
     "categoria_institucion": request.form.get('categoria_institucion'),
@@ -160,6 +163,19 @@ def update_investigador():
 
     }  
 
+     # Verifica y limpia las fechas
+    
+    if form_data["fecha_creacion"]:
+        form_data["fecha_creacion"] = datetime.strptime(form_data["fecha_creacion"], "%Y-%m-%d").date().strftime("%Y-%m-%d")
+    if form_data["fecha_finalizacion"]:
+        form_data["fecha_finalizacion"] = datetime.strptime(form_data["fecha_finalizacion"], "%Y-%m-%d").date().strftime("%Y-%m-%d")
+    else:
+        form_data["fecha_finalizacion"] = None
+
+     # Debug: Imprimir el formulario de datos
+    print("Form Data: ", form_data)
+    print("ID invetsigador: ", id_investigador)  
+
     print("Form Data: ", form_data)  
 
     response = requests.post(API_URL.format(projectName=projectName), json={
@@ -167,7 +183,7 @@ def update_investigador():
         "parameters":{
             "table_name":"inv_investigadores",
             "json_data": form_data,
-            "where_condition": "nombre_investigador = nombre_investigador"
+            "where_condition": f"id_investigador = {id_investigador}"
                 
         }
     } 

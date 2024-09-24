@@ -16,7 +16,7 @@ def vista_grupos_investigacion():
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_grupos g INNER JOIN inv_investigadores p ON p.id_investigador = g.id_lider INNER JOIN inv_facultad f ON f.id_facultad = g.id_facultad",
+            "table_name": "inv_grupos g LEFT JOIN inv_investigadores p ON p.id_investigador = g.id_lider LEFT JOIN inv_facultad f ON f.id_facultad = g.id_facultad",
             "json_data": {
                 "estado": "En Progreso"
             },
@@ -115,11 +115,114 @@ def vista_grupos_investigacion():
     else:
         lineas = []
 
-  
+    # Obtener datos de proyectos asociados al grupo
+    select_data_proyectos = {
+        "projectName": "SGI",
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_proyecto p INNER JOIN inv_grupos g ON p.id_grupo_lider = g.id_lider",
+            "json_data": {},
+            "where_condition": "p.id_grupo_lider = g.id_lider",  # Condición para asegurar que los ids coincidan
+            "select_columns": "p.nombre_proyecto, p.id_grupo_lider, p.nombre_convocatoria",
+            "order_by": "p.nombre_proyecto",
+            "limit_clause": ""
+        }
+    }
+
+    response_proyectos = requests.post(API_URL, json=select_data_proyectos)
+
+    if response_proyectos.status_code != 200:
+        return f"Error al consultar la API: {response_proyectos.status_code}"
+
+    data_proyectos = response_proyectos.json()
+
+        # Verifica si 'result' existe y no está vacío
+    if 'result' in data_proyectos and data_proyectos['result']:
+            proyectos_str = data_proyectos['result'][0].get('result')  # Utiliza .get() para evitar el NoneType error
+            
+            # Verifica si 'proyectos_str' no es None
+            if proyectos_str:
+                try:
+                    proyectos = json.loads(proyectos_str)  # Carga solo si no es None
+                except json.JSONDecodeError as e:
+                    print(f"Error al decodificar JSON: {e}")
+                    proyectos = []
+            else:
+                print("El campo 'result' es None o vacío.")
+                proyectos = []
+    else:
+            print("No se encontraron resultados en la respuesta de la API.")
+            proyectos = []
+
+    #obtener datos de investigadores asociados
+    # Obtén los datos de investigadores asociados
+    select_data_investigadores_asociados = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigadores",
+            "json_data": {},
+            "where_condition": "JOIN inv_investigador_proyecto ON inv_investigadores.id_investigador = inv_investigador_proyecto.id_investigador",
+            "select_columns": "inv_investigadores.nombre_investigador, inv_investigador_proyecto.estado",
+            "order_by": "inv_investigadores.id_investigador",
+            "limit_clause": ""
+        }
+    }
+
+    # Realiza la solicitud a la API
+    response_investigadores_asociados = requests.post(API_URL, json=select_data_investigadores_asociados)
+
+    # Verifica si la solicitud fue exitosa
+    if response_investigadores_asociados.status_code != 200:
+        return f"Error al consultar la API: {response_investigadores_asociados.status_code}"
+
+    # Carga la respuesta JSON
+    data_investigadores_asociados = response_investigadores_asociados.json()
+
+    # Verifica si la respuesta contiene 'result' y si está correctamente formateada
+    if 'result' in data_investigadores_asociados and data_investigadores_asociados['result']:
+        investigadores_asociados_str = data_investigadores_asociados['result'][0].get('result')
+        
+        # Comprueba si 'investigadores_asociados_str' no es None y es una cadena JSON válida
+        if investigadores_asociados_str:
+            try:
+                investigadores_asociados = json.loads(investigadores_asociados_str)
+            except json.JSONDecodeError as e:
+                print(f"Error al decodificar JSON: {e}")
+                investigadores_asociados = []
+        else:
+            print("Error: 'result' está vacío o es None")
+            investigadores_asociados = []
+    else:
+        print("Error: no se encontró la clave 'result' o está vacía")
+        investigadores_asociados = []
+
+    #obtener datos de semilleros
+    select_data_semilleros ={
+    "procedure": "select_json_entity",
+    "parameters": {
+        "table_name": "inv_semilleros",
+        "json_data": {},
+        "where_condition": "", 
+        "select_columns": "nombre_semillero, objetivos, descripcion_semillero",
+        "order_by": "id_semillero",  
+        "limit_clause": ""
+        }
+    }
+
+    response_semilleros = requests.post(API_URL, json=select_data_semilleros)
+    if  response_semilleros.status_code != 200:
+        return f"Error al consultar la API: { response_semilleros.status_code}"
+    
+    data_semilleros =  response_semilleros.json()
+    if 'result' in data_semilleros and data_semilleros['result']:
+        semilleros_str = data_semilleros['result'][0]['result']
+        semilleros = json.loads(semilleros_str)
+    else:
+        semilleros = []
 
     # Pasar los datos a la plantilla
     ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, lineas=lineas, ths=ths)
+    return render_template('vistaGruposInvestigacion.html', grupos=grupos, facultades=facultades, investigadores = investigadores, lineas=lineas, proyectos = proyectos, investigadores_asociados = investigadores_asociados, semilleros = semilleros, ths=ths)
 
 #PARA EL MODAL
 @vistaGruposInvestigacion.route("/creategrupo", methods = ['POST'])
@@ -265,3 +368,36 @@ def update_grupo():
     else:
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
         return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500
+    
+
+@vistaGruposInvestigacion.route('/get_grupoInvestigacion', methods=['POST'])
+def get_grupoInvestigacion():
+    id=request.form.get('id_grupo') 
+    # Obtener datos de grupos
+    select_data_grupos = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_grupos",
+            "json_data": {
+                "estado": "En Progreso"
+            },
+            "where_condition": f'id_grupo={id}',
+            "select_columns": "*",
+            "order_by": "",
+            "limit_clause": ""
+        }
+    }
+
+    response_grupos = requests.post(API_URL, json=select_data_grupos)
+    if response_grupos.status_code != 200:
+        return f"Error al consultar la API: {response_grupos.status_code}"
+    
+    data_grupos = response_grupos.json()
+    if 'result' in data_grupos and data_grupos['result']:
+        grupos_str = data_grupos['result'][0]['result']
+        grupos = json.loads(grupos_str)
+    else:
+        grupos = []
+    print(grupos)
+    return grupos

@@ -247,7 +247,18 @@ footer {
 
 /*tables*/
 /* Estilos generales de la tabla */
+
+.header-container {
+  display: flex;
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+  align-items: center; /* Alinea verticalmente los elementos */
+  margin-bottom: 10px; /* Espacio inferior si es necesario */
+}
+
+
+
 .table {
+<<<<<<< HEAD
   width: 80%;
   border-collapse: collapse;
   margin-bottom: 1rem;
@@ -260,12 +271,224 @@ footer {
   vertical-align: top;
   border: 1px solid #dee2e6;
 }
+=======
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    color: #212529;
+  }
+  
+  .table th, .table td {
+    padding: 0.60rem;
+    vertical-align: top;
+    border: 1px solid #dee2e6;
+  }
+  
+  .table thead th {
+    background-color: #f8f9fa;
+    color: #b54f25;
+  }
+  
+  .table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilos del modal */
+  .modal-dialog.custom-width {
+    max-width: 1000px; /* Ajusta el ancho del modal */
+  }
+ 
+  .modal-content {
+    border-radius: 0.5rem;
+    max-width: 800px;
+  }
+  
+  .modal-header {
+    color: gray;
+  }
+  
+  .modal-header .btn-close {
+    filter: invert(1);
+  }
+  
+  .modal-footer {
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .modal-body h2 {
+    margin-top: 0;
+  }
+  
+  /* Estilos del botón de buscar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 0.5rem;
+    margin-right: 300px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+
+  }
+  
+  .search-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #b54f25;
+    color: white;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .search-button:hover {
+    background-color: #c47553;
+  }
+  
+  /* Estilos para los enlaces en la tabla */
+  .a-td {
+    color: #b54f25;
+    text-decoration: none;
+  }
+  
+  .a-td:hover {
+    color: #c47553;
+    text-decoration: none;
+  }
+  
+     /* Estilos para la tabla */
+
+    
+
+     table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+    }
+    th, td {
+        border: 1px solid #867f7f;
+        padding: 8px;
+        text-align: left;
+        
+    }
+    .modal-content th{
+      color: #b54f25;
+    }
+  
+    /* Estilos para la barra de búsqueda y el botón */
+    .search-bar {
+        margin-bottom: 20px;
+    }
+    .search-input {
+        width: 25%;
+        padding: 5px;
+    }
+    .search-button {
+        padding: 5px 10px;
+        background-color: #b54f25;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .search-create{
+        
+            padding: 5px 10px;
+            background-color: #b54f25;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            float: right; 
+        }
+    
+    
+      
+        /* Estilo del modal */
+        .modal {
+          display: none; /* Ocultar el modal por defecto */
+          position: fixed; /* Fijo en la pantalla */
+          z-index: 1; /* Asegurar que esté sobre otros elementos */
+          left: 0;
+          top: 0;
+          width: 100%; /* Ocupa el ancho completo */
+          height: 100%; /* Ocupa el alto completo */
+          overflow: auto; /* Permitir desplazamiento si es necesario */
+          background-color: rgba(0,0,0,0.4); /* Fondo oscuro con opacidad */
+        }
+    
+        .modal-content {
+          background-color: #fefefe;
+          margin: 15% auto; /* Centrar el modal */
+          padding: 20px;
+          border: 1px solid #b54f25;
+          width: 80%; /* Ancho del modal */
+        }
+    
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+    
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
+    
+        /* Estilo del botón desplegable */
+    
+        .container-top {
+          padding: 20px;
+          background-color: white;
+          margin-bottom: 10px;
+        }
+        
+        .container-top h1 {
+          font-size: 25px;
+          color: #333; /* Color de texto oscuro para el encabezado */
+          margin-bottom: 20px;
+        }
+    
+        
+    label{
+      margin-right: auto;
+     }
+     
+     input, textarea, select{
+         width: 300px;
+         margin: 10px 10px ;
+         border-radius:10px;
+         border-color: #b54f25;
+         padding: 10px;
+     }
+     
+     .a-td{
+         text-decoration: none;
+         color: #b54f25;
+     }
+    
+     .enlaces{
+      margin-top: 60px;
+     }
+>>>>>>> 885c16cd3ae5feb81ce249b0d4b2fcc718955d50
 
 .table thead th {
   background-color: #f8f9fa;
   color: #b54f25;
 }
 
+<<<<<<< HEAD
 .table tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
@@ -297,10 +520,36 @@ footer {
   border-radius: 0.25rem;
   background-color: #b54f25;
   color: white;
+=======
+     .a-enlaces:hover{
+      text-decoration: none;
+      color: #b54f25;
+     }
+
+     #modalNombreGrupo
+     {
+      color: #b54f25
+     }
+
+     /* Estilos generales */
+/* Estilos generales */
+.custom-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-menu-button {
+  background-color: #b54f25;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+>>>>>>> 885c16cd3ae5feb81ce249b0d4b2fcc718955d50
   cursor: pointer;
   margin-right: 10px;
 }
 
+<<<<<<< HEAD
 .search-button:hover {
   background-color: #c47553;
 }
@@ -428,10 +677,50 @@ select {
 .a-enlaces:hover {
   text-decoration: none;
   color: #b54f25;
+=======
+.custom-menu-list {
+  display: none;
+  position: absolute;
+  background-color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #b54f25;
+  width: 250px; /* Ancho ajustado */
+}
+
+.custom-menu-list li {
+  padding: 10px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-menu-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Submenú */
+.custom-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: white;
+  border: 1px solid #b54f25;
+  width: 250px; /* Ancho ajustado del submenú */
+  list-style-type: none; /* También elimina las viñetas del submenú */
+}
+
+.custom-menu-list li:hover .custom-submenu {
+  display: block;
+>>>>>>> 885c16cd3ae5feb81ce249b0d4b2fcc718955d50
 }
 
 
 
+<<<<<<< HEAD
 .btn-usb {
   background-color: #b54f25;
   color: #fff;
@@ -470,3 +759,23 @@ select {
 .text-semillero li {
    color: #666666;
 }
+=======
+/* Mostrar el menú principal cuando se hace hover en el botón */
+.custom-menu-button:hover + .custom-menu-list,
+.custom-menu-list:hover {
+  display: block;
+}
+
+/* Estilo de la línea divisora */
+
+
+.custom-menu-list li:hover {
+  background-color: #b550255a;
+}
+
+/* Mostrar el menú principal cuando se hace hover en el botón */
+.custom-menu-button:hover + .custom-menu-list,
+.custom-menu-list:hover {
+  display: block;
+}
+>>>>>>> 885c16cd3ae5feb81ce249b0d4b2fcc718955d50
