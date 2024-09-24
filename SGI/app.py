@@ -16,7 +16,7 @@ from vista.vistaProyectosInvestigacion import vistaProyectosInvestigacion
 from vista.vistaSemillerosInvestigacion import vistaSemillerosInvestigacion
 
 app = Flask(__name__)
-
+app.secret_key = 'supersecretkey'
 # Registro de Blueprints
 app.register_blueprint(vistaInicio)
 app.register_blueprint(login)
@@ -27,7 +27,7 @@ app.register_blueprint(vistaInvestigadores)
 app.register_blueprint(vistaLineasInvestigacion)
 app.register_blueprint(vistaProyectosFormacion)
 app.register_blueprint(vistaProyectosInvestigacion)
-app.register_blueprint(vistaSemillerosInvestigacion)
+app.register_blueprint(vistaSemillerosInvestigacion, url_prefix='/semilleros')
 
 # Configuración de la URL de la API
 projectName = 'SGI'
