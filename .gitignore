@@ -1,6 +1,7 @@
 # Entornos virtuales
 SGI/venv/
 SGI/__pycache__/
+SGI/vista/__pycache__/
 SGI/.env
 
 

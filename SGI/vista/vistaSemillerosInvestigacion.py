@@ -3,10 +3,10 @@ import json
 import requests
 from vista.functions import paginate, now
 from vista.select_list import investigadores,lineas,estudiantes 
+import os
+API_URL = os.getenv('API_URL')
 
-projectName = 'SGI'
 
-API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
 # Crear un Blueprint
 vistaSemillerosInvestigacion = Blueprint('idVistaSemillerosInvestigacion', __name__, template_folder='templates')
 
