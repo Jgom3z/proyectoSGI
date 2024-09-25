@@ -70,12 +70,15 @@ body {
   bottom: 0;
   left: 0;
   color: white;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+ 
   /* Animación de transición */
 }
 
 .sidebar.hidden {
   transform: translateX(-100%);
+  opacity: 0;
+  overflow: hidden;
   /* Oculta la barra lateral desplazándola hacia la izquierda */
 }
 
@@ -135,7 +138,7 @@ body {
 main {
   margin-left: 300px;
   padding: 20px;
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.4s ease;
   /* Animación de transición */
 }
 
@@ -256,14 +259,14 @@ footer {
 }
 
 
-
+/*
 .table {
   width: 80%;
   border-collapse: collapse;
   margin-bottom: 1rem;
   color: #212529;
 }
-
+*/
 .table th,
 .table td {
   padding: 0.60rem;
@@ -326,12 +329,7 @@ footer {
   text-decoration: none;
 }
 
-/* Estilos para la tabla */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 10px;
-}
+
 
 th,
 td {
@@ -460,17 +458,17 @@ select {
   color: #666;
 }
 
-/* Transición para el menú lateral en semilleros*/
+/* Transición para el menú lateral en semilleros */
 #menuCollapseSemillero {
-  transition: width 0.4s ease, opacity 0.4s ease;
+  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; /* Añadida la transición de transformación */
   width: 0;
   opacity: 0;
 }
 
 #menuCollapseSemillero.show {
-  width: 250px;
-  /* Ancho del menú cuando esté visible */
+  width: 250px; /* Ancho del menú cuando esté visible */
   opacity: 1;
+  padding: 0; /* Añade padding cuando esté visible */
 }
 
 .text-semillero {
@@ -480,3 +478,33 @@ select {
 .text-semillero li {
    color: #666666;
 }
+
+.route {
+  display: flex; /* Alinea los elementos en una fila */
+  align-items: center; /* Centra verticalmente */
+  font-size: 16px; /* Tamaño de fuente */
+  white-space: nowrap; /* Evita saltos de línea */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Suaviza las transiciones */
+  padding: 10px 0; /* Espaciado vertical */
+}
+
+.route.scrolled-down {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 53px; /* Cambia a 0 para evitar el parpadeo */
+  z-index: 1000;
+  background-color: white; /* Cambia el color de fondo al hacer scroll */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para mayor claridad */
+  padding: 10px 20px; /* Asegura el espaciado adecuado */
+  border-bottom: 1px solid #ddd; /* Mantén el borde */
+}
+
+
+.under-route{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 150px;
+  z-index: 1000;
+  padding: 0px 0px 0px 20px;
+}
+

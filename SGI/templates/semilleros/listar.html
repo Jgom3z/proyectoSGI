@@ -14,7 +14,7 @@ investigación{%endblock %} {% block content %} {% include
           <button
             class="btn btn-usb btn-outline-secondary"
             type="button"
-            id="button-addon1"
+            id="searchSemilleroBtn"
           >
             <img
               src="{{ url_for('static', filename='icons/search.svg') }}"
@@ -27,6 +27,8 @@ investigación{%endblock %} {% block content %} {% include
             placeholder="Buscar semillero..."
             aria-label="Example text with button addon"
             aria-describedby="button-addon1"
+            id="searchSemillero"
+            value="{{ search_term }}"
           />
         </div>
       </div>
@@ -44,7 +46,7 @@ investigación{%endblock %} {% block content %} {% include
   </div>
 </div>
 
-<table class="table" id="groupsTable" style="width: 100%;">
+<table class="table" id="Semilleros" style="width: 100%">
   <thead>
     <tr>
       <th>Semillero de investigación</th>
@@ -58,7 +60,13 @@ investigación{%endblock %} {% block content %} {% include
   <tbody>
     {% for item in data%}
     <tr>
-      <td><a class="a-td" href="{{url_for('idVistaSemillerosInvestigacion.detalle', id=item.id_semillero)}}">{{item.nombre_semillero}}</a></td>
+      <td>
+        <a
+          class="a-td"
+          href="{{url_for('idVistaSemillerosInvestigacion.detalle', id=item.id_semillero)}}"
+          >{{item.nombre_semillero}}</a
+        >
+      </td>
       <td>{{item.nombre_linea}}</td>
       <td>{{item.fecha_inicio}} - {{item.fecha_final}}</td>
       <td>{{item.nombre_investigador}}</td>
@@ -67,26 +75,38 @@ investigación{%endblock %} {% block content %} {% include
     </tr>
     {% endfor %}
   </tbody>
-  <!-- Paginación -->
-  <div class="pagination">
-    {% if page > 1 %}
-    <a
-      href="{{ url_for(route_pagination, page=page - 1) }}"
-      class="btn btn-primary btn-sm"
-      >&laquo; Anterior</a
-    >
-    {% endif %}
-
-    <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
-    {% if page < total_pages %}
-    <a
-      href="{{ url_for(route_pagination, page=page + 1) }}"
-      class="btn btn-primary btn-sm"
-    >
-      Siguiente &raquo;</a
-    >
-    {% endif %}
-  </div>
+  
 </table>
+
+<!-- Paginación -->
+<div class="pagination">
+  {% if page > 1 %}
+  <a
+    href="{{ url_for(route_pagination, page=page - 1) }}"
+    class="btn btn-primary btn-sm"
+    >&laquo; Anterior</a
+  >
+  {% endif %}
+
+  <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
+  {% if page < total_pages %}
+  <a
+    href="{{ url_for(route_pagination, page=page + 1) }}"
+    class="btn btn-primary btn-sm"
+  >
+    Siguiente &raquo;</a
+  >
+  {% endif %}
+</div>
+
+<script>
+  //TableFilter("searchSemillero", "searchSemilleroBtn", "Semilleros");
+  TableFilterV2(
+    "searchSemillero",
+    "searchSemilleroBtn",
+    "/semilleros/listar",
+    500
+  );
+</script>
 
 {% endblock content%}

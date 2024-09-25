@@ -79,3 +79,33 @@ function TableFilter(searchInputId, searchButtonId, tableId) {
   // Opcional: Filtrar en tiempo real mientras se escribe
   searchInput.addEventListener('input', filterTable);
 }
+function TableFilterV2(inputId, buttonId, searchUrl, typingDelay = 500, dynamicParams = {}) {
+  let typingTimer;  // Variable que almacenará el temporizador
+
+  // Función que realiza la búsqueda (redirige a la nueva URL con el término de búsqueda)
+  function buscar() {
+    const searchTerm = document.getElementById(inputId).value;  // Obtener el término de búsqueda
+    const page = 1;  // Reiniciar a la primera página cuando se hace una búsqueda
+
+    // Reemplazar los parámetros dinámicos en la URL
+    let finalUrl = searchUrl;
+    for (const param in dynamicParams) {
+      if (dynamicParams.hasOwnProperty(param)) {
+        finalUrl = finalUrl.replace(`{${param}}`, dynamicParams[param]);
+      }
+    }
+
+    // Redirigir a la URL correcta con el término de búsqueda y la página
+    window.location.href = `${finalUrl}?page=${page}&search=${encodeURIComponent(searchTerm)}`;
+  }
+
+  // Evento para detectar que el usuario está escribiendo
+  document.getElementById(inputId).addEventListener('input', function () {
+    clearTimeout(typingTimer);  // Limpiar el temporizador anterior para que no se ejecute
+    typingTimer = setTimeout(buscar, typingDelay);  // Iniciar un nuevo temporizador
+  });
+
+  // Opción de realizar la búsqueda manualmente con el botón de búsqueda
+  document.getElementById(buttonId).addEventListener('click', buscar);
+}
+
