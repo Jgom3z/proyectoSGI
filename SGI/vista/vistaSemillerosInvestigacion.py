@@ -10,7 +10,7 @@ API_URL = os.getenv('API_URL')
 # Crear un Blueprint
 vistaSemillerosInvestigacion = Blueprint('idVistaSemillerosInvestigacion', __name__, template_folder='templates')
 
-@vistaSemillerosInvestigacion.route('/', methods=['GET', 'POST'])
+@vistaSemillerosInvestigacion.route('/listar', methods=['GET', 'POST'])
 def listar():   
     select_data = {
           "procedure": "select_json_entity",
@@ -27,13 +27,18 @@ def listar():
     response = requests.post(API_URL, json=select_data)
     if response.status_code != 200:
         return f"Error al consultar la API: {response.status_code}"
-   
+    
+
+    search_term = request.args.get('search', '').lower()  
+    
     data_semilleros = response.json()
     if 'result' in data_semilleros and data_semilleros['result']:
         data = data_semilleros['result'][0]['result']
         data = json.loads(data)
-        
-        route_pagination = 'vista/vista_SemillerosInvestigacion.listar'        
+        # Filtrar los datos si hay un término de búsqueda
+        if search_term:
+            data = [item for item in data if any(search_term in str(value).lower() for value in item.values())]
+        route_pagination = 'idVistaSemillerosInvestigacion.listar'        
         semilleros, total_pages, route_pagination,page = paginate(data,route_pagination)
         #semilleros = json.loads(items_on_page)
     else:
@@ -41,7 +46,8 @@ def listar():
     # Renderizar la plantilla al final, pasando las variables necesarias
     return render_template('semilleros/listar.html', data=semilleros, total_pages=total_pages, 
                            route_pagination=route_pagination, page=page,
-                           investigadores=investigadores(),lineas=lineas()
+                           investigadores=investigadores(),lineas=lineas(),
+                           search_term=search_term
                            )
 
 @vistaSemillerosInvestigacion.route('/ver-detalle/<int:id>', methods=['GET'])
