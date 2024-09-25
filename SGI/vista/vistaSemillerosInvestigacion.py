@@ -44,7 +44,8 @@ def listar():
     else:
         semilleros = []
     # Renderizar la plantilla al final, pasando las variables necesarias
-    return render_template('semilleros/listar.html', data=semilleros, total_pages=total_pages, 
+    return render_template('semilleros/listar.html', 
+                           data=semilleros, total_pages=total_pages, 
                            route_pagination=route_pagination, page=page,
                            investigadores=investigadores(),lineas=lineas(),
                            search_term=search_term
