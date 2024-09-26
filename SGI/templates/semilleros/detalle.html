@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% block title %} Detalle Semillero{%endblock %} {%
 block content %}
-
+{% include 'semilleros/crear-estudiante-semillero.html' %} 
+  {% include 'semilleros/crear-plan-semillero.html' %}
 <div class="route mx-3 bg-light">
   <p>
     <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
@@ -129,8 +130,6 @@ block content %}
             id="btnAgregarEstudiante"
             class="btn btn-usb btn-block mb-1"
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#crearEstudianteSemillero"
           >
             Agregar estudiantes
           </button>
@@ -138,8 +137,6 @@ block content %}
           <button
             id="btnAgregarPlan"
             class="btn btn-usb btn-block"
-            data-bs-toggle="modal"
-            data-bs-target="#crearPlanSemillero"
           >
             Agregar plan semillero
           </button>
@@ -368,7 +365,3 @@ block content %}
 </script>
 
 {% endblock content%}
-{% block nextcontent %} 
-   {% include 'semilleros/crear-estudiante-semillero.html' %} 
-  {% include 'semilleros/crear-plan-semillero.html' %}
-{% endblock  nextcontent%}
