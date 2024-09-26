@@ -16,6 +16,7 @@ body {
   color: white;
   padding: 2px;
   display: flex;
+  height: 60px;
   align-items: center;
   position: fixed;
   /* Asegura que el header se mueva con el scroll */
@@ -61,9 +62,16 @@ body {
   /* Subrayado al pasar el mouse */
 }
 
+.sidebar-usb-content{
+  width: 270px;
+}
 .sidebar-usb {
   background-color: #454545; 
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
 }
+
 
 .sidebar.hidden {
   transform: translateX(-100%);
@@ -419,19 +427,22 @@ select {
   color: #666;
 }
 
-/* Transición para el menú lateral en semilleros */
+/* Transición para el menú lateral en semilleros 
 #menuCollapseSemillero {
-  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; /* Añadida la transición de transformación */
+  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; 
   width: 0;
   opacity: 0;
-}
+}*/
 
-#menuCollapseSemillero.show {
-  width: 250px; /* Ancho del menú cuando esté visible */
+#menuCollapseSemillero {
+  width: 300px; /* Ancho del menú cuando esté visible */
   opacity: 1;
-  padding: 0; /* Añade padding cuando esté visible */
+  padding: 0;
 }
-
+#menuCollapseSemillero {
+  top: 60px; /* Cambia este valor según la altura de tu div fixed */
+  height: calc(100% - 60px); /* Ajusta la altura del offcanvas */
+}
 .text-semillero {
   color: #666666;
 }

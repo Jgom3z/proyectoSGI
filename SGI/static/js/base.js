@@ -1,5 +1,5 @@
 //Scripts para ocultar y desplegar el navbar -->
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
   const sidebarToggle = document.querySelector('.sidebar-toggle');
   const sidebar = document.querySelector('.sidebar');
   const content = document.querySelector('main');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     dropdown.classList.toggle('active');
   });
-});
+});*/
 
 
 /*

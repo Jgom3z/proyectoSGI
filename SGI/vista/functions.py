@@ -3,7 +3,7 @@ from datetime import datetime
 
 def paginate(data,route_pagination):
     page = request.args.get('page', 1, type=int)
-    per_page = 2
+    per_page = 10
     start = (page - 1) * per_page
     end = start + per_page
     total_pages = (len(data) + per_page - 1) // per_page
