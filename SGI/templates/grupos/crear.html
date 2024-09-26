@@ -1,0 +1,80 @@
+<div class="modal fade" id="crearGrupo" tabindex="-1" aria-labelledby="crearGrupoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearGrupoLabel">Crear Grupo de Investigación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3" action="{{ url_for('idVistaGruposInvestigacion.crear') }}" method="POST">
+            <div class="col-md-6">
+              <label for="nombre_grupo" class="form-label">Nombre del Grupo</label>
+              <input type="text" class="form-control" id="nombre_grupo" name="nombre_grupo" required>
+            </div>
+            <div class="col-md-6">
+              <label for="codigo_grup_lac" class="form-label">Código GrupLAC</label>
+              <input type="text" class="form-control" id="codigo_grup_lac" name="codigo_grup_lac" required>
+            </div>
+            <div class="col-md-6">
+              <label for="categoria_colciencias" class="form-label">Categoría Colciencias</label>
+              <input type="text" class="form-control" id="categoria_colciencias" name="categoria_colciencias" required>
+            </div>
+            <div class="col-md-6">
+              <label for="area_conocimiento" class="form-label">Área de Conocimiento</label>
+              <input type="text" class="form-control" id="area_conocimiento" name="area_conocimiento" required>
+            </div>
+            <div class="col-md-6">
+              <label for="id_facultad" class="form-label">Facultad</label>
+              <select class="form-select" id="id_facultad" name="id_facultad" required>
+                <option selected disabled value="">Seleccionar...</option>
+                {% for facultad in facultades %}
+                  <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="id_lider" class="form-label">Líder del Grupo</label>
+              <select class="form-select" id="id_lider" name="id_lider" required>
+                <option selected disabled value="">Seleccionar...</option>
+                {% for investigador in investigadores %}
+                  <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="fecha_creacion" class="form-label">Fecha de Creación</label>
+              <input type="date" class="form-control" id="fecha_creacion" name="fecha_creacion" required>
+            </div>
+            <div class="col-md-6">
+              <label for="fecha_finalizacion" class="form-label">Fecha de Finalización</label>
+              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion">
+            </div>
+            <div class="col-12">
+              <label for="plan_estrategico" class="form-label">Plan Estratégico</label>
+              <textarea class="form-control" id="plan_estrategico" name="plan_estrategico" rows="3"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label for="categoria_meta" class="form-label">Categoría Meta</label>
+              <input type="text" class="form-control" id="categoria_meta" name="categoria_meta">
+            </div>
+            <div class="col-12">
+              <label for="estrategia_meta" class="form-label">Estrategia Meta</label>
+              <textarea class="form-control" id="estrategia_meta" name="estrategia_meta" rows="3"></textarea>
+            </div>
+            <div class="col-12">
+              <label for="vision" class="form-label">Visión</label>
+              <textarea class="form-control" id="vision" name="vision" rows="3"></textarea>
+            </div>
+            <div class="col-12">
+              <label for="objetivos" class="form-label">Objetivos</label>
+              <textarea class="form-control" id="objetivos" name="objetivos" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-usb">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

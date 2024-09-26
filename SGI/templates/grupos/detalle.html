@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block title %}Detalle Grupo de Investigación{% endblock %}
+{% block content %}
+<div class="container-top">
+  <p class="enlaces">
+    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
+    <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
+    <a class="a-enlaces" href="{{ url_for('idVistaGruposInvestigacion.listar') }}">Grupos de Investigación \</a>
+    <span class="text-secondary">Detalle Grupo</span>
+  </p>
+</div>
+<div class="container mt-4">
+  <h2>{{ grupo.nombre_grupo }}</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <p><strong>Código GrupLAC:</strong> {{ grupo.codigo_grup_lac }}</p>
+      <p><strong>Categoría Colciencias:</strong> {{ grupo.categoria_colciencias }}</p>
+      <p><strong>Área de Conocimiento:</strong> {{ grupo.area_conocimiento }}</p>
+      <p><strong>Facultad:</strong> {{ grupo.nombre_facultad }}</p>
+      <p><strong>Líder del Grupo:</strong> {{ grupo.nombre_investigador }}</p>
+    </div>
+    <div class="col-md-6">
+      <p><strong>Fecha de Creación:</strong> {{ grupo.fecha_creacion }}</p>
+      <p><strong>Fecha de Finalización:</strong> {{ grupo.fecha_finalizacion or 'N/A' }}</p>
+      <p><strong>Categoría Meta:</strong> {{ grupo.categoria_meta }}</p>
+    </div>
+  </div>
+  <div class="mt-4">
+    <h4>Plan Estratégico</h4>
+    <p>{{ grupo.plan_estrategico }}</p>
+  </div>
+  <div class="mt-4">
+    <h4>Estrategia Meta</h4>
+    <p>{{ grupo.estrategia_meta }}</p>
+  </div>
+  <div class="mt-4">
+    <h4>Visión</h4>
+    <p>{{ grupo.vision }}</p>
+  </div>
+  <div class="mt-4">
+    <h4>Objetivos</h4>
+    <p>{{ grupo.objetivos }}</p>
+  </div>
+  
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mt-4" id="grupoTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="true">Líneas de Investigación</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false">Proyectos de Formación</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="investigadores-tab" data-bs-toggle="tab" data-bs-target="#investigadores" type="button" role="tab" aria-controls="investigadores" aria-selected="false">Investigadores</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="semilleros-tab" data-bs-toggle="tab" data-bs-target="#semilleros" type="button" role="tab" aria-controls="semilleros" aria-selected="false">Semilleros</button>
+    </li>
+  </ul>
+  
+  <div class="tab-content" id="grupoTabsContent">
+    <!-- Líneas de Investigación -->
+    <div class="tab-pane fade show active" id="lineas" role="tabpanel" aria-labelledby="lineas-tab">
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>Nombre de la Línea</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for linea in lineas %}
+          <tr>
+            <td>{{ linea.nombre_linea }}</td>
+            <td>{{ linea.descripcion }}</td>
+            <td>{{ linea.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Proyectos de Formación -->
+    <div class="tab-pane fade" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>Nombre del Proyecto</th>
+            <th>Código</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Fin</th>
+            <th>Convocatoria</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for proyecto in proyectos %}
+          <tr>
+            <td>{{ proyecto.nombre_proy_form }}</td>
+            <td>{{ proyecto.codigo }}</td>
+            <td>{{ proyecto.fecha_inicio }}</td>
+            <td>{{ proyecto.fecha_fin }}</td>
+            <td>{{ proyecto.convocatoria }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Investigadores -->
+    <div class="tab-pane fade" id="investigadores" role="tabpanel" aria-labelledby="investigadores-tab">
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>Nombre del Investigador</th>
+            <th>Línea de Investigación</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for investigador in investigadores %}
+          <tr>
+            <td>{{ investigador.nombre_investigador }}</td>
+            <td>{{ investigador.nombre_linea }}</td>
+            <td>{{ investigador.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Semilleros -->
+    <div class="tab-pane fade" id="semilleros" role="tabpanel" aria-labelledby="semilleros-tab">
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>Nombre del Semillero</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Fin</th>
+            <th>Líder</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for semillero in semilleros %}
+          <tr>
+            <td>{{ semillero.nombre_semillero }}</td>
+            <td>{{ semillero.fecha_inicio }}</td>
+            <td>{{ semillero.fecha_final }}</td>
+            <td>{{ semillero.id_lider }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="mt-4">
+    <a href="{{ url_for('idVistaGruposInvestigacion.editar', id=grupo.id_grupo) }}" class="btn btn-usb">Editar</a>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarGrupoModal">
+      Eliminar
+    </button>
+  </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal fade" id="eliminarGrupoModal" tabindex="-1" aria-labelledby="eliminarGrupoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarGrupoModalLabel">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de que desea eliminar este grupo de investigación?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="{{ url_for('idVistaGruposInvestigacion.eliminar', id=grupo.id_grupo) }}" method="POST">
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -197,12 +197,11 @@
             >
           </li>
           <li>
-            <a href="/vistaGruposInvestigacion"
-              ><img
-                class="icons-menu"
-                src="{{ url_for('static', filename='img/grupos.png') }}"
-              />Grupos de investigación</a
-            >
+            <a href="{{ url_for('idVistaGruposInvestigacion.listar') }}">
+              <img class="icons-menu" src="{{ url_for('static', filename='img/grupos.png') }}" />
+              Grupos de investigación
+            </a>
+            
           </li>
           <li>
             <a href="/vistaLineasInvestigacion"
