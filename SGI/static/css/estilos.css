@@ -452,23 +452,26 @@ select {
 }
 
 .route {
-  display: flex; /* Alinea los elementos en una fila */
+  
   align-items: center; /* Centra verticalmente */
-  font-size: 16px; /* Tamaño de fuente */
-  white-space: nowrap; /* Evita saltos de línea */
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Suaviza las transiciones */
-  padding: 10px 0; /* Espaciado vertical */
+  padding: 0 0 0 10px; /* Espaciado vertical */
 }
 
 .route.scrolled-down {
+  display: flex;
   position: -webkit-sticky;
   position: sticky;
-  top: 53px; /* Cambia a 0 para evitar el parpadeo */
+  top: 60px; 
   z-index: 1000;
-  background-color: white; /* Cambia el color de fondo al hacer scroll */
+  background-color: white; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para mayor claridad */
-  padding: 10px 20px; /* Asegura el espaciado adecuado */
-  border-bottom: 1px solid #ddd; /* Mantén el borde */
+  height: calc(100% - 60px);
+  border-bottom: 1px solid #ddd; 
+}
+
+#break-line {
+  transition: none; /* Desactiva cualquier transición si está activa */
 }
 
 
@@ -480,3 +483,9 @@ select {
   padding: 0px 0px 0px 20px;
 }
 
+.modal {
+  z-index: 1051; /* Valor mayor para el modal */
+}
+.offcanvas {
+  z-index: 1045; /* Valor menor para el offcanvas */
+}
