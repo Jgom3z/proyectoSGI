@@ -16,6 +16,7 @@ body {
   color: white;
   padding: 2px;
   display: flex;
+  height: 60px;
   align-items: center;
   position: fixed;
   /* Asegura que el header se mueva con el scroll */
@@ -61,9 +62,16 @@ body {
   /* Subrayado al pasar el mouse */
 }
 
+.sidebar-usb-content{
+  width: 270px;
+}
 .sidebar-usb {
   background-color: #454545; 
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
 }
+
 
 .sidebar.hidden {
   transform: translateX(-100%);
@@ -419,19 +427,22 @@ select {
   color: #666;
 }
 
-/* Transición para el menú lateral en semilleros */
+/* Transición para el menú lateral en semilleros 
 #menuCollapseSemillero {
-  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; /* Añadida la transición de transformación */
+  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; 
   width: 0;
   opacity: 0;
-}
+}*/
 
-#menuCollapseSemillero.show {
-  width: 250px; /* Ancho del menú cuando esté visible */
+#menuCollapseSemillero {
+  width: 300px; /* Ancho del menú cuando esté visible */
   opacity: 1;
-  padding: 0; /* Añade padding cuando esté visible */
+  padding: 0;
 }
-
+#menuCollapseSemillero {
+  top: 60px; /* Cambia este valor según la altura de tu div fixed */
+  height: calc(100% - 60px); /* Ajusta la altura del offcanvas */
+}
 .text-semillero {
   color: #666666;
 }
@@ -441,23 +452,26 @@ select {
 }
 
 .route {
-  display: flex; /* Alinea los elementos en una fila */
+  
   align-items: center; /* Centra verticalmente */
-  font-size: 16px; /* Tamaño de fuente */
-  white-space: nowrap; /* Evita saltos de línea */
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Suaviza las transiciones */
-  padding: 10px 0; /* Espaciado vertical */
+  padding: 0 0 0 10px; /* Espaciado vertical */
 }
 
 .route.scrolled-down {
+  display: flex;
   position: -webkit-sticky;
   position: sticky;
-  top: 53px; /* Cambia a 0 para evitar el parpadeo */
+  top: 60px; 
   z-index: 1000;
-  background-color: white; /* Cambia el color de fondo al hacer scroll */
+  background-color: white; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para mayor claridad */
-  padding: 10px 20px; /* Asegura el espaciado adecuado */
-  border-bottom: 1px solid #ddd; /* Mantén el borde */
+  height: calc(100% - 60px);
+  border-bottom: 1px solid #ddd; 
+}
+
+#break-line {
+  transition: none; /* Desactiva cualquier transición si está activa */
 }
 
 
@@ -469,3 +483,9 @@ select {
   padding: 0px 0px 0px 20px;
 }
 
+.modal {
+  z-index: 1051; /* Valor mayor para el modal */
+}
+.offcanvas {
+  z-index: 1045; /* Valor menor para el offcanvas */
+}

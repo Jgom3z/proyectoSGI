@@ -1,12 +1,15 @@
 {% extends "base.html" %} {% block title %} Semilleros de
 investigación{%endblock %} {% block content %} {% include
 'semilleros/crear.html' %}
+<div class="route mx-3 bg-ligth">
+  <p>
+    <a class="a-enlaces last-link" href="/vistaInicio">Inicio \ </a>
+    <br id="break-line"> 
+    <span class="text-secondary">Semilleros de investigación</span>
+  </p>  
+</div>
 <div class="container-top">
-  <p class="enlaces">
-    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
-    <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
-  </p>
-  <h1>Semilleros de investigación</h1>
+
   <div class="container">
     <div class="row">
       <div class="col-md-6">
@@ -32,7 +35,7 @@ investigación{%endblock %} {% block content %} {% include
           />
         </div>
       </div>
-      <div class="col-md-2 ms-auto">
+      <div class="col-1 ms-auto">
         <button
           type="button"
           class="btn btn-usb"

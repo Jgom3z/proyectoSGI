@@ -1,5 +1,6 @@
+
 //Scripts para ocultar y desplegar el navbar -->
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
   const sidebarToggle = document.querySelector('.sidebar-toggle');
   const sidebar = document.querySelector('.sidebar');
   const content = document.querySelector('main');
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     dropdown.classList.toggle('active');
   });
-});
+});*/
 
 
 /*
@@ -75,6 +76,7 @@ document.querySelector('.custom-menu-button').addEventListener('click', function
 
 
 document.addEventListener("DOMContentLoaded", function() {
+
   let lastScrollTop = 0;
   window.addEventListener("scroll", function() {
       let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
@@ -89,4 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Previene valores negativos
   });
+
+
+  
 });
