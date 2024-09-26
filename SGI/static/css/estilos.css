@@ -61,18 +61,8 @@ body {
   /* Subrayado al pasar el mouse */
 }
 
-.sidebar {
-  margin-top: 50px;
-  width: 300px;
-  background-color: #454545;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  color: white;
-  transition: transform 0.5s ease, opacity 0.5s ease;
- 
-  /* Animación de transición */
+.sidebar-usb {
+  background-color: #454545; 
 }
 
 .sidebar.hidden {
@@ -113,12 +103,12 @@ body {
 
 
 
-.sidebar nav ul {
+.sidebar-usb  ul {
   list-style-type: none;
   padding: 0;
 }
 
-.sidebar nav ul li a {
+.sidebar-usb ul li a {
   color: white;
   text-decoration: none;
   display: block;
@@ -126,7 +116,7 @@ body {
   font-size: 16px;
 }
 
-.sidebar nav ul li a i {
+.sidebar-usb nav ul li a i {
   margin-right: 10px;
 }
 
@@ -136,9 +126,7 @@ body {
 }
 
 main {
-  margin-left: 300px;
   padding: 20px;
-  transition: margin-left 0.4s ease;
   /* Animación de transición */
 }
 
@@ -219,33 +207,6 @@ footer {
 
 .footer-right img {
   height: 50px;
-}
-
-/* Inicialmente oculta el menú desplegable */
-.sidebar .dropdown-menu {
-  display: none;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  background-color: #444;
-  /* Color de fondo del menú desplegable */
-}
-
-.sidebar .dropdown-menu li a {
-  color: white;
-  padding: 10px;
-  text-decoration: none;
-  display: block;
-}
-
-.sidebar .dropdown-menu li a:hover {
-  background-color: #555;
-  /* Color de fondo al pasar el ratón */
-}
-
-/* Muestra el menú desplegable cuando el contenedor tiene la clase 'active' */
-.sidebar .dropdown.active .dropdown-menu {
-  display: block;
 }
 
 /*tables*/
