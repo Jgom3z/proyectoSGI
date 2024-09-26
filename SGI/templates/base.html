@@ -52,14 +52,13 @@
     <header>
       <div class="header-top">
         <!-- Botón para el menú lateral -->
-        <button class="sidebar-toggle">
+        <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
           <i class="fas fa-bars"
-            ><img
-              class="icons-menu"
-              src="{{ url_for('static', filename='img/menu.png') }}"
-          /></i>
+          ><img
+            class="icons-menu"
+            src="{{ url_for('static', filename='img/menu.png') }}"
+        /></i>
         </button>
-
         <!-- Logo -->
         <button class="sidebar-toggle">
           <a href="/vistaInicio"
@@ -85,108 +84,195 @@
         </div>
       </div>
     </header>
+    <!--
     <div class="sidebar">
       <div class="sidebar-content">
         <nav>
-          <ul>
-            <li class="dropdown">
-              <a href="/vistaInvestigaciones" class="dropdown-toggle">
-                <i class="fas fa-home"
-                  ><img
-                    class="icons-menu"
-                    src="{{ url_for('static', filename='img/home.png') }}"
-                  />Menú</i
-                >
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/vistaInvestigaciones"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/parthenon.png') }}"
-                    />Investigaciones</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaGruposInvestigacion"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/grupos.png') }}"
-                    />Grupos de investigación</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaLineasInvestigacion"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/lineas.png') }}"
-                    />Lineas de investigación</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="{{ url_for( 'idVistaSemillerosInvestigacion.listar' ) }}"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/semilleros.png') }}"
-                    />Semilleros de investigación</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaProyectosInvestigacion"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/proyectosI.png') }}"
-                    />Proyectos de investigación</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaProyectosFormacion"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/proyectosF.png') }}"
-                    />Proyectos de formación</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaInvestigadores"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/investigadores.png') }}"
-                    />Investigadores</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaEstudiantes"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/estudiantes.png') }}"
-                    />Estudiantes</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaConvocatorias"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/convocatorias.png') }}"
-                    />Convocatorias</a
-                  >
-                </li>
-                <li>
-                  <a href="/vistaCertificados"
-                    ><img
-                      class="icons-menu"
-                      src="{{ url_for('static', filename='img/certificados.png') }}"
-                    />Certificados</a
-                  >
-                </li>
-              </ul>
+          <h5><img
+            class="icons-menu"
+            src="{{ url_for('static', filename='img/home.png') }}"
+          />Inicio</i
+        ></h5>
+          <ul style="height: 100%; ">
+            <li>
+              <a href="/vistaInvestigaciones"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/parthenon.png') }}"
+                />Investigaciones</a
+              >
+            </li>
+            <li>
+              <a href="/vistaGruposInvestigacion"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/grupos.png') }}"
+                />Grupos de investigación</a
+              >
+            </li>
+            <li>
+              <a href="/vistaLineasInvestigacion"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/lineas.png') }}"
+                />Lineas de investigación</a
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for( 'idVistaSemillerosInvestigacion.listar' ) }}"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/semilleros.png') }}"
+                />Semilleros de investigación</a
+              >
+            </li>
+            <li>
+              <a href="/vistaProyectosInvestigacion"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/proyectosI.png') }}"
+                />Proyectos de investigación</a
+              >
+            </li>
+            <li>
+              <a href="/vistaProyectosFormacion"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/proyectosF.png') }}"
+                />Proyectos de formación</a
+              >
+            </li>
+            <li>
+              <a href="/vistaInvestigadores"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/investigadores.png') }}"
+                />Investigadores</a
+              >
+            </li>
+            <li>
+              <a href="/vistaEstudiantes"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/estudiantes.png') }}"
+                />Estudiantes</a
+              >
+            </li>
+            <li>
+              <a href="/vistaConvocatorias"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/convocatorias.png') }}"
+                />Convocatorias</a
+              >
+            </li>
+            <li>
+              <a href="/vistaCertificados"
+                ><img
+                  class="icons-menu"
+                  src="{{ url_for('static', filename='img/certificados.png') }}"
+                />Certificados</a
+              >
             </li>
           </ul>
         </nav>
       </div>
+    </div>-->
+    
+    
+    <div class="offcanvas offcanvas-start sidebar-usb-content" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header d-flex justify-content-between align-items-center">
+        <h5 class="offcanvas-title mx-auto fw-bolder" id="menuCollapseSemilleroLabel">Menú</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      
+      <div class="offcanvas-body sidebar-usb">
+        <ul>
+          <li>
+            <a href="/vistaInvestigaciones"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/parthenon.png') }}"
+              />Investigaciones</a
+            >
+          </li>
+          <li>
+            <a href="/vistaGruposInvestigacion"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/grupos.png') }}"
+              />Grupos de investigación</a
+            >
+          </li>
+          <li>
+            <a href="/vistaLineasInvestigacion"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/lineas.png') }}"
+              />Lineas de investigación</a
+            >
+          </li>
+          <li>
+            <a
+              href="{{ url_for( 'idVistaSemillerosInvestigacion.listar' ) }}"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/semilleros.png') }}"
+              />Semilleros de investigación</a
+            >
+          </li>
+          <li>
+            <a href="/vistaProyectosInvestigacion"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/proyectosI.png') }}"
+              />Proyectos de investigación</a
+            >
+          </li>
+          <li>
+            <a href="/vistaProyectosFormacion"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/proyectosF.png') }}"
+              />Proyectos de formación</a
+            >
+          </li>
+          <li>
+            <a href="/vistaInvestigadores"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/investigadores.png') }}"
+              />Investigadores</a
+            >
+          </li>
+          <li>
+            <a href="/vistaEstudiantes"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/estudiantes.png') }}"
+              />Estudiantes</a
+            >
+          </li>
+          <li>
+            <a href="/vistaConvocatorias"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/convocatorias.png') }}"
+              />Convocatorias</a
+            >
+          </li>
+          <li>
+            <a href="/vistaCertificados"
+              ><img
+                class="icons-menu"
+                src="{{ url_for('static', filename='img/certificados.png') }}"
+              />Certificados</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
-
     <!-- Contenido específico de cada página -->
     <main>
       
@@ -216,7 +302,7 @@
      
       {% block content %} {% endblock %}
     </main>
-
+    {% block nextcontent %} {% endblock %}
     <!----<footer>
     <div class="footer-left">
       <p>versión 1.0</p>

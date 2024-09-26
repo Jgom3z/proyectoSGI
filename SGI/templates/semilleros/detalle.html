@@ -1,14 +1,22 @@
 {% extends "base.html" %} {% block title %} Detalle Semillero{%endblock %} {%
 block content %}
 
-<div class="container-top">
-  <p class="enlaces">
+<div class="route mx-3 bg-light">
+  <p>
     <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
     <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
-    <a class="a-enlaces" href="{{url_for('idVistaSemillerosInvestigacion.listar')}}">Semilleros de investigación \</a>
+    <a
+      class="a-enlaces last-enlace"
+      href="{{url_for('idVistaSemillerosInvestigacion.listar')}}"
+    >
+      Semilleros de investigación \
+    </a>
+    <br id="break-line" />
+    <!-- El <br> tiene un id único -->
+    <span class="text-secondary">Detalle Semillero</span>
   </p>
-  <h1>Detalle Semillero</h1>
 </div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col" id="mainContent">
@@ -32,11 +40,10 @@ block content %}
 
           <!-- Botón para mostrar/ocultar el menú -->
           <button
-            class="btn btn-secundary mt-2 float-end mx-2"
+            class="btn btn-secundary float-end mx-2"
             type="button"
-            data-bs-toggle="collapse"
+            data-bs-toggle="offcanvas"
             data-bs-target="#menuCollapseSemillero"
-            aria-expanded="false"
             aria-controls="menuCollapseSemillero"
           >
             <img
@@ -92,14 +99,35 @@ block content %}
       </div>
     </div>
     <!-- Menú lateral derecho -->
-    <div class="col-auto position-relative mt-5">
-      <div class="collapse" id="menuCollapseSemillero">
-        {% include 'semilleros/crear-estudiante-semillero.html' %}
-        {% include 'semilleros/crear-plan-semillero.html' %}
+
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="menuCollapseSemillero"
+      aria-labelledby="menuCollapseSemilleroLabel"
+    >
+      <div
+        class="offcanvas-header d-flex justify-content-between align-items-center"
+      >
+        <h6
+          class="offcanvas-title mx-auto fw-bold"
+          id="menuCollapseSemilleroLabel"
+        >
+          Opciones
+        </h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="card offcanvas-body">
         <div class="card card-body">
           <!-- Contenido del menú -->
           <button
-            class="btn btn-usb btn-block mb-2"
+            id="btnAgregarEstudiante"
+            class="btn btn-usb btn-block mb-1"
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#crearEstudianteSemillero"
@@ -107,208 +135,240 @@ block content %}
             Agregar estudiantes
           </button>
 
-          <button class="btn btn-usb btn-block"
-          data-bs-toggle="modal"
-          data-bs-target="#crearPlanSemillero"
-          >Agregar plan semillero</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="card my-5">
-  <div class="card-header">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active a-usb"
-          id="integrantes-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#integrantes"
-          type="button"
-          role="tab"
-          aria-controls="integrantes"
-          aria-selected="true"
-        >
-          Estudiantes Integrantes
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link a-usb"
-          id="proyectos-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#proyectos"
-          type="button"
-          role="tab"
-          aria-controls="proyectos"
-          aria-selected="false"
-        >
-          Proyectos de Formación
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link a-usb"
-          id="planes-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#planes"
-          type="button"
-          role="tab"
-          aria-controls="planes"
-          aria-selected="false"
-        >
-          Planes
-        </button>
-      </li>
-    </ul>
-  </div>
-  <div class="container my-2">
-    <div class="row">
-      <div class="col-md-4">
-        <div class="input-group col-4">
           <button
-            class="btn btn-usb btn-outline-secondary text-white"
-            type="button"
-            id="button-search"
-
+            id="btnAgregarPlan"
+            class="btn btn-usb btn-block"
+            data-bs-toggle="modal"
+            data-bs-target="#crearPlanSemillero"
           >
-            <img class="text-ligth"
-              src="{{ url_for('static', filename='icons/search.svg') }}"
-              alt="Search Icon"
-            />
+            Agregar plan semillero
           </button>
-          <input
-            type="search"
-            class="form-control"
-            placeholder="Buscar ..."
-            aria-label="Example text with button addon"
-            aria-describedby="button-addon1"
-            id="input-search"
-          />
         </div>
       </div>
     </div>
   </div>
-  <div class="tab-content" id="myTabContent">
-    <div
-      class="tab-pane fade show active"
-      id="integrantes"
-      role="tabpanel"
-      aria-labelledby="integrantes-tab"
-    >
-      <!--Integrantes-->
-      <table class="table align-items-center ml-5" id="integrantes">
-        <thead>
-          <tr>
-            <th>Editar</th>
-            <th>Estudiante</th>
-            <th>Fecha de Inicio</th>
-            <th>Fecha de finalización</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in integrantes%}
-          <tr>
-            <td>
-                
-              <button
-                class="btn btn-sm btn-light"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#editarIntegrante"
-                onclick="loadData('/semilleros/get_integrante', id_integrante='{{ item.id_estud_semillero }}')"
-              >
-                <img
-                  src="{{ url_for('static', filename='icons/pencil.svg') }}"
-                  alt="Search Icon"
-                />
-              </button>
-            </td>
-            <td>{{item.nombre_estudiante}}</td>
-            <td>{{item.fecha_inicio}}</td>
-            <td>{{item.fecha_final}}</td>
-          </tr>
-          {% endfor %}
-          {% include 'semilleros/editar-estudiante-semillero.html' %}
-        </tbody>
-      </table>
+
+  <div class="card py-2">
+    <div class="card-header">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active a-usb"
+            id="integrantes-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#integrantes"
+            type="button"
+            role="tab"
+            aria-controls="integrantes"
+            aria-selected="true"
+          >
+            Estudiantes Integrantes
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="proyectos-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#proyectos"
+            type="button"
+            role="tab"
+            aria-controls="proyectos"
+            aria-selected="false"
+          >
+            Proyectos de Formación
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="planes-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#planes"
+            type="button"
+            role="tab"
+            aria-controls="planes"
+            aria-selected="false"
+          >
+            Planes
+          </button>
+        </li>
+      </ul>
     </div>
-    <div
-      class="tab-pane fade"
-      id="proyectos"
-      role="tabpanel"
-      aria-labelledby="proyectos-tab"
-    >
-      <!--Proyectos-->
-      <table class="table align-items-center ml-5" id="proyectos">
-        <thead>
-          <tr>
-            <th>Investigador Asesor</th>
-            <th>Fecha de Inicio</th>
-            <th>Fecha de terminación</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in proyectos%}
-          <tr>
-            <td>{{item.nombre_proy_form}}</td>
-            <td>{{item.fecha_inicio}}</td>
-            <td>{{item.fecha_terminacion}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div
-      class="tab-pane fade"
-      id="planes"
-      role="tabpanel"
-      aria-labelledby="planes-tab"
-    >
-    <!--Planes-->
-    <table class="table align-items-center" id="planes">
-      <thead>
-        <tr>
-          <th>Editar</th>
-          <th>Proyectos Activos</th>
-          <th>Periodo</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in planes%}
-        <tr>
-          <td>
-              
+    <div class="container my-2">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group col-4">
             <button
-              class="btn btn-sm btn-light"
+              class="btn btn-usb btn-outline-secondary text-white"
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#editarPlan"
-              onclick="loadData('/semilleros/get_plan', id_integrante='{{ item.id_plan_trabajo }}')"
+              id="button-search"
             >
               <img
-                src="{{ url_for('static', filename='icons/pencil.svg') }}"
+                class="text-ligth"
+                src="{{ url_for('static', filename='icons/search.svg') }}"
                 alt="Search Icon"
               />
             </button>
-          </td>
-          <td>{{item.proyecto_activos}}</td>
-          <td>{{item.periodo}}</td>
-        </tr>
-        {% endfor %}
-        {% include 'semilleros/editar-plan-semillero.html' %}
-      </tbody>
-    </table>
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Buscar ..."
+              aria-label="Example text with button addon"
+              aria-describedby="button-addon1"
+              id="input-search"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="tab-pane fade show active"
+        id="integrantes"
+        role="tabpanel"
+        aria-labelledby="integrantes-tab"
+      >
+        <!--Integrantes-->
+        <table class="table align-items-center ml-5" id="integrantes">
+          <thead>
+            <tr>
+              <th>Editar</th>
+              <th>Estudiante</th>
+              <th>Fecha de Inicio</th>
+              <th>Fecha de finalización</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in integrantes%}
+            <tr>
+              <td>
+                <button
+                  class="btn btn-sm btn-light"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editarIntegrante"
+                  onclick="loadData('/semilleros/get_integrante', id_integrante='{{ item.id_estud_semillero }}')"
+                >
+                  <img
+                    src="{{ url_for('static', filename='icons/pencil.svg') }}"
+                    alt="Search Icon"
+                  />
+                </button>
+              </td>
+              <td>{{item.nombre_estudiante}}</td>
+              <td>{{item.fecha_inicio}}</td>
+              <td>{{item.fecha_final}}</td>
+            </tr>
+            {% endfor %} {% include
+            'semilleros/editar-estudiante-semillero.html' %}
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="proyectos"
+        role="tabpanel"
+        aria-labelledby="proyectos-tab"
+      >
+        <!--Proyectos-->
+        <table class="table align-items-center ml-5" id="proyectos">
+          <thead>
+            <tr>
+              <th>Investigador Asesor</th>
+              <th>Fecha de Inicio</th>
+              <th>Fecha de terminación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in proyectos%}
+            <tr>
+              <td>{{item.nombre_proy_form}}</td>
+              <td>{{item.fecha_inicio}}</td>
+              <td>{{item.fecha_terminacion}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="planes"
+        role="tabpanel"
+        aria-labelledby="planes-tab"
+      >
+        <!--Planes-->
+        <table class="table align-items-center" id="planes">
+          <thead>
+            <tr>
+              <th>Editar</th>
+              <th>Proyectos Activos</th>
+              <th>Periodo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in planes%}
+            <tr>
+              <td>
+                <button
+                  class="btn btn-sm btn-light"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editarPlan"
+                  onclick="loadData('/semilleros/get_plan', id_integrante='{{ item.id_plan_trabajo }}')"
+                >
+                  <img
+                    src="{{ url_for('static', filename='icons/pencil.svg') }}"
+                    alt="Search Icon"
+                  />
+                </button>
+              </td>
+              <td>{{item.proyecto_activos}}</td>
+              <td>{{item.periodo}}</td>
+            </tr>
+            {% endfor %} {% include 'semilleros/editar-plan-semillero.html' %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
+
 <script>
   // Llama a la función createTableFilter con los IDs dinámicos
   TableFilter("input-search", "button-search", "integrantes");
   TableFilter("input-search", "button-search", "proyectos");
   TableFilter("input-search", "button-search", "planes");
+  document.getElementById('btnAgregarPlan').addEventListener('click', function() {
+    // Cerrar el offcanvas antes de abrir el modal
+    var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('menuCollapseSemillero'));
+    if (offcanvas) {
+        offcanvas.hide(); // Cerrar el offcanvas
+    }
+  
+    // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+    setTimeout(function() {
+        var modal = new bootstrap.Modal(document.getElementById('crearPlanSemillero'));
+        modal.show();
+    }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+  });
+  document.getElementById('btnAgregarEstudiante').addEventListener('click', function() {
+    // Cerrar el offcanvas antes de abrir el modal
+    var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('menuCollapseSemillero'));
+    if (offcanvas) {
+        offcanvas.hide(); // Cerrar el offcanvas
+    }
+  
+    // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+    setTimeout(function() {
+        var modal = new bootstrap.Modal(document.getElementById('crearEstudianteSemillero'));
+        modal.show();
+    }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+  });
 </script>
 
 {% endblock content%}
+{% block nextcontent %} 
+   {% include 'semilleros/crear-estudiante-semillero.html' %} 
+  {% include 'semilleros/crear-plan-semillero.html' %}
+{% endblock  nextcontent%}

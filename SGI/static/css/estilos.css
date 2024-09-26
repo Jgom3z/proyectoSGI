@@ -16,6 +16,7 @@ body {
   color: white;
   padding: 2px;
   display: flex;
+  height: 60px;
   align-items: center;
   position: fixed;
   /* Asegura que el header se mueva con el scroll */
@@ -61,21 +62,21 @@ body {
   /* Subrayado al pasar el mouse */
 }
 
-.sidebar {
-  margin-top: 50px;
-  width: 300px;
-  background-color: #454545;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  color: white;
-  transition: transform 0.3s ease;
-  /* Animación de transición */
+.sidebar-usb-content{
+  width: 270px;
 }
+.sidebar-usb {
+  background-color: #454545; 
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
+}
+
 
 .sidebar.hidden {
   transform: translateX(-100%);
+  opacity: 0;
+  overflow: hidden;
   /* Oculta la barra lateral desplazándola hacia la izquierda */
 }
 
@@ -110,12 +111,12 @@ body {
 
 
 
-.sidebar nav ul {
+.sidebar-usb  ul {
   list-style-type: none;
   padding: 0;
 }
 
-.sidebar nav ul li a {
+.sidebar-usb ul li a {
   color: white;
   text-decoration: none;
   display: block;
@@ -123,7 +124,7 @@ body {
   font-size: 16px;
 }
 
-.sidebar nav ul li a i {
+.sidebar-usb nav ul li a i {
   margin-right: 10px;
 }
 
@@ -133,9 +134,7 @@ body {
 }
 
 main {
-  margin-left: 300px;
   padding: 20px;
-  transition: margin-left 0.3s ease;
   /* Animación de transición */
 }
 
@@ -218,33 +217,6 @@ footer {
   height: 50px;
 }
 
-/* Inicialmente oculta el menú desplegable */
-.sidebar .dropdown-menu {
-  display: none;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  background-color: #444;
-  /* Color de fondo del menú desplegable */
-}
-
-.sidebar .dropdown-menu li a {
-  color: white;
-  padding: 10px;
-  text-decoration: none;
-  display: block;
-}
-
-.sidebar .dropdown-menu li a:hover {
-  background-color: #555;
-  /* Color de fondo al pasar el ratón */
-}
-
-/* Muestra el menú desplegable cuando el contenedor tiene la clase 'active' */
-.sidebar .dropdown.active .dropdown-menu {
-  display: block;
-}
-
 /*tables*/
 /* Estilos generales de la tabla */
 
@@ -256,14 +228,14 @@ footer {
 }
 
 
-
+/*
 .table {
   width: 80%;
   border-collapse: collapse;
   margin-bottom: 1rem;
   color: #212529;
 }
-
+*/
 .table th,
 .table td {
   padding: 0.60rem;
@@ -326,12 +298,7 @@ footer {
   text-decoration: none;
 }
 
-/* Estilos para la tabla */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 10px;
-}
+
 
 th,
 td {
@@ -460,23 +427,65 @@ select {
   color: #666;
 }
 
-/* Transición para el menú lateral en semilleros*/
+/* Transición para el menú lateral en semilleros 
 #menuCollapseSemillero {
-  transition: width 0.4s ease, opacity 0.4s ease;
+  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; 
   width: 0;
   opacity: 0;
-}
+}*/
 
-#menuCollapseSemillero.show {
-  width: 250px;
-  /* Ancho del menú cuando esté visible */
+#menuCollapseSemillero {
+  width: 300px; /* Ancho del menú cuando esté visible */
   opacity: 1;
+  padding: 0;
 }
-
+#menuCollapseSemillero {
+  top: 60px; /* Cambia este valor según la altura de tu div fixed */
+  height: calc(100% - 60px); /* Ajusta la altura del offcanvas */
+}
 .text-semillero {
   color: #666666;
 }
 
 .text-semillero li {
    color: #666666;
+}
+
+.route {
+  
+  align-items: center; /* Centra verticalmente */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Suaviza las transiciones */
+  padding: 0 0 0 10px; /* Espaciado vertical */
+}
+
+.route.scrolled-down {
+  display: flex;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px; 
+  z-index: 1000;
+  background-color: white; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para mayor claridad */
+  height: calc(100% - 60px);
+  border-bottom: 1px solid #ddd; 
+}
+
+#break-line {
+  transition: none; /* Desactiva cualquier transición si está activa */
+}
+
+
+.under-route{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 150px;
+  z-index: 1000;
+  padding: 0px 0px 0px 20px;
+}
+
+.modal {
+  z-index: 1051; /* Valor mayor para el modal */
+}
+.offcanvas {
+  z-index: 1045; /* Valor menor para el offcanvas */
 }
