@@ -1,0 +1,58 @@
+<div
+  class="modal fade"
+  id="editarIntegrante"
+  tabindex="-1"
+  aria-labelledby="editarIntegranteLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarIntegranteLabel">Crear Semillero</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" action="/semilleros/editarEstudianteSemillero" method="POST">
+          <input type="hidden" name="int_id_semillero" id="int_id_semillero">
+          <input type="hidden" name="int_id_estud_semillero" id="int_id_estud_semillero">
+          <div class="col-md-12">
+            <label for="int_id_estudiante" class="form-label">Estudiante</label>
+            <select class="form-select" name="int_id_estudiante" id="int_id_estudiante" required>
+              <option selected value="">Seleccionar</option>
+              {% for item in estudiantes %}
+                <option value="{{ item.id_estudiante }}">
+                  {{ item.nombre_estudiante   }} 
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-12">
+            <label for="int_fecha_final" class="form-label">Fecha Final</label>
+            <input
+              type="date"
+              class="form-control"
+              name="int_fecha_final"
+              id="int_fecha_final"
+              required
+            />
+          </div>          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

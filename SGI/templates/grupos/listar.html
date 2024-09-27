@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Grupos de Investigación{% endblock %}
+{% block content %}
+{% include 'grupos/crear.html' %}
+<div class="container-top">
+    <p class="enlaces">
+        <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
+        <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
+    </p>
+    <h1>Grupos de Investigación</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group col-4">
+                    <button class="btn btn-usb btn-outline-secondary" type="button" id="searchGrupoBtn">
+                        <img src="{{ url_for('static', filename='icons/search.svg') }}" alt="Search Icon" />
+                    </button>
+                    <input type="search" class="form-control" placeholder="Buscar grupo..." id="searchGrupo" value="{{ search_term }}">
+                </div>
+            </div>
+            <div class="col-md-2 ms-auto">
+                <button type="button" class="btn btn-usb" data-bs-toggle="modal" data-bs-target="#crearGrupo">
+                    Crear
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table" id="Grupos" style="width: 100%">
+    <thead>
+        <tr>
+            <th>Nombre del Grupo</th>
+            <th>Código GrupLAC</th>
+            <th>Categoría Colciencias</th>
+            <th>Facultad</th>
+            <th>Líder</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td>
+                <a class="a-td" href="{{ url_for('idVistaGruposInvestigacion.detalle', id=item.id_grupo) }}">{{item.nombre_grupo}}</a>
+            </td>
+            <td>{{item.codigo_grup_lac}}</td>
+            <td>{{item.categoria_colciencias}}</td>
+            <td>{{item.nombre_facultad}}</td>
+            <td>{{item.nombre_investigador}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Paginación -->
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for(route_pagination, page=page - 1) }}" class="btn btn-primary btn-sm">&laquo; Anterior</a>
+    {% endif %}
+
+    <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
+    {% if page < total_pages %}
+    <a href="{{ url_for(route_pagination, page=page + 1) }}" class="btn btn-primary btn-sm">Siguiente &raquo;</a>
+    {% endif %}
+</div>
+
+<script>
+    TableFilterV2("searchGrupo", "searchGrupoBtn", "/grupos/listar", 500);
+</script>
+
+{% endblock content %}

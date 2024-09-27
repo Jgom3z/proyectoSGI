@@ -1,218 +1,220 @@
 /* styles.css */
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url("/static/img/inicio/FI.jpg");
-    background-repeat: repeat;
-    background-size: cover;
-    background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url("/static/img/inicio/FI.jpg");
+  background-repeat: repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 
 .header-top {
-    background-color: #b54f25;
-    color: white;
-    padding: 2px;
-    display: flex;
-    align-items: center;
-    position: fixed; /* Asegura que el header se mueva con el scroll */
-    width: 100%; /* Asegura que el header ocupe el ancho completo */
-    z-index: 1; /* Asegura que el header esté por encima de otros elementos */
+  background-color: #b54f25;
+  color: white;
+  padding: 2px;
+  display: flex;
+  height: 60px;
+  align-items: center;
+  position: fixed;
+  /* Asegura que el header se mueva con el scroll */
+  width: 100%;
+  /* Asegura que el header ocupe el ancho completo */
+  z-index: 1;
+  /* Asegura que el header esté por encima de otros elementos */
 }
 
-.icons-menu{
-    margin-right: 10px;
+.icons-menu {
+  margin-right: 10px;
 }
 
 .logo {
-    width: 150px; /* Ajusta el ancho del logo según sea necesario */
+  width: 150px;
+  /* Ajusta el ancho del logo según sea necesario */
 }
 
 .user-info {
-    display: flex;
-    align-items: center;
-    margin-left: auto; /* Empuja .user-info al borde derecho */
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  /* Empuja .user-info al borde derecho */
 }
 
 .user-info i {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .user-info span {
-    margin-right: 20px; /* Ajusta el espacio alrededor del contador de notificaciones */
+  margin-right: 20px;
+  /* Ajusta el espacio alrededor del contador de notificaciones */
 }
 
 .user-info a {
-    color: white;
-    margin-right: 15px;
-    text-decoration: none;
+  color: white;
+  margin-right: 15px;
+  text-decoration: none;
 }
 
 .user-info a:hover {
-    text-decoration: underline; /* Subrayado al pasar el mouse */
+  text-decoration: underline;
+  /* Subrayado al pasar el mouse */
 }
 
-.sidebar {
-    margin-top:50px;
-    width: 300px;
-    background-color: #454545;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    color: white;
-    transition: transform 0.3s ease; /* Animación de transición */
+.sidebar-usb-content{
+  width: 270px;
 }
+.sidebar-usb {
+  background-color: #454545; 
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
+}
+
 
 .sidebar.hidden {
-    transform: translateX(-100%); /* Oculta la barra lateral desplazándola hacia la izquierda */
+  transform: translateX(-100%);
+  opacity: 0;
+  overflow: hidden;
+  /* Oculta la barra lateral desplazándola hacia la izquierda */
 }
 
 .sidebar-toggle {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px; /* Tamaño del icono */
-    cursor: pointer;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  /* Tamaño del icono */
+  cursor: pointer;
 }
 
 .sidebar .sidebar-content {
-    padding: 20px;
+  padding: 20px;
 }
 
 .sidebar .sidebar-logo {
-    display: flex;
-    justify-content: flex-start; /* Alinea el contenido a la izquierda */
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+  /* Alinea el contenido a la izquierda */
+  margin-bottom: 20px;
 }
+
 .sidebar .sidebar-logo img {
-    width: auto; /* Ajusta el ancho de la imagen según su contenido */
-    height: 60px; /* Ajusta la altura si es necesario */
-    margin: 0; /* Elimina cualquier margen */
+  width: auto;
+  /* Ajusta el ancho de la imagen según su contenido */
+  height: 60px;
+  /* Ajusta la altura si es necesario */
+  margin: 0;
+  /* Elimina cualquier margen */
 }
 
 
 
-.sidebar nav ul {
-    list-style-type: none;
-    padding: 0;
+.sidebar-usb  ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-.sidebar nav ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px 0;
-    font-size: 16px;
+.sidebar-usb ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 0;
+  font-size: 16px;
 }
 
-.sidebar nav ul li a i {
-    margin-right: 10px;
+.sidebar-usb nav ul li a i {
+  margin-right: 10px;
 }
 
 .sidebar-toggle i {
-    margin-right: 0; /* Ajusta el margen según sea necesario */
+  margin-right: 0;
+  /* Ajusta el margen según sea necesario */
 }
 
 main {
-    margin-left: 300px;
-    padding: 20px;
-    transition: margin-left 0.3s ease; /* Animación de transición */
+  padding: 20px;
+  /* Animación de transición */
 }
 
 main.expanded {
-    margin-left: 0; /* Ajusta el margen cuando la barra lateral está oculta */
+  margin-left: 0;
+  /* Ajusta el margen cuando la barra lateral está oculta */
 }
 
 h1 {
-    font-size: 36px;
-    color: #333;
+  font-size: 36px;
+  color: #333;
 }
 
 .content {
-    display: flex;
-    justify-content: space-between; /* Espacio entre los elementos */
-    align-items: flex-start; /* Alineación de los elementos */
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  /* Espacio entre los elementos */
+  align-items: flex-start;
+  /* Alineación de los elementos */
+  margin-top: 20px;
 }
 
 .carousel {
-    flex: 1; /* Ajusta el tamaño relativo del carrusel */
-    margin-right: 20px; /* Mantén un margen derecho para separación */
-    max-width: 60%; /* O ajusta este valor según tu necesidad */
+  flex: 1;
+  /* Ajusta el tamaño relativo del carrusel */
+  margin-right: 20px;
+  /* Mantén un margen derecho para separación */
+  max-width: 60%;
+  /* O ajusta este valor según tu necesidad */
 }
 
 .objective {
-    flex: 1; /* La sección de objetivo toma 1/3 del ancho disponible */
-    max-width: 40%; /* Controla el ancho máximo */
-    background-color: #fff;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-left: 0; /* Elimina el margen izquierdo si es necesario */
+  flex: 1;
+  /* La sección de objetivo toma 1/3 del ancho disponible */
+  max-width: 40%;
+  /* Controla el ancho máximo */
+  background-color: #fff;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 0;
+  /* Elimina el margen izquierdo si es necesario */
 }
 
 .carousel img {
-    max-width: 100%;
-    height: 300px; /* Ajusta la altura según tus necesidades */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+  max-width: 100%;
+  height: 300px;
+  /* Ajusta la altura según tus necesidades */
+  object-fit: cover;
+  /* Asegura que la imagen cubra el área sin distorsionarse */
 }
 
 .objective h2 {
-    color: #b54f25;
-    margin-top: 0;
+  color: #b54f25;
+  margin-top: 0;
 }
 
 footer {
-    background-color: transparent;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    width: calc(100% - 220px);
-    margin-left: 300px;
+  background-color: transparent;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 220px);
+  margin-left: 300px;
 }
 
 .footer-left {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .footer-left p {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .footer-right img {
-    height: 50px;
-}
-
-/* Inicialmente oculta el menú desplegable */
-.sidebar .dropdown-menu {
-    display: none;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    background-color: #444; /* Color de fondo del menú desplegable */
-}
-
-.sidebar .dropdown-menu li a {
-    color: white;
-    padding: 10px;
-    text-decoration: none;
-    display: block;
-}
-
-.sidebar .dropdown-menu li a:hover {
-    background-color: #555; /* Color de fondo al pasar el ratón */
-}
-
-/* Muestra el menú desplegable cuando el contenedor tiene la clase 'active' */
-.sidebar .dropdown.active .dropdown-menu {
-    display: block;
+  height: 50px;
 }
 
 /*tables*/
@@ -226,229 +228,257 @@ footer {
 }
 
 
-
+/*
 .table {
-    width: 80%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-    color: #212529;
-  }
-  
-  .table th, .table td {
-    padding: 0.60rem;
-    vertical-align: top;
-    border: 1px solid #dee2e6;
-  }
-  
-  .table thead th {
-    background-color: #f8f9fa;
-    color: #b54f25;
-  }
-  
-  .table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-  }
-  
-  .table tbody tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Estilos del modal */
-  .modal-dialog.custom-width {
-    max-width: 1000px; /* Ajusta el ancho del modal */
-  }
- 
-  .modal-content {
-    border-radius: 0.5rem;
-    max-width: 800px;
-  }
-  
-  .modal-header {
-    color: gray;
-  }
-  
-  .modal-header .btn-close {
-    filter: invert(1);
-  }
-  
-  .modal-footer {
-    border-top: 1px solid #dee2e6;
-  }
-  
-  .modal-body h2 {
-    margin-top: 0;
-  }
-  
-  /* Estilos del botón de buscar */
-  .search-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .search-input {
-    flex: 1;
-    padding: 0.5rem;
-    margin-right: 800px;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+  width: 80%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+*/
+.table th,
+.table td {
+  padding: 0.60rem;
+  vertical-align: top;
+  border: 1px solid #dee2e6;
+}
 
-  }
-  
-  .search-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.25rem;
-    background-color: #b54f25;
-    color: white;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .search-button:hover {
-    background-color: #c47553;
-  }
-  
-  /* Estilos para los enlaces en la tabla */
-  .a-td {
-    color: #b54f25;
-    text-decoration: none;
-  }
-  
-  .a-td:hover {
-    color: #c47553;
-    text-decoration: none;
-  }
-  
-     /* Estilos para la tabla */
+.table thead th {
+  background-color: #f8f9fa;
+  color: #b54f25;
+}
 
-    
+.table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
 
-     table {
-        width: 100%;
-        border-collapse: collapse;
-        border-radius: 10px;
-    }
-    th, td {
-        border: 1px solid #867f7f;
-        padding: 8px;
-        text-align: left;
-        
-    }
-    .modal-content th{
-      color: #b54f25;
-    }
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+/* Estilos del botón de buscar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.5rem;
+  margin-right: 800px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+
+}
+
+.search-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #b54f25;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.search-button:hover {
+  background-color: #c47553;
+}
+
+/* Estilos para los enlaces en la tabla */
+.a-td {
+  color: #b54f25;
+  text-decoration: none;
+}
+
+.a-td:hover {
+  color: #c47553;
+  text-decoration: none;
+}
+
+
+
+th,
+td {
+  border: 1px solid #867f7f;
+  padding: 8px;
+  text-align: left;
+
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #b54f25;
+}
+
+/* Estilos para la barra de búsqueda y el botón */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 25%;
+  padding: 5px;
+}
+
+.search-button {
+  padding: 5px 10px;
+  background-color: #b54f25;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.search-create {
+
+  padding: 5px 10px;
+  background-color: #b54f25;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  float: right;
+}
+
+
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilo del botón desplegable */
+
+.container-top {
+  padding: 0 20px 5px 20px;
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+.container-top h1 {
+  font-size: 25px;
+  color: #333;
+  /* Color de texto oscuro para el encabezado */
+  margin-bottom: 20px;
+}
+
+
+label {
+  margin-right: auto;
+}
+
+/*
+input,
+textarea,
+select {
+  width: 300px;
+  margin: 10px 10px;
+  border-radius: 10px;
+  border-color: #b54f25;
+  padding: 10px;
+}
+*/
+.a-td {
+  text-decoration: none;
+  color: #b54f25;
+}
+
+.enlaces {
+  margin-top: 60px;
+}
+
+.a-enlaces {
+  text-decoration: none;
+  color: gray;
+}
+
+.a-enlaces:hover {
+  text-decoration: none;
+  color: #b54f25;
+}
+
+
+
+.btn-usb {
+  background-color: #b54f25;
+  color: #fff;
+}
+
+.btn-usb:hover {
+  background-color: #b54f25;
+  color: #000;
+}
+
+.a-usb {
+  color: #b54f25;
+}
+
+.a-usb:hover {
+  color: #666;
+}
+
+/* Transición para el menú lateral en semilleros 
+#menuCollapseSemillero {
+  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, transform 0.3s ease; 
+  width: 0;
+  opacity: 0;
+}*/
+
+#menuCollapseSemillero {
+  width: 300px; /* Ancho del menú cuando esté visible */
+  opacity: 1;
+  padding: 0;
+}
+#menuCollapseSemillero {
+  top: 60px; /* Cambia este valor según la altura de tu div fixed */
+  height: calc(100% - 60px); /* Ajusta la altura del offcanvas */
+}
+.text-semillero {
+  color: #666666;
+}
+
+.text-semillero li {
+   color: #666666;
+}
+
+.route {
   
-    /* Estilos para la barra de búsqueda y el botón */
-    .search-bar {
-        margin-bottom: 20px;
-    }
-    .search-input {
-        width: 25%;
-        padding: 5px;
-    }
-    .search-button {
-        padding: 5px 10px;
-        background-color: #b54f25;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-    }
-    
-    .search-create{
-        
-            padding: 5px 10px;
-            background-color: #b54f25;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            float: right; 
-        }
-    
-    
-      
-        /* Estilo del modal */
-        .modal {
-          display: none; /* Ocultar el modal por defecto */
-          position: fixed; /* Fijo en la pantalla */
-          z-index: 1; /* Asegurar que esté sobre otros elementos */
-          left: 0;
-          top: 0;
-          width: 100%; /* Ocupa el ancho completo */
-          height: 100%; /* Ocupa el alto completo */
-          overflow: auto; /* Permitir desplazamiento si es necesario */
-          background-color: rgba(0,0,0,0.4); /* Fondo oscuro con opacidad */
-        }
-    
-        .modal-content {
-          background-color: #fefefe;
-          margin: 15% auto; /* Centrar el modal */
-          padding: 20px;
-          border: 1px solid #b54f25;
-          width: 80%; /* Ancho del modal */
-        }
-    
-        .close {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-        }
-    
-        .close:hover,
-        .close:focus {
-          color: black;
-          text-decoration: none;
-          cursor: pointer;
-        }
-    
-        /* Estilo del botón desplegable */
-    
-        .container-top {
-          padding: 20px;
-          background-color: white;
-          margin-bottom: 10px;
-        }
-        
-        .container-top h1 {
-          font-size: 25px;
-          color: #333; /* Color de texto oscuro para el encabezado */
-          margin-bottom: 20px;
-        }
-    
-        
-    label{
-      margin-right: auto;
-     }
-     
-     input, textarea, select{
-         width: 300px;
-         margin: 10px 10px ;
-         border-radius:10px;
-         border-color: #b54f25;
-         padding: 10px;
-     }
-     
-     .a-td{
-         text-decoration: none;
-         color: #b54f25;
-     }
-    
-     .enlaces{
-      margin-top: 60px;
-     }
+  align-items: center; /* Centra verticalmente */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Suaviza las transiciones */
+  padding: 0 0 0 10px; /* Espaciado vertical */
+}
 
-     .a-enlaces{
-      text-decoration: none;
-      color: gray;
-     }
+.route.scrolled-down {
+  display: flex;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px; 
+  z-index: 1000;
+  background-color: white; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para mayor claridad */
+  height: calc(100% - 60px);
+  border-bottom: 1px solid #ddd; 
+}
 
-     .a-enlaces:hover{
-      text-decoration: none;
-      color: #b54f25;
-     }
+#break-line {
+  transition: none; /* Desactiva cualquier transición si está activa */
+}
 
-     #modalNombreGrupo
-     {
-      color: #b54f25
-     }
+
+.under-route{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 150px;
+  z-index: 1000;
+  padding: 0px 0px 0px 20px;
+}

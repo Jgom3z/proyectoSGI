@@ -10,59 +10,52 @@ API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
 
 @vistaProyectosFormacion.route('/vistaProyectosFormacion', methods=['GET'])
 def vista_proyectos_formacion():
-    # Obtener datos de grupos
+    # Inicializa la variable
+    proyectosf = []
+
+    # Define la estructura de la consulta
     select_data_proyectosf = {
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_grupos g INNER JOIN inv_investigadores p ON p.id_investigador = g.id_lider INNER JOIN inv_facultad f ON f.id_facultad = g.id_facultad",
+            "table_name": "inv_proyecto_formacion pf "
+                        "INNER JOIN inv_proyecto p ON pf.id_proyecto = p.id_proyecto "
+                        "INNER JOIN inv_investigador i ON pf.id_investigador = i.id_investigador",
             "json_data": {
-                "estado": "En Progreso"
+                "estado": "En Progreso"  # Ajusta esta condición según sea necesario
             },
             "where_condition": "",
-            "select_columns": "g.nombre_proyecto, g.codigo_grup_lac, g.categoria_colciencias, f.nombre_facultad, p.nombre_investigador, g.id_grupo",
-            "order_by": "g.id_grupo",
+            "select_columns": "pf.nombre_proy_form, pf.nivel, pf.modalidad, pf.cod_proy_form, p.nombre_proyecto, i.nombre_investigador",
+            "order_by": "pf.id_proyecto_formacion",  # Asegúrate de usar el campo correcto para el orden
             "limit_clause": ""
         }
     }
 
-    response_proyectosf = requests.post(API_URL, json=select_data_proyectosf)
-    if response_proyectosf.status_code != 200:
-        return f"Error al consultar la API: {response_proyectosf.status_code}"
-    
-    data_proyectosf = response_proyectosf.json()
-    if 'result' in data_proyectosf and data_proyectosf['result']:
-        proyectosf_str = data_proyectosf['result'][0]['result']
-        proyectosf = json.loads(proyectosf_str)
-    else:
-        proyectosf = []
+    # Realiza la consulta a la API
+    try:
+        response_proyectosf = requests.post(API_URL, json=select_data_proyectosf)
+        response_proyectosf.raise_for_status()  # Lanza un error para códigos de estado 4xx o 5xx
+        data_proyectosf = response_proyectosf.json()
+        
+        # Procesa la respuesta
+        if 'result' in data_proyectosf and data_proyectosf['result']:
+            proyectosf_str = data_proyectosf['result'][0]['result']
+            proyectosf = json.loads(proyectosf_str)
+        else:
+            proyectosf = []
 
-    # Obtener datos de facultades
-    select_data_facultades = {
-        "projectName": 'SGI',
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_facultad",
-            "json_data": {},
-            "where_condition": "",
-            "select_columns": "id_facultad, nombre_facultad",
-            "order_by": "id_facultad",
-            "limit_clause": ""
-        }
-    }
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consultar la API: {e}")
+    except json.JSONDecodeError:
+        print("Error al decodificar la respuesta JSON")
+    except Exception as e:
+        print(f"Ocurrió un error inesperado: {e}")
 
-    response_facultades = requests.post(API_URL, json=select_data_facultades)
-    if response_facultades.status_code != 200:
-        return f"Error al consultar la API: {response_facultades.status_code}"
+    # Aquí puedes trabajar con la variable proyectosf
+    print(proyectosf)
 
-    data_facultades = response_facultades.json()
-    if 'result' in data_facultades and data_facultades['result']:
-        facultades_str = data_facultades['result'][0]['result']
-        facultades = json.loads(facultades_str)
-    else:
-        facultades = []
-
-    #obtener datos de investigador lider
+   
+    #obtener datos de investigador 
     
     select_data_investigadores = {
         "projectName": 'SGI',
@@ -88,13 +81,91 @@ def vista_proyectos_formacion():
     else:
         investigadores = []
 
- 
+    # Define la estructura de la consulta para semilleros
+    select_data_semilleros = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_semilleros",  # Cambia esto por el nombre correcto de tu tabla
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "id_semillero, nombre_semillero",  # Cambia esto por los nombres de columnas correctos
+            "order_by": "id_semillero",  # Asegúrate de usar el campo correcto para el orden
+            "limit_clause": ""
+        }
+    }
 
+    # Realiza la consulta a la API
+    response_semilleros = requests.post(API_URL, json=select_data_semilleros)
+    if response_semilleros.status_code != 200:
+        return f"Error al consultar la API: {response_semilleros.status_code}"
+
+    data_semilleros = response_semilleros.json()
+    if 'result' in data_semilleros and data_semilleros['result']:
+        semilleros_str = data_semilleros['result'][0]['result']
+        semilleros = json.loads(semilleros_str)
+    else:
+        semilleros = []
+
+ 
+    # Estructura de la consulta para líneas de investigación
+    select_data_lineas = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_linea_grupo",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "id_linea, nombre_linea",
+            "order_by": "id_linea",
+            "limit_clause": ""
+        }
+    }
+
+    # Realiza la consulta a la API
+    response_lineas = requests.post(API_URL, json=select_data_lineas)
+    if response_lineas.status_code != 200:
+        print(f"Error al consultar la API: {response_lineas.status_code}")
+    else:
+        print(response_lineas.text)  # Imprime la respuesta para depuración
+        data_lineas = response_lineas.json()
+        if 'result' in data_lineas and data_lineas['result']:
+            lineas_str = data_lineas['result'][0]['result']
+            lineas = json.loads(lineas_str) if lineas_str else []
+        else:
+            lineas = []
+
+   # Estructura de la consulta para proyectos
+    select_data_proyectos = {
+        "projectName": 'SGI',
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_proyecto",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "id_proyecto, nombre_proyecto",
+            "order_by": "id_proyecto",
+            "limit_clause": ""
+        }
+    }
+
+    # Realiza la consulta a la API
+    response_proyectos = requests.post(API_URL, json=select_data_proyectos)
+    if response_proyectos.status_code != 200:
+        print(f"Error al consultar la API: {response_proyectos.status_code}")
+    else:
+        print(response_proyectos.text)  # Imprime la respuesta para depuración
+        data_proyectos = response_proyectos.json()
+        if 'result' in data_proyectos and data_proyectos['result']:
+            proyectos_str = data_proyectos['result'][0]['result']
+            proyectos = json.loads(proyectos_str) if proyectos_str else []
+        else:
+            proyectos = []
 
 
     # Pasar los datos a la plantilla
     ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaProyectosFormacion.html', proyectosf=proyectosf, facultades=facultades, investigadores = investigadores, ths=ths)
+    return render_template('vistaProyectosFormacion.html', proyectosf=proyectosf, investigadores = investigadores, semilleros= semilleros, lineas=lineas, proyectos=proyectos, ths=ths)
 
 #PARA EL MODAL
 @vistaProyectosFormacion.route("/createproyectof", methods = ['POST'])

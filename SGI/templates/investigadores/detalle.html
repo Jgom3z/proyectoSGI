@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Detalle del Investigador{% endblock %}
+{% block content %}
+<div class="container-top">
+  <p class="enlaces">
+    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
+    <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
+    <a class="a-enlaces" href="{{ url_for('idVistaInvestigadores.listar') }}">Investigadores \</a>
+    <span class="text-secondary">Detalle Investigador</span>
+  </p>
+</div>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <div class="flex-grow-1 text-center">
+        <h3 class="text-investigador m-0">
+          <strong>{{ investigador.nombre_investigador }}</strong>
+        </h3>
+      </div>
+      <a href="{{ url_for('idVistaInvestigadores.editar', id=investigador.id_investigador) }}" class="btn btn-usb">Editar</a>
+      <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarInvestigadorModal">
+        Eliminar
+      </button>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Identificación:</th>
+            <td>{{ investigador.cedula }}</td>
+            <th>Facultad:</th>
+            <td>{{ investigador.nombre_facultad }}</td>
+          </tr>
+          <tr>
+            <th>Nivel de Formación:</th>
+            <td>{{ investigador.nivel_de_formacion }}</td>
+            <th>Categoría Institución:</th>
+            <td>{{ investigador.categoria_institucion }}</td>
+          </tr>
+          <tr>
+            <th>Categoría Colciencias:</th>
+            <td>{{ investigador.categoria_colciencias }}</td>
+            <th>ORCID:</th>
+            <td>{{ investigador.orcid }}</td>
+          </tr>
+          <tr>
+            <th>Tipo de Contrato:</th>
+            <td>{{ investigador.tipo_contrato }}</td>
+            <th>Correo:</th>
+            <td>{{ investigador.correo }}</td>
+          </tr>
+          <tr>
+            <th>Teléfono:</th>
+            <td>{{ investigador.telefono or '-' }}</td>
+            <th>Fecha de Inicio:</th>
+            <td>{{ investigador.fecha_inicio }}</td>
+          </tr>
+          <tr>
+            <th>Fecha Final:</th>
+            <td>{{ investigador.fecha_final or '-' }}</td>
+            <th>Categoría Colciencias Esperada:</th>
+            <td>{{ investigador.categoria_colciencias_esperada }}</td>
+          </tr>
+          <tr>
+            <th>CvLAC:</th>
+            <td colspan="3">
+              {% if investigador.cvlac %}
+                <a href="{{ investigador.cvlac }}" target="_blank">{{ investigador.cvlac }}</a>
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmación para eliminar investigador -->
+<div class="modal fade" id="eliminarInvestigadorModal" tabindex="-1" aria-labelledby="eliminarInvestigadorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarInvestigadorModalLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de que desea eliminar este investigador?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="{{ url_for('idVistaInvestigadores.eliminar', id=investigador.id_investigador) }}" method="post">
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

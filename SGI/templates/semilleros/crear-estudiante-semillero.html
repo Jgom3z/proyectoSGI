@@ -1,0 +1,57 @@
+<div
+  class="modal fade"
+  id="crearEstudianteSemillero"
+  tabindex="-1"
+  aria-labelledby="crearEstudianteSemilleroLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearEstudianteSemilleroLabel">Crear Semillero</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" action="/semilleros/crearEstudianteSemillero" method="POST">
+          <input type="hidden" value="{{ semillero.id_semillero }}" name="id_semillero" id="id_semillero">
+          <div class="col-md-12">
+            <label for="id_estudiante" class="form-label">Estudiante</label>
+            <select class="form-select" name="id_estudiante" id="id_estudiante" required>
+              <option selected value="">Seleccionar</option>
+              {% for item in estudiantesNotInSemillero %}
+                <option value="{{ item.id_estudiante }}">
+                  {{ item.nombre_estudiante   }} 
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-12">
+            <label for="fecha_final" class="form-label">Fecha Final</label>
+            <input
+              type="date"
+              class="form-control"
+              name="fecha_final"
+              id="fecha_final"
+              required
+            />
+          </div>          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

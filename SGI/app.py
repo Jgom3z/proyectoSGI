@@ -3,6 +3,9 @@ import markupsafe
 import requests
 import json
 from pprint import pprint
+from dotenv import load_dotenv
+
+load_dotenv()
 #Iconos
 from vista.inicio import vistaInicio
 from vista.login import login
@@ -16,18 +19,18 @@ from vista.vistaProyectosInvestigacion import vistaProyectosInvestigacion
 from vista.vistaSemillerosInvestigacion import vistaSemillerosInvestigacion
 
 app = Flask(__name__)
-
+app.secret_key = 'supersecretkey'
 # Registro de Blueprints
 app.register_blueprint(vistaInicio)
 app.register_blueprint(login)
 app.register_blueprint(vistaEstudiantes)
-app.register_blueprint(vistaGruposInvestigacion)
+app.register_blueprint(vistaGruposInvestigacion, url_prefix= '/grupos')
 app.register_blueprint(vistaInvestigaciones)
-app.register_blueprint(vistaInvestigadores)
+app.register_blueprint(vistaInvestigadores, url_prefix= '/investigadores')
 app.register_blueprint(vistaLineasInvestigacion)
 app.register_blueprint(vistaProyectosFormacion)
 app.register_blueprint(vistaProyectosInvestigacion)
-app.register_blueprint(vistaSemillerosInvestigacion)
+app.register_blueprint(vistaSemillerosInvestigacion, url_prefix='/semilleros')
 
 # Configuración de la URL de la API
 projectName = 'SGI'

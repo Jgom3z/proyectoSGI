@@ -1,0 +1,115 @@
+{% extends "base.html" %} {% block title %} Semilleros de
+investigación{%endblock %} {% block content %} {% include
+'semilleros/crear.html' %}
+<div class="route mx-3 bg-ligth">
+  <p>
+    <a class="a-enlaces last-link" href="/vistaInicio">Inicio \ </a>
+    <br id="break-line"> 
+    <span class="text-secondary">Semilleros de investigación</span>
+  </p>  
+</div>
+<div class="container-top">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group col-4">
+          <button
+            class="btn btn-usb btn-outline-secondary"
+            type="button"
+            id="searchSemilleroBtn"
+          >
+            <img
+              src="{{ url_for('static', filename='icons/search.svg') }}"
+              alt="Search Icon"
+            />
+          </button>
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Buscar semillero..."
+            aria-label="Example text with button addon"
+            aria-describedby="button-addon1"
+            id="searchSemillero"
+            value="{{ search_term }}"
+          />
+        </div>
+      </div>
+      <div class="col-1 ms-auto">
+        <button
+          type="button"
+          class="btn btn-usb"
+          data-bs-toggle="modal"
+          data-bs-target="#crearSemillero"
+        >
+          Crear
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table" id="Semilleros" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Semillero de investigación</th>
+      <th>Línea de investigación</th>
+      <th>Inicio - Fin</th>
+      <th>Lider del Semillero</th>
+      <th>Facultad</th>
+      <th>Grupo de investigación</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in data%}
+    <tr>
+      <td>
+        <a
+          class="a-td"
+          href="{{url_for('idVistaSemillerosInvestigacion.detalle', id=item.id_semillero)}}"
+          >{{item.nombre_semillero}}</a
+        >
+      </td>
+      <td>{{item.nombre_linea}}</td>
+      <td>{{item.fecha_inicio}} - {{item.fecha_final}}</td>
+      <td>{{item.nombre_investigador}}</td>
+      <td>{{item.nombre_facultad}}</td>
+      <td>{{item.nombre_grupo}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  
+</table>
+
+<!-- Paginación -->
+<div class="pagination">
+  {% if page > 1 %}
+  <a
+    href="{{ url_for(route_pagination, page=page - 1) }}"
+    class="btn btn-primary btn-sm"
+    >&laquo; Anterior</a
+  >
+  {% endif %}
+
+  <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
+  {% if page < total_pages %}
+  <a
+    href="{{ url_for(route_pagination, page=page + 1) }}"
+    class="btn btn-primary btn-sm"
+  >
+    Siguiente &raquo;</a
+  >
+  {% endif %}
+</div>
+
+<script>
+  //TableFilter("searchSemillero", "searchSemilleroBtn", "Semilleros");
+  TableFilterV2(
+    "searchSemillero",
+    "searchSemilleroBtn",
+    "/semilleros/listar",
+    500,
+  );
+</script>
+
+{% endblock content%}
