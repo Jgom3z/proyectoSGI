@@ -23,7 +23,7 @@
             <label for="id_estudiante" class="form-label">Estudiante</label>
             <select class="form-select" name="id_estudiante" id="id_estudiante" required>
               <option selected value="">Seleccionar</option>
-              {% for item in estudiantes %}
+              {% for item in estudiantesNotInSemillero %}
                 <option value="{{ item.id_estudiante }}">
                   {{ item.nombre_estudiante   }} 
                 </option>
