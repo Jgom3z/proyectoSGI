@@ -1,8 +1,8 @@
 import requests
 import json
-
-projectName = 'SGI'
-API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
+import os
+projectName = os.getenv('PROJECT_NAME')
+API_URL = os.getenv('API_URL')
 
 
 def investigadores():    
@@ -84,8 +84,5 @@ def estudiantes():
     else:
         result = []
     return result
-
-
-
 
 

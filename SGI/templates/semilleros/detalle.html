@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %} Detalle Semillero{%endblock %} {%
-block content %}
-{% include 'semilleros/crear-estudiante-semillero.html' %} 
-  {% include 'semilleros/crear-plan-semillero.html' %}
+block content %} {% include 'semilleros/crear-estudiante-semillero.html' %} {%
+include 'semilleros/eliminar-estudiante-semillero.html' %} {% include
+'semilleros/crear-plan-semillero.html' %}
 <div class="route mx-3 bg-light">
   <p>
     <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
@@ -134,10 +134,7 @@ block content %}
             Agregar estudiantes
           </button>
 
-          <button
-            id="btnAgregarPlan"
-            class="btn btn-usb btn-block"
-          >
+          <button id="btnAgregarPlan" class="btn btn-usb btn-block">
             Agregar plan semillero
           </button>
         </div>
@@ -234,6 +231,7 @@ block content %}
               <th>Estudiante</th>
               <th>Fecha de Inicio</th>
               <th>Fecha de finalización</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -256,6 +254,20 @@ block content %}
               <td>{{item.nombre_estudiante}}</td>
               <td>{{item.fecha_inicio}}</td>
               <td>{{item.fecha_final}}</td>
+              <td class="text-center">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#ModalEliminarIntegrante"
+                  onclick="loadDataDeleteIntegrante('{{ item.id_estud_semillero }}', '{{ item.id_semillero }}')"
+                >
+                  <img
+                    src="{{ url_for('static', filename='icons/trash.svg') }}"
+                    alt="Search Icon"
+                  />
+                </button>
+              </td>
             </tr>
             {% endfor %} {% include
             'semilleros/editar-estudiante-semillero.html' %}
@@ -301,6 +313,7 @@ block content %}
               <th>Editar</th>
               <th>Proyectos Activos</th>
               <th>Periodo</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -322,8 +335,24 @@ block content %}
               </td>
               <td>{{item.proyecto_activos}}</td>
               <td>{{item.periodo}}</td>
+              <td class="text-center">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#ModalEliminarPlan"
+                  onclick="loadDataDeletePlan('{{ item.id_plan_trabajo }}', '{{ item.id_semillero }}')"
+                >
+                  <img
+                    src="{{ url_for('static', filename='icons/trash.svg') }}"
+                    alt="Search Icon"
+                  />
+                </button>
+              </td>
             </tr>
-            {% endfor %} {% include 'semilleros/editar-plan-semillero.html' %}
+            {% endfor %} 
+            {% include 'semilleros/editar-plan-semillero.html' %}
+            {% include 'semilleros/eliminar-plan-semillero.html' %}
           </tbody>
         </table>
       </div>
@@ -336,32 +365,54 @@ block content %}
   TableFilter("input-search", "button-search", "integrantes");
   TableFilter("input-search", "button-search", "proyectos");
   TableFilter("input-search", "button-search", "planes");
-  document.getElementById('btnAgregarPlan').addEventListener('click', function() {
-    // Cerrar el offcanvas antes de abrir el modal
-    var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('menuCollapseSemillero'));
-    if (offcanvas) {
+  document
+    .getElementById("btnAgregarPlan")
+    .addEventListener("click", function () {
+      // Cerrar el offcanvas antes de abrir el modal
+      var offcanvas = bootstrap.Offcanvas.getInstance(
+        document.getElementById("menuCollapseSemillero")
+      );
+      if (offcanvas) {
         offcanvas.hide(); // Cerrar el offcanvas
-    }
-  
-    // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
-    setTimeout(function() {
-        var modal = new bootstrap.Modal(document.getElementById('crearPlanSemillero'));
+      }
+
+      // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+      setTimeout(function () {
+        var modal = new bootstrap.Modal(
+          document.getElementById("crearPlanSemillero")
+        );
         modal.show();
-    }, 300); // Retraso de 300 ms (ajustable según sea necesario)
-  });
-  document.getElementById('btnAgregarEstudiante').addEventListener('click', function() {
-    // Cerrar el offcanvas antes de abrir el modal
-    var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('menuCollapseSemillero'));
-    if (offcanvas) {
+      }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+    });
+  document
+    .getElementById("btnAgregarEstudiante")
+    .addEventListener("click", function () {
+      // Cerrar el offcanvas antes de abrir el modal
+      var offcanvas = bootstrap.Offcanvas.getInstance(
+        document.getElementById("menuCollapseSemillero")
+      );
+      if (offcanvas) {
         offcanvas.hide(); // Cerrar el offcanvas
-    }
-  
-    // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
-    setTimeout(function() {
-        var modal = new bootstrap.Modal(document.getElementById('crearEstudianteSemillero'));
+      }
+
+      // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+      setTimeout(function () {
+        var modal = new bootstrap.Modal(
+          document.getElementById("crearEstudianteSemillero")
+        );
         modal.show();
-    }, 300); // Retraso de 300 ms (ajustable según sea necesario)
-  });
+      }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+    });
+  function loadDataDeleteIntegrante(id, semilero_id) {
+    document.getElementById("inv_eliminar_id").value = id;
+    document.getElementById("inv_eliminar_id_display").textContent = id;
+    document.getElementById("inv_semillero_id").value = semilero_id;
+  }
+  function loadDataDeletePlan(id, semilero_id) {
+    document.getElementById("plan_eliminar_id").value = id;
+    document.getElementById("plan_eliminar_id_display").textContent = id;
+    document.getElementById("plan_semillero_id").value = semilero_id;
+  }
 </script>
 
 {% endblock content%}

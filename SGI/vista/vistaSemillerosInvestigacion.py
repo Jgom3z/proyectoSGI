@@ -4,6 +4,7 @@ import requests
 from vista.functions import paginate, now
 from vista.select_list import investigadores,lineas,estudiantes 
 import os
+projectName = os.getenv('PROJECT_NAME')
 API_URL = os.getenv('API_URL')
 
 
@@ -81,6 +82,7 @@ def detalle(id):
     # Renderizar la plantilla al final, pasando las variables necesarias
     return render_template('semilleros/detalle.html', semillero=semillero[0],
                            investigadores=investigadores(),lineas=lineas(), estudiantes=estudiantes(),
+                           estudiantesNotInSemillero=estudiantes(),#estudiantesNotExistsSimellero(id),
                            integrantes=estudiantesIntegrantesSemilleros(id), planes=planesSemilleroById(id), proyectos=proyectosFormacionSemillero(id))
 
 
@@ -297,6 +299,52 @@ def editarPlanSemillero():
         return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
     return redirect(url_for('idVistaSemillerosInvestigacion.detalle', id=id_semillero))
 
+
+@vistaSemillerosInvestigacion.route('/eliminar-plan', methods=[ 'POST'])
+def eliminarPlan():
+    id_semillero = request.form.get('plan_semillero_id')
+    print(f"idsemillero{id_semillero}")
+    delete_data = {
+      "procedure": "delete_json_entity",
+        "parameters": {
+            "table_name": "inv_plan_trabajo_semillero",
+            "where_condition": f"id_plan_trabajo={request.form.get('plan_eliminar_id')}"
+        }
+     }
+    print(delete_data)
+    print(id_semillero)
+    response = requests.post(API_URL, json=delete_data)
+    if response.status_code ==200:
+        flash("El registro se eliminó correctamente", 'success')
+    else:
+        #flash("Algo salió mal, no pudimos realizar la operación solipersonada", "danger")
+        # Mostrar el mensaje de error detallado
+        error_message = response.json().get("message", "Error desconocido al guardar los datos")
+        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
+    return redirect(url_for('idVistaSemillerosInvestigacion.detalle', id=id_semillero))
+
+@vistaSemillerosInvestigacion.route('/eliminar-integrante', methods=[ 'POST'])
+def eliminarIntegrante():
+    id_semillero = request.form.get('inv_semillero_id')
+    delete_data = {
+      "procedure": "delete_json_entity",
+        "parameters": {
+            "table_name": "inv_estudiante_semillero",
+            "where_condition": f"id_estud_semillero={request.form.get('inv_eliminar_id')}"
+        }
+     }
+    response = requests.post(API_URL, json=delete_data)
+    if response.status_code ==200:
+        flash("El registro se eliminó correctamente", 'success')
+    else:
+        #flash("Algo salió mal, no pudimos realizar la operación solipersonada", "danger")
+        # Mostrar el mensaje de error detallado
+        error_message = response.json().get("message", "Error desconocido al guardar los datos")
+        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
+    return redirect(url_for('idVistaSemillerosInvestigacion.detalle', id=id_semillero))
+
+    
+    
     
 """-----------------------------------------------------"""
 #<--Consultas-->
@@ -431,3 +479,32 @@ def proyectosFormacionSemillero(id):
     else:
         result = []
     return result
+
+"!!!!Importante, Cambiar cuando e arregle lo del filtro de columnas!!!!"
+#Investigadores que no existen en inv_investigadores para ese semillero específico
+def estudiantesNotExistsSimellero(id):    
+    select_data = {
+    "procedure": "select_json_entity",
+    "parameters": {
+        "table_name": f"inv_estudiantes es LEFT JOIN inv_estudiante_semillero e ON es.id_estudiante = e.id_estudiante  AND e.id_semillero = {id}",
+        "where_condition": "e.id_estudiante IS NULL",
+        "order_by": "es.nombre_estudiante",
+        "limit_clause": "",
+        "json_data": {},
+        "select_columns": "es.id_estudiante, es.nombre_estudiante"
+    }
+}
+    
+    response = requests.post(API_URL, json=select_data)
+    if response.status_code != 200:
+        return f"Error al consultar la API: {response.status_code}"
+
+    select_data = response.json()
+    if 'result' in select_data and select_data['result']:
+        data_str = select_data['result'][0]['result']
+        result = json.loads(data_str)
+        print(result)
+    else:
+        result = []
+    return result
+
