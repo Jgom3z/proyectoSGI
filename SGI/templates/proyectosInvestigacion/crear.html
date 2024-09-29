@@ -1,0 +1,101 @@
+<div class="modal fade" id="crearProyecto" tabindex="-1" aria-labelledby="crearProyectoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearProyectoLabel">Crear Proyecto de Investigación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3" action="{{ url_for('idVistaProyectosInvestigacion.crearProyecto') }}" method="POST" enctype="multipart/form-data">
+            <div class="col-md-6">
+              <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
+              <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" required>
+            </div>
+            <div class="col-md-3">
+              <label for="codigo" class="form-label">Código</label>
+              <input type="text" class="form-control" id="codigo" name="codigo" required>
+            </div>
+            <div class="col-md-3">
+              <label for="estado" class="form-label">Estado</label>
+              <select class="form-select" id="estado" name="estado" required>
+                <option selected disabled value="">Seleccionar...</option>
+                <option value="En curso">En curso</option>
+                <option value="Finalizado">Finalizado</option>
+                <option value="Suspendido">Suspendido</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+              <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+            </div>
+            <div class="col-md-4">
+              <label for="fecha_final" class="form-label">Fecha Final</label>
+              <input type="date" class="form-control" id="fecha_final" name="fecha_final" required>
+            </div>
+            <div class="col-md-4">
+              <label for="convocatoria" class="form-label">Convocatoria</label>
+              <input type="text" class="form-control" id="convocatoria" name="convocatoria" required>
+            </div>
+            <div class="col-md-6">
+              <label for="id_grupo_lider" class="form-label">Grupo de Investigación</label>
+              <select class="form-select" id="id_grupo_lider" name="id_grupo_lider" required>
+                <option selected disabled value="">Seleccionar...</option>
+                {% for grupo in grupos %}
+                  <option value="{{ grupo.id_grupo }}">{{ grupo.nombre_grupo }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="id_linea_investigacion" class="form-label">Línea de Investigación</label>
+              <select class="form-select" id="id_linea_investigacion" name="id_linea_investigacion" required>
+                <option selected disabled value="">Seleccionar...</option>
+                {% for linea in lineas %}
+                  <option value="{{ linea.id_linea_grupo }}">{{ linea.nombre_linea }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="acta_inicio" class="form-label">Acta de Inicio</label>
+              <input type="file" class="form-control" id="acta_inicio" name="acta_inicio">
+            </div>
+            <div class="col-md-6">
+              <label for="acta_finalizacion" class="form-label">Acta de Finalización</label>
+              <input type="file" class="form-control" id="acta_finalizacion" name="acta_finalizacion">
+            </div>
+            <div class="col-md-6">
+              <label for="presupuesto" class="form-label">Presupuesto</label>
+              <input type="file" class="form-control" id="presupuesto" name="presupuesto">
+            </div>
+            <div class="col-md-6">
+              <label for="propuesta" class="form-label">Propuesta</label>
+              <input type="file" class="form-control" id="propuesta" name="propuesta">
+            </div>
+            <div class="col-md-6">
+              <label for="acta_comite" class="form-label">Acta de Comité</label>
+              <input type="file" class="form-control" id="acta_comite" name="acta_comite">
+            </div>
+            <div class="col-md-6">
+              <label for="convenio_marco" class="form-label">Convenio Marco</label>
+              <input type="file" class="form-control" id="convenio_marco" name="convenio_marco">
+            </div>
+            <div class="col-md-6">
+              <label for="convenio_especifico" class="form-label">Convenio Específico</label>
+              <input type="file" class="form-control" id="convenio_especifico" name="convenio_especifico">
+            </div>
+            <div class="col-md-6">
+              <label for="carta_de_intencion" class="form-label">Carta de Intención</label>
+              <input type="file" class="form-control" id="carta_de_intencion" name="carta_de_intencion">
+            </div>
+            <div class="col-md-6">
+              <label for="nombre_convocatoria" class="form-label">Nombre de la Convocatoria</label>
+              <input type="text" class="form-control" id="nombre_convocatoria" name="nombre_convocatoria">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-usb">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,239 +1,117 @@
-from flask import Flask, render_template, request, jsonify, Blueprint
-from datetime import datetime
-import requests
-import json
+# SGI/vista/vistaEstudiantes.py
 
-# Crear un Blueprint
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+import json
+import requests
+from vista.functions import paginate, now
+import os
+import logging
+
+API_URL = os.getenv('API_URL')
+if not API_URL:
+    raise ValueError("API_URL no está configurada en las variables de entorno")
+
 vistaEstudiantes = Blueprint('idVistaEstudiantes', __name__, template_folder='templates')
 
-projectName = 'SGI'
-API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
-
-@vistaEstudiantes.route('/vistaEstudiantes', methods=['GET'])
-def vista_estudiantes():
-    # Obtener datos de estudiantes
-    select_data_estudiantes = {
-        "projectName": "SGI",
+@vistaEstudiantes.route('/listar', methods=['GET', 'POST'])
+def listar():
+    select_data = {
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_estudiantes LEFT JOIN inv_facultad ON inv_estudiantes.id_facultad::VARCHAR = inv_facultad.id_facultad::VARCHAR",
-            "json_data": {
-                "estado": "En Progreso"
-            },
+            "table_name": "inv_estudiantes e INNER JOIN inv_facultad f ON f.id_facultad = e.id_facultad",
             "where_condition": "",
-            "select_columns": "inv_estudiantes.identificacion, inv_estudiantes.nombre_estudiante, inv_estudiantes.codigo, inv_estudiantes.correo, inv_facultad.nombre_facultad",
-            "order_by": "inv_estudiantes.identificacion",
-            "limit_clause": ""
+            "order_by": "e.nombre_estudiante",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "e.id_estudiante, e.identificacion, e.nombre_estudiante, e.codigo, e.correo, f.nombre_facultad"
         }
     }
 
-
-    response_estudiantes = requests.post(API_URL, json=select_data_estudiantes)
-
-    # Verificar que la solicitud fue exitosa
-    if response_estudiantes.status_code != 200:
-        return f"Error al consultar la API: {response_estudiantes.status_code}"
-
-    # Intentar obtener la respuesta en formato JSON
     try:
-        data_estudiantes = response_estudiantes.json()
-    except json.JSONDecodeError:
-        return "Error al decodificar la respuesta de la API como JSON"
+        response = requests.post(API_URL, json=select_data)
+        response.raise_for_status()
+        data_estudiantes = response.json()
+    except requests.RequestException as e:
+        logging.error(f"Error al consultar la API: {str(e)}")
+        flash(f"Error al consultar la API: {str(e)}", "error")
+        return render_template('estudiantes/listar.html', data=[], total_pages=0, page=1, facultades=[])
 
-    # Verificar si la respuesta contiene el campo 'result'
+    search_term = request.args.get('search', '').lower()
+
     if 'result' in data_estudiantes and data_estudiantes['result']:
-        estudiantes_str = data_estudiantes['result'][0].get('result')
+        try:
+            data = json.loads(data_estudiantes['result'][0]['result'])
+        except (json.JSONDecodeError, TypeError) as e:
+            logging.error(f"Error al decodificar JSON: {str(e)}")
+            flash("Error al procesar los datos de estudiantes", "error")
+            return render_template('estudiantes/listar.html', data=[], total_pages=0, page=1, facultades=[])
 
-        # Verificar que estudiantes_str no sea None
-        if estudiantes_str:
-            try:
-                estudiantes = json.loads(estudiantes_str)
-            except json.JSONDecodeError:
-                return "Error al decodificar 'estudiantes_str' como JSON"
-        else:
-            estudiantes = []  # No hay datos en 'result'
+        if search_term:
+            data = [item for item in data if any(search_term in str(value).lower() for value in item.values())]
+        route_pagination = 'idVistaEstudiantes.listar'
+        estudiantes, total_pages, route_pagination, page = paginate(data, route_pagination)
     else:
-        estudiantes = []  # No hay resultados en la API
+        estudiantes = []
+        total_pages = 0
+        page = 1
+        route_pagination = 'idVistaEstudiantes.listar'
 
-
-    # Obtener datos de facultades
-    select_data_facultades = {
-        "projectName": 'SGI',
+    # Obtener lista de facultades para el formulario de creación
+    facultades_data = {
         "procedure": "select_json_entity",
         "parameters": {
             "table_name": "inv_facultad",
-            "json_data": {},
-            "where_condition": "",
             "select_columns": "id_facultad, nombre_facultad",
-            "order_by": "id_facultad",
-            "limit_clause": ""
+            "order_by": "nombre_facultad"
         }
     }
 
-    response_facultades = requests.post(API_URL, json=select_data_facultades)
-    if response_facultades.status_code != 200:
-        return f"Error al consultar la API: {response_facultades.status_code}"
-
-    data_facultades = response_facultades.json()
-    if 'result' in data_facultades and data_facultades['result']:
-        facultades_str = data_facultades['result'][0]['result']
-        facultades = json.loads(facultades_str)
-    else:
+    try:
+        facultades_response = requests.post(API_URL, json=facultades_data)
+        facultades_response.raise_for_status()
+        facultades_result = facultades_response.json()
+        if 'result' in facultades_result and facultades_result['result']:
+            facultades = json.loads(facultades_result['result'][0]['result'])
+        else:
+            facultades = []
+    except (requests.RequestException, json.JSONDecodeError) as e:
+        logging.error(f"Error al obtener facultades: {str(e)}")
         facultades = []
 
+    return render_template('estudiantes/listar.html', 
+                           data=estudiantes, 
+                           total_pages=total_pages, 
+                           page=page, 
+                           search_term=search_term,
+                           route_pagination=route_pagination,
+                           facultades=facultades)
 
-
-    # Pasar los datos a la plantilla
-    ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaEstudiantes.html', estudiantes=estudiantes, facultades=facultades, ths=ths)
-#PARA EL MODAL
-@vistaEstudiantes.route("/createestudiante", methods = ['POST'])
-def create_estudiante():
-    # Captura los datos del formulario enviado
-    print(request)
-    form_data = {
-    "codigo": request.form.get('codigo'),
-    "id_facultad": request.form.get('id_facultad'),
-    "correo": request.form.get('correo'),
-    "identificacion": request.form.get('identificacion'),
-    "nombre_estudiante": request.form.get('nombre_estudiante')
-}
-
-
-    
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "insert_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_estudiantes",
-            "json_data": form_data
-                
+@vistaEstudiantes.route('/crear', methods=['POST'])
+def crear():
+    if request.method == 'POST':
+        nuevo_estudiante = {
+            "identificacion": request.form['identificacion'],
+            "nombre_estudiante": request.form['nombre_estudiante'],
+            "codigo": request.form['codigo'],
+            "id_facultad": request.form['id_facultad'],
+            "correo": request.form['correo']
         }
-    } 
-    )
 
-       # Debug: Imprimir el estado de la respuesta y su contenido
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
-
-    # Verificar la respuesta de la API
-    if response.status_code == 200:
-        output_params = response.json().get("outputParams", {})
-        mensaje = output_params.get("mensaje", "Operación exitosa")
-        return jsonify({"message": mensaje}), 200
-    else:
-        # Mostrar el mensaje de error detallado
-        error_message = response.json().get("message", "Error desconocido al guardar los datos")
-        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
-    
-@vistaEstudiantes.route("/deleteestudiante", methods = ['POST'])
-def delete_estudiante():
-    # Captura los datos del formulario enviado
-    print(request)
-    form_data = {"id_estudiante": request.json.get('id_estudiante')}
-
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity", 
-        "parameters":{
-            "table_name":"inv_estudiantes",
-            "where_condition": f"id_estudiante = {form_data['id_estudiante']}"
-                
+        insert_data = {
+            "procedure": "insert_json_entity",
+            "parameters": {
+                "table_name": "inv_estudiantes",
+                "json_data": json.dumps(nuevo_estudiante)
+            }
         }
-    } 
-    )
 
-    # Debug: Imprimir el estado de la respuesta y su contenido
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
+        try:
+            response = requests.post(API_URL, json=insert_data)
+            response.raise_for_status()
+            flash('Estudiante creado exitosamente', 'success')
+        except requests.RequestException as e:
+            logging.error(f"Error al crear el estudiante: {str(e)}")
+            flash(f"Error al crear el estudiante: {str(e)}", "error")
 
-    # Verificar la respuesta de la API
-    if response.status_code == 200:
-        output_params = response.json().get("outputParams", {})
-        mensaje = output_params.get("mensaje", "Operación exitosa")
-        return jsonify({"message": mensaje}), 200
-    else:
-        # Mostrar el mensaje de error detallado
-        error_message = response.json().get("message", "Error desconocido al eliminar el estudiante")
-        return jsonify({"message": f"Error al eliminar el estudiante: {error_message}"}), 500
-    
-@vistaEstudiantes.route("/updateestudiante", methods = ['POST'])
-def update_estudiante():
-    # Captura los datos del formulario enviado
-    print(request)
-    # Captura el ID del estudiante y los demás datos del formulario enviado
-    id_estudiante = request.form.get('id_estudiante')
-    form_data = {
-        "id_estudiante": request.form.get('id_estudiante'),  
-         "codigo": request.form.get('codigo'),
-        "id_facultad": request.form.get('id_facultad'),
-        "correo": request.form.get('correo'),
-        "identificacion": request.form.get('identificacion'),
-        "nombre_estudiante": request.form.get('nombre_estudiante')
-    }
+    return redirect(url_for('idVistaEstudiantes.listar'))
 
-     #
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)
-    print("ID Estudiante: ", id_estudiante)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "update_json_entity",  # Supongamos que tienes un procedimiento almacenado para actualizar
-        "parameters": {
-            "table_name": "inv_estudiantes",
-            "json_data": form_data,
-            "where_condition": f"id_estudiante = {id_estudiante}"
-                
-        }
-    })
-
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
-
-    if response.status_code == 200:
-        output_params = response.json().get("outputParams", {})
-        mensaje = output_params.get("mensaje", "Operación exitosa")
-        return jsonify({"message": mensaje}), 200
-    else:
-        error_message = response.json().get("message", "Error desconocido al actualizar el estudiante")
-        return jsonify({"message": f"Error al actualizar el estudiante: {error_message}"}), 500
-    
-
-@vistaEstudiantes.route('/get_estudiante', methods=['POST'])
-def get_estudiante():
-    id=request.form.get('id_estudiante') 
-    # Obtener datos de estudiante
-    select_data_estudiantes = {
-        "projectName": 'SGI',
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_estudiantes",
-            "json_data": {
-                "estado": "En Progreso"
-            },
-            "where_condition": f'id_estudiante={id}',
-            "select_columns": "*",
-            "order_by": "",
-            "limit_clause": ""
-        }
-    }
-
-    response_estudiantes = requests.post(API_URL, json=select_data_estudiantes)
-    if response_estudiantes.status_code != 200:
-        return f"Error al consultar la API: {response_estudiantes.status_code}"
-    
-    data_estudiantes = response_estudiantes.json()
-    if 'result' in data_estudiantes and data_estudiantes['result']:
-        estudiantes_str = data_estudiantes['result'][0]['result']
-        estudiantes = json.loads(estudiantes_str)
-    else:
-        estudiantes = []
-    print(estudiantes)
-    return estudiantes

@@ -221,7 +221,8 @@
             >
           </li>
           <li>
-            <a href="/vistaProyectosInvestigacion"
+            <a
+              href="{{ url_for( 'idVistaProyectosInvestigacion.listar' ) }}"
               ><img
                 class="icons-menu"
                 src="{{ url_for('static', filename='img/proyectosI.png') }}"
@@ -237,18 +238,20 @@
             >
           </li>
           <li>
-            <a href="/vistaInvestigadores"
-              ><img
+            <a
+            href="{{ url_for( 'idVistaInvestigadores.listar' ) }}"
+            ><img
                 class="icons-menu"
                 src="{{ url_for('static', filename='img/investigadores.png') }}"
               />Investigadores</a
             >
           </li>
           <li>
-            <a href="/vistaEstudiantes"
-              ><img
+            <a
+            href="{{ url_for( 'idVistaEstudiantes.listar' ) }}"
+            ><img
                 class="icons-menu"
-                src="{{ url_for('static', filename='img/estudiantes.png') }}"
+                src="{{ url_for('static', filename='img/Estudiantes.png') }}"
               />Estudiantes</a
             >
           </li>

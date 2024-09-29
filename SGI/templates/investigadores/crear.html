@@ -1,86 +1,59 @@
-<div class="modal fade" id="crearInvestigador" tabindex="-1" aria-labelledby="crearInvestigadorLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="crearInvestigadorLabel">Crear Investigador</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="row g-3" action="{{ url_for('idVistaInvestigadores.crear') }}" method="POST">
-            <div class="col-md-6">
-              <label for="cedula" class="form-label">Identificación</label>
-              <input type="text" class="form-control" id="cedula" name="cedula" required>
-            </div>
-            <div class="col-md-6">
-              <label for="nombre_investigador" class="form-label">Nombre del Investigador</label>
-              <input type="text" class="form-control" id="nombre_investigador" name="nombre_investigador" required>
-            </div>
-            <div class="col-md-6">
-              <label for="id_facultad" class="form-label">Facultad</label>
-              <select class="form-select" id="id_facultad" name="id_facultad" required>
-                <option selected disabled value="">Seleccionar...</option>
-                {% for facultad in facultades %}
-                  <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="nivel_de_formacion" class="form-label">Nivel de Formación</label>
-              <select class="form-select" id="nivel_de_formacion" name="nivel_de_formacion" required>
-                <option selected disabled value="">Seleccionar...</option>
-                <option value="Pregrado">Pregrado</option>
-                <option value="Especialización">Especialización</option>
-                <option value="Maestría">Maestría</option>
-                <option value="Doctorado">Doctorado</option>
-                <option value="Postdoctorado">Postdoctorado</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="correo" class="form-label">Correo</label>
-              <input type="email" class="form-control" id="correo" name="correo" required>
-            </div>
-            <div class="col-md-6">
-              <label for="telefono" class="form-label">Teléfono</label>
-              <input type="tel" class="form-control" id="telefono" name="telefono">
-            </div>
-            <div class="col-md-6">
-              <label for="categoria_institucion" class="form-label">Categoría Institución</label>
-              <input type="text" class="form-control" id="categoria_institucion" name="categoria_institucion">
-            </div>
-            <div class="col-md-6">
-              <label for="categoria_colciencias" class="form-label">Categoría Colciencias</label>
-              <input type="text" class="form-control" id="categoria_colciencias" name="categoria_colciencias">
-            </div>
-            <div class="col-md-6">
-              <label for="orcid" class="form-label">ORCID</label>
-              <input type="text" class="form-control" id="orcid" name="orcid">
-            </div>
-            <div class="col-md-6">
-              <label for="tipo_contrato" class="form-label">Tipo de Contrato</label>
-              <input type="text" class="form-control" id="tipo_contrato" name="tipo_contrato">
-            </div>
-            <div class="col-md-6">
-              <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-              <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
-            </div>
-            <div class="col-md-6">
-              <label for="fecha_final" class="form-label">Fecha Final</label>
-              <input type="date" class="form-control" id="fecha_final" name="fecha_final">
-            </div>
-            <div class="col-md-6">
-              <label for="categoria_colciencias_esperada" class="form-label">Categoría Colciencias Esperada</label>
-              <input type="text" class="form-control" id="categoria_colciencias_esperada" name="categoria_colciencias_esperada">
-            </div>
-            <div class="col-12">
-              <label for="cvlac" class="form-label">CvLAC</label>
-              <input type="url" class="form-control" id="cvlac" name="cvlac">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-usb">Guardar</button>
-            </div>
-          </form>
-        </div>
+<div class="modal fade" id="crearInvestigador" tabindex="-1" aria-labelledby="crearInvestigadorLabel" aria-hidden="true"></div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearInvestigadorLabel">Crear Investigador</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" action="{{ url_for('idVistaInvestigadores.crear') }}" method="POST">
+          <div class="col-md-6">
+            <label for="cedula" class="form-label">Cédula</label>
+            <input type="text" class="form-control" id="cedula" name="cedula" required>
+          </div>
+          <div class="col-md-6">
+            <label for="nombre_investigador" class="form-label">Nombre del Investigador</label>
+            <input type="text" class="form-control" id="nombre_investigador" name="nombre_investigador" required>
+          </div>
+          <div class="col-md-6">
+            <label for="id_facultad" class="form-label">Facultad</label>
+            <select class="form-select" id="id_facultad" name="id_facultad" required>
+              <option value="">Seleccione una facultad</option>
+              {% for facultad in facultades %}
+                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="categoria_institucion" class="form-label">Categoría Institución</label>
+            <input type="text" class="form-control" id="categoria_institucion" name="categoria_institucion">
+          </div>
+          <div class="col-md-6">
+            <label for="categoria_colciencias" class="form-label">Categoría Colciencias</label>
+            <input type="text" class="form-control" id="categoria_colciencias" name="categoria_colciencias">
+          </div>
+          <div class="col-md-6">
+            <label for="orcid" class="form-label">ORCID</label>
+            <input type="text" class="form-control" id="orcid" name="orcid">
+          </div>
+          <div class="col-md-6">
+            <label for="nivel_de_formacion" class="form-label">Nivel de Formación</label>
+            <input type="text" class="form-control" id="nivel_de_formacion" name="nivel_de_formacion">
+          </div>
+          <div class="col-md-6">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="correo" name="correo" required>
+          </div>
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>

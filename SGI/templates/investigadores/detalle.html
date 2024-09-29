@@ -4,26 +4,20 @@
 <div class="container-top">
   <p class="enlaces">
     <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
-    <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
     <a class="a-enlaces" href="{{ url_for('idVistaInvestigadores.listar') }}">Investigadores \</a>
     <span class="text-secondary">Detalle Investigador</span>
   </p>
 </div>
 <div class="container mt-4">
   <div class="card">
-    <div class="card-header d-flex align-items-center">
-      <div class="flex-grow-1 text-center">
-        <h3 class="text-investigador m-0">
-          <strong>{{ investigador.nombre_investigador }}</strong>
-        </h3>
-      </div>
-      <a href="{{ url_for('idVistaInvestigadores.editar', id=investigador.id_investigador) }}" class="btn btn-usb">Editar</a>
-      <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarInvestigadorModal">
-        Eliminar
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="text-investigador m-0 text-center flex-grow-1">{{ investigador.nombre_investigador }}</h3>
+      <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarInvestigador">
+        Editar
       </button>
     </div>
     <div class="card-body">
-      <table class="table">
+      <table class="table table-bordered">
         <tbody>
           <tr>
             <th>Identificación:</th>
@@ -44,57 +38,36 @@
             <td>{{ investigador.orcid }}</td>
           </tr>
           <tr>
-            <th>Tipo de Contrato:</th>
-            <td>{{ investigador.tipo_contrato }}</td>
             <th>Correo:</th>
             <td>{{ investigador.correo }}</td>
-          </tr>
-          <tr>
             <th>Teléfono:</th>
-            <td>{{ investigador.telefono or '-' }}</td>
-            <th>Fecha de Inicio:</th>
-            <td>{{ investigador.fecha_inicio }}</td>
-          </tr>
-          <tr>
-            <th>Fecha Final:</th>
-            <td>{{ investigador.fecha_final or '-' }}</td>
-            <th>Categoría Colciencias Esperada:</th>
-            <td>{{ investigador.categoria_colciencias_esperada }}</td>
-          </tr>
-          <tr>
-            <th>CvLAC:</th>
-            <td colspan="3">
-              {% if investigador.cvlac %}
-                <a href="{{ investigador.cvlac }}" target="_blank">{{ investigador.cvlac }}</a>
-              {% else %}
-                -
-              {% endif %}
-            </td>
+            <td>{{ investigador.telefono }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-</div>
 
-<!-- Modal de confirmación para eliminar investigador -->
-<div class="modal fade" id="eliminarInvestigadorModal" tabindex="-1" aria-labelledby="eliminarInvestigadorModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="eliminarInvestigadorModalLabel">Confirmar eliminación</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Está seguro de que desea eliminar este investigador?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <form action="{{ url_for('idVistaInvestigadores.eliminar', id=investigador.id_investigador) }}" method="post">
-          <button type="submit" class="btn btn-danger">Eliminar</button>
-        </form>
-      </div>
+  <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="true">Proyectos</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab" aria-controls="productos" aria-selected="false">Productos</button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+      <h4 class="mt-3">Proyectos del Investigador</h4>
+      <p>No hay proyectos disponibles.</p>
+    </div>
+    <div class="tab-pane fade" id="productos" role="tabpanel" aria-labelledby="productos-tab">
+      <h4 class="mt-3">Productos del Investigador</h4>
+      <p>No hay productos disponibles.</p>
     </div>
   </div>
 </div>
+
+{% include 'investigadores/editar.html' %}
+
 {% endblock %}
