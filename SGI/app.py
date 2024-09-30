@@ -23,13 +23,13 @@ app.secret_key = 'supersecretkey'
 # Registro de Blueprints
 app.register_blueprint(vistaInicio)
 app.register_blueprint(login)
-app.register_blueprint(vistaEstudiantes)
+app.register_blueprint(vistaEstudiantes, url_prefix= '/estudiantes')
 app.register_blueprint(vistaGruposInvestigacion, url_prefix= '/grupos')
 app.register_blueprint(vistaInvestigaciones)
 app.register_blueprint(vistaInvestigadores, url_prefix= '/investigadores')
 app.register_blueprint(vistaLineasInvestigacion)
 app.register_blueprint(vistaProyectosFormacion)
-app.register_blueprint(vistaProyectosInvestigacion)
+app.register_blueprint(vistaProyectosInvestigacion, url_prefix='/proyectos')
 app.register_blueprint(vistaSemillerosInvestigacion, url_prefix='/semilleros')
 
 # Configuración de la URL de la API

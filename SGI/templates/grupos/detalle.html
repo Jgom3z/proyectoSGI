@@ -11,19 +11,14 @@
 </div>
 <div class="container mt-4">
   <div class="card">
-    <div class="card-header d-flex align-items-center">
-      <div class="flex-grow-1 text-center">
-        <h3 class="text-grupo m-0">
-          <strong>{{ grupo.nombre_grupo }}</strong>
-        </h3>
-      </div>
-      <a href="{{ url_for('idVistaGruposInvestigacion.editar', id=grupo.id_grupo) }}" class="btn btn-usb">Editar</a>
-      <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarGrupoModal">
-        Eliminar
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="text-grupo m-0 text-center flex-grow-1">{{ grupo.nombre_grupo }}</h3>
+      <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarGrupo">
+        Editar
       </button>
     </div>
     <div class="card-body">
-      <table class="table">
+      <table class="table table-bordered">
         <tbody>
           <tr>
             <th>Código GrupLAC:</th>
@@ -46,63 +41,53 @@
           <tr>
             <th>Fecha de Finalización:</th>
             <td>{{ grupo.fecha_finalizacion or 'N/A' }}</td>
+            <th>Plan Estratégico:</th>
+            <td>{{ grupo.plan_estrategico }}</td>
+          </tr>
+          <tr>
             <th>Categoría Meta:</th>
             <td>{{ grupo.categoria_meta }}</td>
+            <th>Estrategia Meta:</th>
+            <td>{{ grupo.estrategia_meta }}</td>
+          </tr>
+          <tr>
+            <th>Visión:</th>
+            <td colspan="3">{{ grupo.vision }}</td>
+          </tr>
+          <tr>
+            <th>Objetivos:</th>
+            <td colspan="3">{{ grupo.objetivos }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <div class="card mt-4">
-    <div class="card-header">
-      <h4 class="m-0">Plan Estratégico</h4>
-    </div>
-    <div class="card-body">
-      <p>{{ grupo.plan_estrategico }}</p>
-    </div>
-  </div>
-
-  <div class="card mt-4">
-    <div class="card-header">
-      <h4 class="m-0">Estrategia Meta</h4>
-    </div>
-    <div class="card-body">
-      <p>{{ grupo.estrategia_meta }}</p>
-    </div>
-  </div>
-
-  <div class="card mt-4">
-    <div class="card-header">
-      <h4 class="m-0">Visión</h4>
-    </div>
-    <div class="card-body">
-      <p>{{ grupo.vision }}</p>
-    </div>
-  </div>
-
-  <div class="card mt-4">
-    <div class="card-header">
-      <h4 class="m-0">Objetivos</h4>
-    </div>
-    <div class="card-body">
-      <p>{{ grupo.objetivos }}</p>
-    </div>
-  </div>
-
-  <!-- El resto del código (tabs y modal) permanece igual -->
-  
-  <!-- Tabs -->
   <ul class="nav nav-tabs mt-4" id="grupoTabs" role="tablist">
-    <!-- ... (el contenido de las pestañas no cambia) ... -->
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="true">Líneas de Investigación</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="investigadores-tab" data-bs-toggle="tab" data-bs-target="#investigadores" type="button" role="tab" aria-controls="investigadores" aria-selected="false">Investigadores</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="false">Proyectos</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="semilleros-tab" data-bs-toggle="tab" data-bs-target="#semilleros" type="button" role="tab" aria-controls="semilleros" aria-selected="false">Semilleros</button>
+    </li>
   </ul>
-  
+
   <div class="tab-content" id="grupoTabsContent">
-    <!-- ... (el contenido de las pestañas no cambia) ... -->
+    <!-- El contenido de las pestañas se mantiene igual -->
+    <!-- ... -->
   </div>
 </div>
 
-<!-- Modal de confirmación para eliminar -->
-<!-- ... (el modal no cambia) ... -->
+{% include 'grupos/editar.html' %}
+
+<script>
+  // Aquí puedes agregar el JavaScript necesario
+</script>
 
 {% endblock %}

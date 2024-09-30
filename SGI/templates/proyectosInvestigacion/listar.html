@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Proyectos de Investigación{% endblock %}
+{% block content %}
+{% include 'proyectosInvestigacion/crear.html' %}
+<div class="route mx-3 bg-light">
+  <p>
+    <a class="a-enlaces last-link" href="/vistaInicio">Inicio \ </a>
+    <br id="break-line">
+    <span class="text-secondary">Proyectos de Investigación</span>
+  </p>
+</div>
+<div class="container-top">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group col-4">
+          <button class="btn btn-usb btn-outline-secondary" type="button" id="searchProyectoBtn">
+            <img src="{{ url_for('static', filename='icons/search.svg') }}" alt="Search Icon" />
+          </button>
+          <input type="search" class="form-control" placeholder="Buscar proyecto..." aria-label="Example text with button addon" aria-describedby="button-addon1" id="searchProyecto" value="{{ search_term }}" />
+        </div>
+      </div>
+      <div class="col-1 ms-auto">
+        <button type="button" class="btn btn-usb" data-bs-toggle="modal" data-bs-target="#crearProyecto">
+          Crear
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table" id="Proyectos" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Proyecto de Investigación</th>
+      <th>Código</th>
+      <th>Grupo de Investigación</th>
+      <th>Línea de Investigación</th>
+      <th>Facultad</th>
+      <th>Fecha Inicio</th>
+      <th>Fecha Final</th>
+      <th>Estado</th>
+      <th>Convocatoria</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in data %}
+    <tr>
+      <td>
+        <a class="a-td" href="{{url_for('idVistaProyectosInvestigacion.detalle', id=item.id_proyecto)}}">{{item.nombre_proyecto}}</a>
+      </td>
+      <td>{{item.codigo}}</td>
+      <td>{{item.nombre_grupo}}</td>
+      <td>{{item.nombre_linea}}</td>
+      <td>{{item.nombre_facultad}}</td>
+      <td>{{item.fecha_inicio}}</td>
+      <td>{{item.fecha_final}}</td>
+      <td>{{item.estado}}</td>
+      <td>{{item.convocatoria}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Paginación -->
+<div class="pagination">
+  {% if page > 1 %}
+  <a href="{{ url_for(route_pagination, page=page - 1) }}" class="btn btn-primary btn-sm">&laquo; Anterior</a>
+  {% endif %}
+
+  <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
+  {% if page < total_pages %}
+  <a href="{{ url_for(route_pagination, page=page + 1) }}" class="btn btn-primary btn-sm">Siguiente &raquo;</a>
+  {% endif %}
+</div>
+
+<script>
+  TableFilterV2(
+    "searchProyecto",
+    "searchProyectoBtn",
+    "/proyectos/listar",
+    500,
+  );
+</script>
+
+{% endblock content %}

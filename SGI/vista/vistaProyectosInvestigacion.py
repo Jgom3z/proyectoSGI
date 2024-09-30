@@ -1,237 +1,97 @@
-from flask import Flask, render_template, request, jsonify, Blueprint
-import requests
+from flask import Blueprint, render_template, request, jsonify
 import json
+import requests
+import os
+from .functions import paginate, now
 
-# Crear un Blueprint
-vistaProyectosInvestigacion = Blueprint('idVistaProyectosInvestigacion', __name__, template_folder='templates')
+API_URL = os.getenv('API_URL')
 
-projectName = 'SGI'
-API_URL = "http://190.217.58.246:5185/api/{projectName}/procedures/execute"
+vistaProyectosInvestigacion = Blueprint('idVistaProyectosInvestigacion', __name__, template_folder='../templates')
 
-@vistaProyectosInvestigacion.route('/vistaProyectosInvestigacion', methods=['GET'])
-def vista_proyectos_investigacion():
-    # Obtener datos de grupos
-    select_data_Proyectos = {
-        "projectName": 'SGI',
+@vistaProyectosInvestigacion.route('/listar', methods=['GET', 'POST'])
+def listar():
+    select_data = {
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_grupos g INNER JOIN inv_investigadores p ON p.id_investigador = g.id_lider INNER JOIN inv_facultad f ON f.id_facultad = g.id_facultad",
-            "json_data": {
-                "estado": "En Progreso"
-            },
+            "table_name": """
+                inv_proyectos p 
+                INNER JOIN inv_grupos g ON g.id_grupo = p.id_grupo_lider 
+                INNER JOIN inv_linea_grupo l ON l.id_linea_grupo = p.id_linea_investigacion 
+                INNER JOIN inv_facultad f ON f.id_facultad = g.id_facultad
+            """,
             "where_condition": "",
-            "select_columns": "g.nombre_proyecto, g.codigo_grup_lac, g.categoria_colciencias, f.nombre_facultad, p.nombre_investigador, g.id_grupo",
-            "order_by": "g.id_grupo",
-            "limit_clause": ""
-        }
-    }
-
-    response_proyectos = requests.post(API_URL, json=select_data_Proyectos)
-    if response_proyectos.status_code != 200:
-        return f"Error al consultar la API: {response_proyectos.status_code}"
-    
-    data_proyectos = response_proyectos.json()
-    if 'result' in data_proyectos and data_proyectos['result']:
-        proyectos_str = data_proyectos['result'][0]['result']
-        proyectos_str = json.loads(proyectos_str)
-    else:
-        proyectos = []
-
-    # Obtener datos de facultades
-    select_data_facultades = {
-        "projectName": 'SGI',
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_facultad",
+            "order_by": "p.nombre_proyecto",
+            "limit_clause": "",
             "json_data": {},
-            "where_condition": "",
-            "select_columns": "id_facultad, nombre_facultad",
-            "order_by": "id_facultad",
-            "limit_clause": ""
+            "select_columns": """
+                p.id_proyecto, p.nombre_proyecto, p.codigo, g.nombre_grupo, 
+                l.nombre_linea, f.nombre_facultad, p.fecha_inicio, p.fecha_final, 
+                p.estado, p.convocatoria
+            """
         }
     }
 
-    response_facultades = requests.post(API_URL, json=select_data_facultades)
-    if response_facultades.status_code != 200:
-        return f"Error al consultar la API: {response_facultades.status_code}"
+    try:
+        response = requests.post(API_URL, json=select_data)
+        response.raise_for_status()
+        data_proyectos = response.json()
+    except requests.RequestException as e:
+        return jsonify({"error": f"Error al consultar la API: {str(e)}"}), 500
+    except json.JSONDecodeError:
+        return jsonify({"error": "La respuesta de la API no es un JSON válido"}), 500
 
-    data_facultades = response_facultades.json()
-    if 'result' in data_facultades and data_facultades['result']:
-        facultades_str = data_facultades['result'][0]['result']
-        facultades = json.loads(facultades_str)
+    print("Respuesta de la API:", response.text)
+    print("data_proyectos:", data_proyectos)
+
+    search_term = request.args.get('search', '').lower()
+
+    if data_proyectos and 'result' in data_proyectos and data_proyectos['result']:
+        result = data_proyectos['result'][0].get('result')
+        if result is not None:
+            try:
+                data = json.loads(result)
+            except json.JSONDecodeError:
+                return jsonify({"error": "Error al procesar los datos de la API"}), 500
+        else:
+            data = []
     else:
-        facultades = []
+        data = []
 
-    #obtener datos de investigador lider
+    if search_term:
+        data = [item for item in data if any(search_term in str(value).lower() for value in item.values())]
     
-    select_data_investigadores = {
-        "projectName": 'SGI',
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_investigadores",
-            "json_data": {},
-            "where_condition": "",
-            "select_columns": "id_investigador, nombre_investigador",
-            "order_by": "id_investigador",
-            "limit_clause": ""
-        }
-    }
+    route_pagination = 'idVistaProyectosInvestigacion.listar'
+    proyectos, total_pages, route_pagination, page = paginate(data, route_pagination)
 
-    response_investigadores = requests.post(API_URL, json=select_data_investigadores)
-    if response_investigadores.status_code != 200:
-        return f"Error al consultar la API: {response_investigadores.status_code}"
+    return render_template('proyectosInvestigacion/listar.html',
+                           data=proyectos, 
+                           total_pages=total_pages,
+                           route_pagination=route_pagination, 
+                           page=page,
+                           search_term=search_term)
 
-    select_data_investigadores = response_investigadores.json()
-    if 'result' in select_data_investigadores and select_data_investigadores['result']:
-        investigadores_str = select_data_investigadores['result'][0]['result']
-        investigadores = json.loads(investigadores_str)
-    else:
-        investigadores = []
+@vistaProyectosInvestigacion.route('/detalle/<int:id>', methods=['GET'])
+def detalle(id):
+    # Aquí deberías implementar la lógica para obtener los detalles del proyecto
+    # por su ID y pasarlos a la plantilla
+    proyecto = obtener_proyecto_por_id(id)
+    return render_template('proyectosInvestigacion/detalle.html', proyecto=proyecto)
 
- 
+@vistaProyectosInvestigacion.route('/crear', methods=['POST'])
+def crearProyecto():
+    # Implementa la lógica para crear un nuevo proyecto
+    pass
 
+@vistaProyectosInvestigacion.route('/editar', methods=['POST'])
+def editarProyecto():
+    # Implementa la lógica para editar un proyecto existente
+    pass
 
+@vistaProyectosInvestigacion.route('/descargar_archivo/<tipo>/<int:id>', methods=['GET'])
+def descargar_archivo(tipo, id):
+    # Implementar la lógica para descargar archivos
+    pass
 
-    # Pasar los datos a la plantilla
-    ths = ['grupos de investigacion', 'codigo grup lac', 'categoria colciencias', 'facultad', 'lider del grupo']
-    return render_template('vistaProyectosInvestigacion.html', proyectos=proyectos, facultades=facultades, investigadores = investigadores, ths=ths)
-
-#PARA EL MODAL
-@vistaProyectosInvestigacion.route("/createproyecto", methods = ['POST'])
-def create_proyecto():
-    # Captura los datos del formulario enviado
-    print(request)
-    form_data = {
-        "nombre_grupo": request.form.get('nombre_grupo'),
-        "codigo_grup_lac": request.form.get('codigo_grup_lac'),
-        "categoria_colciencias": request.form.get('categoria_colciencias'),
-        "area_conocimiento": request.form.get('area_conocimiento'),
-        "id_facultad": request.form.get('id_facultad'),
-        "fecha_creacion": request.form.get('fecha_creacion'),
-        "fecha_finalizacion": request.form.get('fecha_finalizacion'),
-        "id_lider": request.form.get('id_lider'),
-        "plan_estrategico": request.form.get('plan_estrategico'),
-        "categoria_meta": request.form.get('categoria_meta'),
-        "estrategia_meta": request.form.get('estrategia_meta'),
-        "vision": request.form.get('vision'),
-        "objetivos": request.form.get('objetivos')
-    } 
-
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "insert_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_grupos",
-            "json_data": form_data
-                
-        }
-    } 
-    )
-
-       # Debug: Imprimir el estado de la respuesta y su contenido
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
-
-    # Verificar la respuesta de la API
-    if response.status_code == 200:
-        return jsonify({"message": "Datos guardados exitosamente"}), 200
-    else:
-        # Mostrar el mensaje de error detallado
-        error_message = response.json().get("message", "Error desconocido al guardar los datos")
-        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
-    
-@vistaProyectosInvestigacion.route("/deleteproyecto", methods = ['POST'])
-def delete_proyecto():
-    # Captura los datos del formulario enviado
-    print(request)
-    form_data = {
-        "nombre_grupo": request.form.get('nombre_grupo')  
-    } 
-
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_grupos",
-            "where_condition": "nombre_grupo = nombre_grupo"
-                
-        }
-    } 
-    )
-
-       # Debug: Imprimir el estado de la respuesta y su contenido
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
-
-    # Verificar la respuesta de la API
-    if response.status_code == 200:
-        return jsonify({"message": "Grupo Eliminado exitosamente"}), 200
-    else:
-        # Mostrar el mensaje de error detallado
-        error_message = response.json().get("message", "Error desconocido al eliminar el grupo")
-        return jsonify({"message": f"Error al eliminar el grupo: {error_message}"}), 500
-    
-@vistaProyectosInvestigacion.route("/updateproyecto", methods = ['POST'])
-def update_proyecto():
-    # Captura los datos del formulario enviado
-    print(request)
-    form_data = {
-        "nombre_grupo": request.form.get('nombre_grupo'),
-        "codigo_grup_lac": request.form.get('codigo_grup_lac'),
-        "categoria_colciencias": request.form.get('categoria_colciencias'),
-        "area_conocimiento": request.form.get('area_conocimiento'),
-        "id_facultad": request.form.get('id_facultad'),
-        "fecha_creacion": request.form.get('fecha_creacion'),
-        "fecha_finalizacion": request.form.get('fecha_finalizacion'),
-        "id_lider": request.form.get('id_lider'),
-        "plan_estrategico": request.form.get('plan_estrategico'),
-        "categoria_meta": request.form.get('categoria_meta'),
-        "estrategia_meta": request.form.get('estrategia_meta'),
-        "vision": request.form.get('vision'),
-        "objetivos": request.form.get('objetivos')
-    }  
-
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_grupos",
-            "json_data": form_data,
-            "where_condition": "nombre_grupo = nombre_grupo"
-                
-        }
-    } 
-    )
-
-       # Debug: Imprimir el estado de la respuesta y su contenido
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
-
-    # Verificar la respuesta de la API
-    if response.status_code == 200:
-        return jsonify({"message": "Grupo actualizado exitosamente"}), 200
-    else:
-        # Mostrar el mensaje de error detallado
-        error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
-        return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500
-from pprint import pprint
-from flask import Blueprint, request, render_template, redirect, url_for
-
-
-# Crear un Blueprint
-vistaProyectosInvestigacion = Blueprint('idVistaProyectosInvestigacion', __name__, template_folder='templates')
-
-@vistaProyectosInvestigacion.route('/vistaProyectosInvestigacion', methods=['GET', 'POST'])
-def vista_ProyectosInvestigacion():
-   
-    # Renderizar la plantilla al final, pasando las variables necesarias
-    return render_template('vistaProyectosInvestigacion.html')
+def obtener_proyecto_por_id(id):
+    # Implementar la lógica para obtener un proyecto por su ID
+    pass
