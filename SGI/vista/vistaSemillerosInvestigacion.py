@@ -21,7 +21,7 @@ def listar():
             "order_by": "nombre_semillero",          
             "limit_clause": "",           
             "json_data": {},                             
-            "select_columns": "s.nombre_semillero,l.nombre_linea,s.fecha_inicio,s.fecha_final, i.nombre_investigador, f.nombre_facultad,g.nombre_grupo"       
+            "select_columns": "s.id_semillero, s.nombre_semillero,l.nombre_linea,s.fecha_inicio,s.fecha_final, i.nombre_investigador, f.nombre_facultad,g.nombre_grupo"       
           }
         }
 
@@ -62,7 +62,7 @@ def detalle(id):
             "order_by": "nombre_semillero",          
             "limit_clause": "",           
             "json_data": {},                             
-            "select_columns": "s.nombre_semillero,l.nombre_linea,s.fecha_inicio,s.fecha_final, i.nombre_investigador, f.nombre_facultad,g.nombre_grupo"       
+            "select_columns": "s.id_semillero, s.nombre_semillero,l.nombre_linea,s.fecha_inicio,s.fecha_final, i.nombre_investigador, f.nombre_facultad,g.nombre_grupo"       
           }
         }
 
@@ -82,7 +82,7 @@ def detalle(id):
     # Renderizar la plantilla al final, pasando las variables necesarias
     return render_template('semilleros/detalle.html', semillero=semillero[0],
                            investigadores=investigadores(),lineas=lineas(), estudiantes=estudiantes(),
-                           estudiantesNotInSemillero=estudiantes(),#estudiantesNotExistsSimellero(id),
+                           estudiantesNotInSemillero=estudiantesNotExistsSimellero(id),
                            integrantes=estudiantesIntegrantesSemilleros(id), planes=planesSemilleroById(id), proyectos=proyectosFormacionSemillero(id))
 
 
@@ -160,7 +160,7 @@ def crearEstudianteSemillero():
             } 
         }
      }
-    
+    print(insert_data)
     response = requests.post(API_URL, json=insert_data)
     if response.status_code ==200:
         flash("El registro se guardó correctamente", 'success')
