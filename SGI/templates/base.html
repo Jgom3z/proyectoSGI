@@ -230,7 +230,8 @@
             >
           </li>
           <li>
-            <a href="/vistaProyectosFormacion"
+            <a 
+            href="{{ url_for( 'idVistaProyectosFormacion.listar' ) }}"
               ><img
                 class="icons-menu"
                 src="{{ url_for('static', filename='img/proyectosF.png') }}"

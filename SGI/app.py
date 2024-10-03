@@ -28,7 +28,7 @@ app.register_blueprint(vistaGruposInvestigacion, url_prefix= '/grupos')
 app.register_blueprint(vistaInvestigaciones)
 app.register_blueprint(vistaInvestigadores, url_prefix= '/investigadores')
 app.register_blueprint(vistaLineasInvestigacion)
-app.register_blueprint(vistaProyectosFormacion)
+app.register_blueprint(vistaProyectosFormacion, url_prefix='/ProyectosFormacion')
 app.register_blueprint(vistaProyectosInvestigacion, url_prefix='/proyectos')
 app.register_blueprint(vistaSemillerosInvestigacion, url_prefix='/semilleros')
 

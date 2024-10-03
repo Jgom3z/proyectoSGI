@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% block title %} Proyectos Formación{%endblock %} {% block content %}
+<div class="route mx-3 bg-ligth">
+    <p>
+      <a class="a-enlaces last-link" href="/vistaInicio">Inicio \ </a>
+      <br id="break-line"> 
+      <span class="text-secondary">Proyectos Formación</span>
+    </p>  
+  </div>
+  <div class="container-top">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group col-4">
+            <button
+              class="btn btn-usb btn-outline-secondary"
+              type="button"
+              id="searchpryFormacionBtn"
+            >
+              <img
+                src="{{ url_for('static', filename='icons/search.svg') }}"
+                alt="Search Icon"
+              />
+            </button>
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Buscar Proyecto Formación..."
+              aria-label="Example text with button addon"
+              aria-describedby="button-addon1"
+              id="searchpryFormacion"
+              value="{{ search_term }}"
+            />
+          </div>
+        </div>
+        
+        <div class="col-1 ms-auto">
+          <button
+            type="button"
+            class="btn btn-usb"
+            data-bs-toggle="modal"
+            data-bs-target="#crearpryFormacion"
+          >
+            Crear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table" id="ProyectosFormacion" style="width: 100%">
+    <thead>
+      <tr>
+        <th>Proyecto Formación</th>
+        <th>Asesor</th>
+        <th>Proyecto de Investigación</th>
+        <th>Nivel</th>
+        <th>Modalidad</th>
+        <th>Código</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data%}
+      <tr>
+        <td>
+          {{item.nombre_proy_form}}
+        </td>
+        <td>{{item.nombre_investigador}}</td>
+        <td>{{item.nombre_proyecto}}</td>
+        <td>{{item.nivel}}</td>
+        <td>{{item.modalidad}}</td>
+        <td>{{item.cod_proy_form}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    
+  </table>
+
+  <!-- Paginación -->
+<div class="pagination">
+    {% if page > 1 %}
+    <a
+      href="{{ url_for(route_pagination, page=page - 1) }}"
+      class="btn btn-primary btn-sm"
+      >&laquo; Anterior</a
+    >
+    {% endif %}
+  
+    <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
+    {% if page < total_pages %}
+    <a
+      href="{{ url_for(route_pagination, page=page + 1) }}"
+      class="btn btn-primary btn-sm"
+    >
+      Siguiente &raquo;</a
+    >
+    {% endif %}
+  </div>
+
+  <script>
+    //TableFilter("searchpryFormacion", "searchpryFormacionBtn", "proyectoFormacion");
+    TableFilterV2(
+      "searchpryFormacion",
+      "searchpryFormacionBtn",
+      "/proyectoFormacion/listar",
+      500,
+    );
+  </script>
+  
+  {% endblock content%}
+  
