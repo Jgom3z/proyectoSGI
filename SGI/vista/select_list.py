@@ -116,7 +116,7 @@ def semilleros():
             "projectName": projectName,
             "procedure": "select_json_entity",
             "parameters": {
-                "table_name": "INV_ESTUDIANTES",
+                "table_name": "inv_semilleros",
                 "json_data": {},
                 "where_condition": "",
                 "select_columns": "id_semillero, nombre_semillero",
