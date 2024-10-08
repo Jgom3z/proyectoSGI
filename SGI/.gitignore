@@ -4,7 +4,7 @@ __pycache__/
 vista/__pycache__/
 .env
 
-
+uploads/
 # Archivos de entorno
 *.env
 
