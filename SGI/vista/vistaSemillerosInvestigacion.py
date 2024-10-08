@@ -160,7 +160,6 @@ def crearEstudianteSemillero():
             } 
         }
      }
-    print(insert_data)
     response = requests.post(API_URL, json=insert_data)
     if response.status_code ==200:
         flash("El registro se guardó correctamente", 'success')
@@ -358,7 +357,7 @@ def estudiantesIntegrantesSemilleros(id_semillero):
         "order_by": "es.nombre_estudiante",         
         "limit_clause": "",          
         "json_data": {},                           
-        "select_columns": "es.nombre_estudiante, e.fecha_inicio, e.fecha_final"       
+        "select_columns": "es.nombre_estudiante, e.fecha_inicio, e.fecha_final, e.id_estud_semillero,s.id_semillero "       
       }
     }
     
@@ -411,7 +410,7 @@ def planesSemilleroById(id):
         "order_by": "",         
         "limit_clause": "",          
         "json_data": {},                           
-        "select_columns": "periodo, metas_periodo, id_plan_trabajo, proyecto_activos, resultados_obtenidos"       
+        "select_columns": "periodo, metas_periodo, id_plan_trabajo, proyecto_activos, resultados_obtenidos,id_semillero"       
       }
     }
     
