@@ -4,6 +4,9 @@ import requests
 from vista.functions import paginate, now
 import os
 from vista.select_list import investigadores
+from vista.select_list import facultad
+from vista.select_list import grupos
+
 
 API_URL = os.getenv('API_URL')
 
@@ -44,7 +47,8 @@ def listar():
     return render_template('grupos/listar.html',
                            data=grupos, total_pages=total_pages,
                            route_pagination=route_pagination, page=page,
-                           search_term=search_term)
+                           search_term=search_term, investigadores = investigadores(),
+                           facultad = facultad())
 
 @vistaGruposInvestigacion.route('/ver-detalle/<int:id>', methods=['GET'])
 def detalle(id):
@@ -72,7 +76,7 @@ def detalle(id):
     else:
         return "Grupo no encontrado", 404
 
-    # Obtener líneas de investigación
+ 
     lineas_data = {
         "procedure": "select_json_entity",
         "parameters": {
@@ -142,37 +146,9 @@ def detalle(id):
 @vistaGruposInvestigacion.route('/crear', methods=['GET', 'POST'])
 def crear():
     if request.method == 'GET':
-        # Obtener lista de facultades
-        facultades_data = {
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_facultad",
-                "where_condition": "",
-                "order_by": "nombre_facultad",
-                "limit_clause": "",
-                "json_data": {},
-                "select_columns": "id_facultad, nombre_facultad"
-            }
-        }
-        response = requests.post(API_URL, json=facultades_data)
-        facultades = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 else []
+       
 
-        # Obtener lista de investigadores
-        investigadores_data = {
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_investigadores",
-                "where_condition": "",
-                "order_by": "nombre_investigador",
-                "limit_clause": "",
-                "json_data": {},
-                "select_columns": "id_investigador, nombre_investigador"
-            }
-        }
-        response = requests.post(API_URL, json=investigadores_data)
-        investigadores = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 else []
-
-        return render_template('grupos/crear.html', facultades=facultades, investigadores=investigadores)
+        return render_template('grupos/crear.html', facultad = facultad(), investigadores= investigadores())
 
     elif request.method == 'POST':
         nuevo_grupo = {
@@ -231,37 +207,9 @@ def editar(id):
         else:
             return "Grupo no encontrado", 404
 
-        # Obtener lista de facultades
-        facultades_data = {
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_facultad",
-                "where_condition": "",
-                "order_by": "nombre_facultad",
-                "limit_clause": "",
-                "json_data": {},
-                "select_columns": "id_facultad, nombre_facultad"
-            }
-        }
-        response = requests.post(API_URL, json=facultades_data)
-        facultades = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 else []
-
-        # Obtener lista de investigadores
-        investigadores_data = {
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_investigadores",
-                "where_condition": "",
-                "order_by": "nombre_investigador",
-                "limit_clause": "",
-                "json_data": {},
-                "select_columns": "id_investigador, nombre_investigador"
-            }
-        }
-        response = requests.post(API_URL, json=investigadores_data)
-        investigadores = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 else []
-
-        return render_template('grupos/editar.html', grupo=grupo, facultades=facultades, investigadores=investigadores)
+    
+        
+        return render_template('grupos/editar.html', grupos=grupos(), facultad=facultad(), investigadores=investigadores())
 
     elif request.method == 'POST':
         # Procesar el formulario de edición
