@@ -3,6 +3,7 @@ import json
 import requests
 import os
 from .functions import paginate, now
+from vista.select_list import grupos, lineas
 
 API_URL = os.getenv('API_URL')
 
@@ -68,7 +69,8 @@ def listar():
                            total_pages=total_pages,
                            route_pagination=route_pagination, 
                            page=page,
-                           search_term=search_term)
+                           search_term=search_term,
+                           grupos=grupos(), lineas = lineas())
 
 @vistaProyectosInvestigacion.route('/detalle/<int:id>', methods=['GET'])
 def detalle(id):

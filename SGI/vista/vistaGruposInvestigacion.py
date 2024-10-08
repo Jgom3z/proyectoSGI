@@ -3,6 +3,7 @@ import json
 import requests
 from vista.functions import paginate, now
 import os
+from vista.select_list import investigadores
 
 API_URL = os.getenv('API_URL')
 

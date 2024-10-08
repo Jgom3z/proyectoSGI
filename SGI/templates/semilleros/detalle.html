@@ -404,6 +404,9 @@ include 'semilleros/eliminar-estudiante-semillero.html' %} {% include
       }, 300); // Retraso de 300 ms (ajustable según sea necesario)
     });
   function loadDataDeleteIntegrante(id, semilero_id) {
+    console.log("Argumentos");
+    console.log(id);
+    console.log(semilero_id);
     document.getElementById("inv_eliminar_id").value = id;
     document.getElementById("inv_eliminar_id_display").textContent = id;
     document.getElementById("inv_semillero_id").value = semilero_id;
