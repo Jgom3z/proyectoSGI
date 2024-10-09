@@ -26,23 +26,22 @@
           <div class="col-md-6">
             <label for="id_facultad" class="form-label">Facultad</label>
             <select class="form-select" id="id_facultad" name="id_facultad" required>
+              <option selected disabled value="">Seleccionar...</option>
               {% for facultad in facultades %}
-                <option value="{{ facultad.id_facultad }}" {% if facultad.id_facultad == grupo.id_facultad %}selected{% endif %}>
-                  {{ facultad.nombre_facultad }}
-                </option>
+                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
               {% endfor %}
             </select>
           </div>
           <div class="col-md-6">
             <label for="id_lider" class="form-label">Líder del Grupo</label>
             <select class="form-select" id="id_lider" name="id_lider" required>
+              <option selected disabled value="">Seleccionar...</option>
               {% for investigador in investigadores %}
-                <option value="{{ investigador.id_investigador }}" {% if investigador.id_investigador == grupo.id_lider %}selected{% endif %}>
-                  {{ investigador.nombre_investigador }}
-                </option>
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
               {% endfor %}
             </select>
           </div>
+         
           <div class="col-md-6">
             <label for="fecha_creacion" class="form-label">Fecha de Creación</label>
             <input type="date" class="form-control" id="fecha_creacion" name="fecha_creacion" value="{{ grupo.fecha_creacion }}" required>

@@ -1,77 +1,87 @@
 {% extends "base.html" %}
 {% block title %}Detalle Proyecto{% endblock %}
 {% block content %}
-{% include 'proyectosInvestigacion/editar.html' %}
-
-<div class="route mx-3 bg-light">
-  <p>
+{% include'proyectosInvestigacion/documentos/cargar.html' %}
+{% include'proyectosInvestigacion/documentos/eliminar.html' %}
+<div class="container-top">
+  <p class="enlaces">
     <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
     <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
-    <a class="a-enlaces last-enlace" href="{{ url_for('idVistaProyectosInvestigacion.listar') }}">Proyectos de investigación \</a>
-    <br id="break-line">
+    <a class="a-enlaces" href="{{ url_for('idVistaProyectosInvestigacion.listar') }}">Proyectos de investigación \</a>
     <span class="text-secondary">Detalle Proyecto</span>
   </p>
 </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col" id="mainContent">
-      <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <div class="flex-grow-1 text-center">
-            <h3 class="text-proyecto m-0">
-              <strong>{{ proyecto.nombre_proyecto }}</strong>
-            </h3>
-          </div>
-          <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarProyecto">
-            Editar
-          </button>
-        </div>
-
-        <div class="card-body">
-          <h5 class="card-title">Información General</h5>
-          <ul class="list-group list-group-flush mt-3">
-            <li class="list-group-item"><b>Código:</b> {{ proyecto.codigo }}</li>
-            <li class="list-group-item"><b>Estado:</b> {{ proyecto.estado }}</li>
-            <li class="list-group-item"><b>Fecha de Inicio:</b> {{ proyecto.fecha_inicio }}</li>
-            <li class="list-group-item"><b>Fecha Final:</b> {{ proyecto.fecha_final }}</li>
-            <li class="list-group-item"><b>Convocatoria:</b> {{ proyecto.convocatoria }}</li>
-            <li class="list-group-item"><b>Grupo de Investigación:</b> {{ proyecto.nombre_grupo }}</li>
-            <li class="list-group-item"><b>Línea de Investigación:</b> {{ proyecto.nombre_linea }}</li>
-            <li class="list-group-item"><b>Nombre de la Convocatoria:</b> {{ proyecto.nombre_convocatoria }}</li>
-          </ul>
-
-          <h5 class="card-title mt-4">Documentos</h5>
-          <ul class="list-group list-group-flush mt-3">
-            {% if proyecto.nombre_acta_inicio %}
-              <li class="list-group-item"><b>Acta de Inicio:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='acta_inicio', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_acta_inicio }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_acta_finalizacion %}
-              <li class="list-group-item"><b>Acta de Finalización:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='acta_finalizacion', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_acta_finalizacion }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_presupuesto %}
-              <li class="list-group-item"><b>Presupuesto:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='presupuesto', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_presupuesto }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_propuesta %}
-              <li class="list-group-item"><b>Propuesta:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='propuesta', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_propuesta }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_acta_comite %}
-              <li class="list-group-item"><b>Acta de Comité:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='acta_comite', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_acta_comite }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_convenio_marco %}
-              <li class="list-group-item"><b>Convenio Marco:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='convenio_marco', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_convenio_marco }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_convenio_especifico %}
-              <li class="list-group-item"><b>Convenio Específico:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='convenio_especifico', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_convenio_especifico }}</a></li>
-            {% endif %}
-            {% if proyecto.nombre_carta_intencion %}
-              <li class="list-group-item"><b>Carta de Intención:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='carta_de_intencion', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_carta_intencion }}</a></li>
-            {% endif %}
-          </ul>
-        </div>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="text-proyecto m-0 text-center flex-grow-1" style="color: #b54f25;">{{ proyecto.nombre_proyecto }}</h3>
+      <div class="btn-group" role="group">
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#cargarDocumentos"
+        >
+          Cargar documentos
+        </button>
+        <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarProyecto">
+          Editar
+        </button>
       </div>
+      
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Código:</th>
+            <td>{{ proyecto.codigo }}</td>
+            <th>Estado:</th>
+            <td>{{ proyecto.estado }}</td>
+          </tr>
+          <tr>
+            <th>Fecha de Inicio:</th>
+            <td>{{ proyecto.fecha_inicio }}</td>
+            <th>Fecha Final:</th>
+            <td>{{ proyecto.fecha_final }}</td>
+          </tr>
+          <tr>
+            <th>Convocatoria:</th>
+            <td>{{ proyecto.convocatoria }}</td>
+            <th>Grupo de Investigación:</th>
+            <td>{{ proyecto.nombre_grupo }}</td>
+          </tr>
+          <tr>
+            <th>Línea de Investigación:</th>
+            <td>{{ proyecto.nombre_linea }}</td>
+            <th>Nombre de la Convocatoria:</th>
+            <td>{{ proyecto.nombre_convocatoria }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="text-proyecto m-0 text-left flex-grow-1" style="color: #b54f25;">Documentos📂</h3><br>
+      {% include'proyectosInvestigacion/documentos/listar.html' %}
+
+      <ul class="list-group list-group-flush mt-3">
+        {% if proyecto.nombre_acta_inicio %}
+          <li class="list-group-item"><b>Acta de Inicio:</b> <a href="{{ url_for('idVistaProyectosInvestigacion.descargar_archivo', tipo='acta_inicio', id=proyecto.id_proyecto) }}">{{ proyecto.nombre_acta_inicio }}</a></li>
+        {% endif %}
+        <!-- ... otros documentos ... -->
+      </ul>
     </div>
   </div>
 </div>
 
+<script>
+  function loadDataDeleteFile(id_proyecto, filename, columnname) {
+    document.getElementById("filename").value = filename;
+    document.getElementById("id_proyecto").value = id_proyecto;
+    document.getElementById("columnname").value = columnname;
+    document.getElementById("inv_eliminar_file_display").textContent = filename;
+   
+  }
+</script>
+{% include 'proyectosInvestigacion/editar.html' %}
 {% endblock content %}
