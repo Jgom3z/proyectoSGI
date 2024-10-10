@@ -62,8 +62,8 @@
     <tbody>
       {% for item in data%}
       <tr>
-        <td>
-          {{item.nombre_proy_form}}
+        <td><a class="a-td"
+          href="{{url_for('idVistaProyectosFormacion.detalle', id=item.id_proyecto_formacion)}}">{{item.nombre_proy_form}}</a>
         </td>
         <td>{{item.nombre_investigador}}</td>
         <td>{{item.nombre_proyecto}}</td>

@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, Blueprint
 from datetime import datetime
 import requests
 import json
+from .functions import paginate, now
+from vista.select_list import grupos, lineas
 
 # Crear un Blueprint
 vistaLineasInvestigacion = Blueprint('idVistaLineasInvestigacion', __name__, template_folder='templates')

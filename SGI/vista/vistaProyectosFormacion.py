@@ -24,7 +24,7 @@ def listar():
                 "estado": "En Progreso"  
             },
             "where_condition": "",
-            "select_columns": "pf.nombre_proy_form, i.nombre_investigador, pry.nombre_proyecto, pf.nivel, pf.modalidad, pf.cod_proy_form",
+            "select_columns": "pf.nombre_proy_form, i.nombre_investigador, pry.nombre_proyecto, pf.nivel, pf.modalidad, pf.cod_proy_form, pf.id_proyecto_formacion",
             "order_by": "pf.id_proyecto_formacion", 
             "limit_clause": ""
         }
@@ -65,7 +65,7 @@ def detalle(id):
                 "estado": "En Progreso"  
             },
             "where_condition": "",
-            "select_columns": "pf.nombre_proy_form, i.nombre_investigador, pry.nombre_proyecto, pf.nivel, pf.modalidad, pf.cod_proy_form",
+            "select_columns": "pf.nombre_proy_form, pf.fecha_inicio, pf.fecha_terminacion, pf.linea_investigacion, i.nombre_investigador, pry.nombre_proyecto, s.nombre_semillero, pf.objetivos, pf.nivel, pf.modalidad, pf.cod_proy_form, lg.nombre_linea",
             "order_by": "pf.id_proyecto_formacion", 
             "limit_clause": ""
             }
@@ -74,19 +74,22 @@ def detalle(id):
     response = requests.post(API_URL, json=select_data)
     if response.status_code != 200:
         return f"Error al consultar la API: {response.status_code}"
-   
-    data_semilleros = response.json()
-    if 'result' in data_semilleros and data_semilleros['result']:
-        data = data_semilleros['result'][0]['result']
-        semillero = json.loads(data)
-    else:
-        semillero = []
     
- 
-   
-    # Renderizar la plantilla al final, pasando las variables necesarias
-    return render_template('semilleros/detalle.html', semillero=semillero[0],
-                           investigadores=investigadores(),lineas=lineas(), estudiantes=estudiantes(),
-                           estudiantesNotInSemillero=estudiantes(),#estudiantesNotExistsSimellero(id),
-                           integrantes=estudiantesIntegrantesSemilleros(id), planes=planesSemilleroById(id), proyectos=proyectosFormacionSemillero(id))
+    search_term = request.args.get('search', '').lower()  
 
+    data_proyectosf = response.json()
+    if 'result' in data_proyectosf and data_proyectosf['result']:
+        data = data_proyectosf['result'][0]['result']
+        data = json.loads(data)
+        # Filtrar los datos si hay un término de búsqueda
+        if search_term:
+            data = [item for item in data if any(search_term in str(value).lower() for value in item.values())]
+        route_pagination = 'idVistaProyectosFormacion.detalle'        
+        ProyectosFormacion, total_pages, route_pagination,page = paginate(data,route_pagination)
+        #semilleros = json.loads(items_on_page)
+    else:
+        ProyectosFormacion = []
+   # Renderizar la plantilla al final, pasando las variables necesarias
+    return render_template('proyectoFormacion/detalle.html', ProyectosFormacion=ProyectosFormacion[0],
+                           investigadores=investigadores(),lineas=lineas(),proyectos=proyectos(),semilleros=semilleros())
+                           

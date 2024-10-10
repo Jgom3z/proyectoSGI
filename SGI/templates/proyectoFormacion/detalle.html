@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %} Detalle Semillero{%endblock %} {%
-    block content %}
+{% extends "base.html" %} {% block title %} Detalle Formacion {%endblock %} {%block content %}
     <div class="route mx-3 bg-light">
         <p>
           <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
@@ -55,48 +54,56 @@
               <ul class="list-group list-group-flush mt-5 text-proyectof">
                 <li class="list-group-item">
                   <p>
-                    <b class="fs-5 fw-bold">Descripción: </b
-                    >{{semillero.descripcion_semillero}}
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <p>
-                    <b class="fs-5 fw-bold">Líder de semillero: </b
-                    >{{semillero.nombre_investigador}}
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <p>
-                    <b class="fs-5 fw-bold">Linea de investigación: </b
-                    >{{semillero.nombre_linea}}
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <p>
-                    <b class="fs-5 fw-bold">Objetivos: </b>{{semillero.objetivos}}
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <p>
-                    <b class="fs-5 fw-bold">Áreas de trabajo: </b
-                    >{{semillero.areas_de_trabajo}}
+                    <b class="fs-5 fw-bold">Asesor: </b
+                    >{{ProyectosFormacion.nombre_investigador}}
                   </p>
                 </li>
                 <li class="list-group-item">
                   <p>
                     <b class="fs-5 fw-bold">Fecha de inicio: </b
-                    >{{semillero.fecha_inicio}}
+                    >{{ProyectosFormacion.fecha_inicio}}
                   </p>
                 </li>
                 <li class="list-group-item">
                   <p>
                     <b class="fs-5 fw-bold">Fecha de finalización: </b
-                    >{{semillero.fecha_final}}
+                    >{{ProyectosFormacion.fecha_final}}
                   </p>
                 </li>
+                <li class="list-group-item">
+                  <p>
+                    <b class="fs-5 fw-bold">Proyecto de Investigación: </b
+                    >{{ProyectosFormacion.nombre_proyecto}}
+                  </p>
+                </li>
+                <li class="list-group-item">
+                  <p>
+                    <b class="fs-5 fw-bold">Semillero: </b
+                    >{{ProyectosFormacion.nombre_semillero}}
+                  </p>
+                </li>
+                <li class="list-group-item">
+                  <p>
+                    <b class="fs-5 fw-bold">Objetivos: </b>{{ProyectosFormacion.objetivos}}
+                  </p>
+                </li>
+                <li class="list-group-item">
+                  <p>
+                    <b class="fs-5 fw-bold">Nivel: </b>{{ProyectosFormacion.nivel}}
+                  </p>
+                </li>
+                <li class="list-group-item">
+                  <p>
+                    <b class="fs-5 fw-bold">modalidad: </b>{{ProyectosFormacion.objetivos}}
+                  </p>
+                </li>
+                
+                
               </ul>
             </div>
           </div>
+        </div>
+      </div>
           <!-- Menú lateral derecho -->
       
           <!-- <div
@@ -135,7 +142,7 @@
                 <button id="btnAgregarPlan" class="btn btn-usb btn-block">
                   Agregar plan semillero
                 </button> -->
-              </div>
+              <!-- </div>
             </div>
           </div>
         </div>
@@ -220,7 +227,7 @@
               id="integrantes"
               role="tabpanel"
               aria-labelledby="integrantes-tab"
-            >
+            > -->
               <!--Integrantes-->
               <!-- <table class="table align-items-center ml-5" id="integrantes">
                 <thead>
@@ -353,10 +360,10 @@
                   {% include 'semilleros/eliminar-plan-semillero.html' %}
                 </tbody>
               </table> -->
-            </div>
+            <!-- </div>
           </div>
         </div>
-      </div>  
+      </div>   -->
 
 
 
