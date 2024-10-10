@@ -1,0 +1,51 @@
+<!--investigadores-->
+<table class="table align-items-center ml-5" id="investigadores">
+    <thead>
+      <tr>
+        <th>Editar</th>
+        <th>Tipo</th>
+        <th>Observación</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Entrega</th>
+        <th>Fecha de Finalización</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in productosProyecto %}
+      <tr>
+        <td>
+          <button
+            class="btn btn-sm btn-light"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#editarProducto"
+            onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"
+          >
+            <img
+              src="{{ url_for('static', filename='icons/pencil.svg') }}"
+              alt="Search Icon"
+            />
+          </button>
+        </td>
+        <td>{{item.subtipo}}</td>
+        <td>{{item.observacion}}</td>
+        <td>{{item.fecha_inicio}}</td>
+        <td>{{item.fecha_entrega}}</td>
+        <td>{{item.fecha_publicacion}}</td>
+        <td class="text-center">
+          <button
+            type="button"
+            class="btn btn-sm btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#ModalVerProducto"  
+            onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"          
+          >
+          Ver
+          </button>
+        </td>
+      </tr>
+      {% endfor %} 
+      {% include 'proyectosInvestigacion/productos/editar.html' %}
+    </tbody>
+  </table>
+  
