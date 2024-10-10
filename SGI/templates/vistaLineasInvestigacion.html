@@ -3,7 +3,6 @@
 
 {% block content %}
 
-
 <!-- Modal para modificar linea -->
 <div class="modal fade" id="modalEditline" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -13,14 +12,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="EditForm"  method="POST">
-          <!-- ID del grupo (oculto) -->
+        <form id="EditForm" method="POST">
           <input type="hidden" id="id_linea_grupo_edit" name="id_linea_grupo">
-
           <div class="mb-3">
             <label for="nombre_linea_edit" class="form-label">Nombre de la línea:</label>
             <input type="text" id="nombre_linea_edit" name="nombre_linea" class="form-control" required>
-                      </div>
+          </div>
           <div class="mb-3">
             <label for="id_grupo_edit" class="form-label">ID grupo:</label>
             <select id="id_grupo_edit" name="id_grupo" class="form-select" required>
@@ -63,7 +60,6 @@
             <label for="mision_edit" class="form-label">Mision:</label>
             <input type="text" id="mision_edit" name="mision" class="form-control" required>
           </div>
-          
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-warning" id="updateButton">Modificar</button>
@@ -205,7 +201,6 @@
   </div>
 </div>
 
-
 <!-- Modal para crear linea -->
 <div class="modal fade" id="staticBackdrop2" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -225,7 +220,7 @@
             <select id="id_grupo" name="id_grupo" class="form-select" required>
               <option value="">Seleccione un grupo</option>
               {% for grupo in grupos %}
-                <option value="{{ grupo.id_grupo}}">{{ grupo.nombre_grupo }}</option>
+                <option value="{{ grupo.id_grupo }}">{{ grupo.nombre_grupo }}</option>
               {% endfor %}
             </select>
           </div>
@@ -238,7 +233,7 @@
             <select id="id_lider" name="id_lider" class="form-select" required>
               <option value="">Seleccione un lider</option>
               {% for investigador in investigadores %}
-                <option value="{{ investigador.id_investigador}}">{{ investigador.nombre_investigador }}</option>
+                <option value="{{ investigador.id_investigador }}">{{ investigador.nombre_investigador }}</option>
               {% endfor %}
             </select>
           </div>
@@ -262,7 +257,6 @@
             <label for="mision" class="form-label">Mision:</label>
             <input type="text" id="mision" name="mision" class="form-control" required>
           </div>
-          
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-secondary" id="createButton">Crear</button>
@@ -273,18 +267,43 @@
   </div>
 </div>
 
-
-
 <div class="container-top">
   <p class="enlaces"><a class="a-enlaces" href="/vistaInicio">Inicio \ </a> <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a></p>
   <h1>Lineas de Investigación</h1>
 
   <div class="search-bar">
-   
-    <button class="search-button" id="searchButton">
-      <img src="{{ url_for('static', filename='img/lupa.png') }}"></button>
-      <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
-    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+    <input type="text" class="search-input" id="searchInput" placeholder="Buscar grupo...">
+    <button class="btn btn-primary" id="searchButton">Ir</button>
+    <div class="dropdown" style="display: inline-block; margin-left: 10px;">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        Acciones
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#">Columnas</a></li>
+        <li><a class="dropdown-item" href="#">Filtro</a></li>
+        <li><a class="dropdown-item" href="#">Datos</a>
+          <ul class="dropdown-submenu">
+            <li><a class="dropdown-item" href="#">Ordenar</a></li>
+            <li><a class="dropdown-item" href="#">Agregar</a></li>
+            <li><a class="dropdown-item" href="#">Calcular</a></li>
+            <li><a class="dropdown-item" href="#">Flashback</a></li>
+          </ul>
+        </li>
+        <li><a class="dropdown-item" href="#">Gráficos</a></li>
+        <li><a class="dropdown-item" href="#">Agrupados por</a></li>
+        <li><a class="dropdown-item" href="#">Dinámica</a></li>
+        <li><a class="dropdown-item" href="#">Informe</a>
+          <ul class="dropdown-submenu">
+            <li><a class="dropdown-item" href="#">Guardar informe</a></li>
+            <li><a class="dropdown-item" href="#">Restablecer</a></li>
+          </ul>
+        </li>
+        <li><a class="dropdown-item" href="#">Descargar</a></li>
+        <li><a class="dropdown-item" href="#">Suscripción</a></li>
+        <li><a class="dropdown-item" href="#">Ayuda</a></li>
+      </ul>
+    </div>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" style="margin-left: 10px;">
       Crear
     </button>
   </div>
@@ -313,13 +332,6 @@
   </tbody>
 </table>
 
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
-
 
 {% endblock content %}

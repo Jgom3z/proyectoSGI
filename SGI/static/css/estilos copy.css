@@ -402,7 +402,12 @@ footer {
           color: #333; /* Color de texto oscuro para el encabezado */
           margin-bottom: 20px;
         }
-    
+        .container-top {
+          position: sticky;
+          top: 0;
+          background-color: white; /* O el color que desees */
+          z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+      }
         
     label{
       margin-right: auto;

@@ -16,16 +16,16 @@ def vista_lineas_investigacion():
         "projectName": 'SGI',
         "procedure": "select_json_entity",
         "parameters": {
-        "table_name": "inv_linea_grupo l LEFT JOIN inv_grupos g ON g.id_grupo = l.id_grupo INNER JOIN inv_investigadores i ON i.id_investigador = l.id_lider LEFT JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
-        "json_data": {},
-        "where_condition": "",
-        "select_columns": "l.id_linea_grupo, l.nombre_linea, g.nombre_grupo, i.nombre_investigador, l.estado, f.nombre_facultad",
-        "order_by": "l.id_linea_grupo",
-        "limit_clause": ""
+            "table_name": "inv_linea_grupo l LEFT JOIN inv_grupos g ON g.id_grupo = l.id_grupo INNER JOIN inv_investigadores i ON i.id_investigador = l.id_lider LEFT JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "l.id_linea_grupo, l.nombre_linea, g.nombre_grupo, i.nombre_investigador, l.estado, f.nombre_facultad",
+            "order_by": "l.id_linea_grupo",
+            "limit_clause": ""
         }
     }
 
-# Realiza la solicitud a la API
+    # Realiza la solicitud a la API
     response_lineas = requests.post(API_URL, json=select_data_lineas)
     if response_lineas.status_code != 200:
         return f"Error al consultar la API: {response_lineas.status_code}"
@@ -38,8 +38,7 @@ def vista_lineas_investigacion():
     else:
         lineas = []
 
-
-       # Obtener datos de grupos
+    # Obtener datos de grupos
     select_data_grupos = {
         "projectName": 'SGI',
         "procedure": "select_json_entity",
@@ -64,7 +63,7 @@ def vista_lineas_investigacion():
     else:
         grupos = []
 
-# Obtener datos de lider
+    # Obtener datos de lider
     select_data_investigadores = {
         "projectName": 'SGI',
         "procedure": "select_json_entity",
@@ -91,17 +90,17 @@ def vista_lineas_investigacion():
 
     # Obtener datos de proyectos asociados a la linea
     select_data_proyectos = {
-    "projectName": "SGI",
-    "procedure": "select_json_entity",
-    "parameters": {
-        "table_name": "inv_proyecto", 
-        "json_data": {},
-        "where_condition": "",  
-        "select_columns": "nombre_proyecto, fecha_inicio, fecha_fin",
-        "order_by": "nombre_proyecto",
-        "limit_clause": ""
+        "projectName": "SGI",
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_proyecto", 
+            "json_data": {},
+            "where_condition": "",  
+            "select_columns": "nombre_proyecto, fecha_inicio, fecha_fin",
+            "order_by": "nombre_proyecto",
+            "limit_clause": ""
+        }
     }
-}
 
     response_proyectos = requests.post(API_URL, json=select_data_proyectos)
 
@@ -110,25 +109,23 @@ def vista_lineas_investigacion():
 
     data_proyectos = response_proyectos.json()
 
-        # Verifica si 'result' existe y no está vacío
+    # Verifica si 'result' existe y no está vacío
     if 'result' in data_proyectos and data_proyectos['result']:
-            proyectos_str = data_proyectos['result'][0].get('result')  # Utiliza .get() para evitar el NoneType error
-            
-            # Verifica si 'proyectos_str' no es None
-            if proyectos_str:
-                try:
-                    proyectos = json.loads(proyectos_str)  # Carga solo si no es None
-                except json.JSONDecodeError as e:
-                    print(f"Error al decodificar JSON: {e}")
-                    proyectos = []
-            else:
-                print("El campo 'result' es None o vacío.")
+        proyectos_str = data_proyectos['result'][0].get('result')  # Utiliza .get() para evitar el NoneType error
+        
+        # Verifica si 'proyectos_str' no es None
+        if proyectos_str:
+            try:
+                proyectos = json.loads(proyectos_str)  # Carga solo si no es None
+            except json.JSONDecodeError as e:
+                print(f"Error al decodificar JSON: {e}")
                 proyectos = []
-    else:
-            print("No se encontraron resultados en la respuesta de la API.")
+        else:
+            print("El campo 'result' es None o vacío.")
             proyectos = []
-
-
+    else:
+        print("No se encontraron resultados en la respuesta de la API.")
+        proyectos = []
 
     # Datos de consulta para investigadores asociados
     select_data_investigadores_asociados = {
@@ -167,22 +164,18 @@ def vista_lineas_investigacion():
     else:
         investigadores_asociados = []  # Maneja el caso cuando 'result' no está presente o está vacío
 
-
-
-
-    #obtener datos de semilleros
+    # Obtener datos de semilleros
     select_data_semilleros = {
-    "procedure": "select_json_entity",
-    "parameters": {
-        "table_name": "inv_semilleros s JOIN inv_investigadores i ON s.id_lider = i.id_investigador",
-        "json_data": {},
-        "where_condition": "",
-        "select_columns": "s.nombre_semillero, s.fecha_inicio, s.fecha_fin, i.nombre_investigador AS nombre_lider",
-        "order_by": "s.id_semillero",
-        "limit_clause": ""
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_semilleros s JOIN inv_investigadores i ON s.id_lider = i.id_investigador",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "s.nombre_semillero, s.fecha_inicio, s.fecha_fin, i.nombre_investigador AS nombre_lider",
+            "order_by": "s.id_semillero",
+            "limit_clause": ""
+        }
     }
-}
-
 
     response_semilleros = requests.post(API_URL, json=select_data_semilleros)
 
@@ -203,14 +196,13 @@ def vista_lineas_investigacion():
     else:
         semilleros = []  # Maneja el caso cuando 'result' no está presente o está vacío
 
-
     # Pasar los datos a la plantilla
     ths = ['Linea de investigación', 'Grupo de investigación', 'Jefe de linea', 'Estado', 'facultad']
     return render_template('vistaLineasInvestigacion.html', lineas=lineas, grupos=grupos, investigadores=investigadores, semilleros=semilleros, investigadores_asociados=investigadores_asociados, proyectos=proyectos, ths=ths)
 
 
-#PARA EL MODAL
-@vistaLineasInvestigacion.route("/createlinea", methods = ['POST'])
+# PARA EL MODAL
+@vistaLineasInvestigacion.route("/createlinea", methods=['POST'])
 def create_linea():
     # Captura los datos del formulario enviado
     print(request)
@@ -226,54 +218,17 @@ def create_linea():
         "mision": request.form.get('mision')
     } 
 
-
-     # Debug: Imprimir el formulario de datos
+    # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)  
 
     # Enviar los datos a la API
     response = requests.post(API_URL.format(projectName=projectName), json={
         "procedure": "insert_json_entity",  # Supongamos que tienes un procedimiento almacenado para insertar
-        "parameters":{
-            "table_name":"inv_linea_grupo",
+        "parameters": {
+            "table_name": "inv_linea_grupo",
             "json_data": form_data
-                
         }
-    } 
-    )
-
-       # Debug: Imprimir el estado de la respuesta y su contenido
-    print("Response Status Code: ", response.status_code)
-    print("Response Content: ", response.content)
-
-    # Verificar la respuesta de la API
-    if response.status_code == 200:
-        output_params = response.json().get("outputParams", {})
-        mensaje = output_params.get("mensaje", "Operación exitosa")
-        return jsonify({"message": mensaje}), 200
-    else:
-        # Mostrar el mensaje de error detallado
-        error_message = response.json().get("message", "Error desconocido al guardar los datos")
-        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
-    
-@vistaLineasInvestigacion.route("/deletelinea", methods = ['POST'])
-def linea_grupo():
-    # Captura los datos del formulario enviado
-    print(request)
-    form_data = {"id_linea_grupo": request.json.get('id_linea_grupo')}
-
-     # Debug: Imprimir el formulario de datos
-    print("Form Data: ", form_data)  
-
-    # Enviar los datos a la API
-    response = requests.post(API_URL.format(projectName=projectName), json={
-        "procedure": "delete_json_entity", 
-        "parameters":{
-            "table_name":"inv_linea_grupo",
-            "where_condition": f"id_linea_grupo = {form_data['id_linea_grupo']}"
-                
-        }
-    } 
-    )
+    })
 
     # Debug: Imprimir el estado de la respuesta y su contenido
     print("Response Status Code: ", response.status_code)
@@ -283,13 +238,45 @@ def linea_grupo():
     if response.status_code == 200:
         output_params = response.json().get("outputParams", {})
         mensaje = output_params.get("mensaje", "Operación exitosa")
-        return jsonify({"message": mensaje}), 200
+        return jsonify({"message": mensaje}), 200  # Respuesta exitosa
+    else:
+        # Mostrar el mensaje de error detallado
+        error_message = response.json().get("message", "Error desconocido al guardar los datos")
+        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500  # Respuesta de error
+
+@vistaLineasInvestigacion.route("/deletelinea", methods=['POST'])
+def linea_grupo():
+    # Captura los datos del formulario enviado
+    print(request)
+    form_data = {"id_linea_grupo": request.json.get('id_linea_grupo')}
+
+    # Debug: Imprimir el formulario de datos
+    print("Form Data: ", form_data)  
+
+    # Enviar los datos a la API
+    response = requests.post(API_URL.format(projectName=projectName), json={
+        "procedure": "delete_json_entity", 
+        "parameters": {
+            "table_name": "inv_linea_grupo",
+            "where_condition": f"id_linea_grupo = {form_data['id_linea_grupo']}"
+        }
+    })
+
+    # Debug: Imprimir el estado de la respuesta y su contenido
+    print("Response Status Code: ", response.status_code)
+    print("Response Content: ", response.content)
+
+    # Verificar la respuesta de la API
+    if response.status_code == 200:
+        output_params = response.json().get("outputParams", {})
+        mensaje = output_params.get("mensaje", "Operación exitosa")
+        return jsonify({"message": mensaje}), 200  # Respuesta exitosa
     else:
         # Mostrar el mensaje de error detallado
         error_message = response.json().get("message", "Error desconocido al eliminar la linea")
-        return jsonify({"message": f"Error al eliminar la linea: {error_message}"}), 500
-    
-@vistaLineasInvestigacion.route("/updatelinea", methods = ['POST'])
+        return jsonify({"message": f"Error al eliminar la linea: {error_message}"}), 500  # Respuesta de error
+
+@vistaLineasInvestigacion.route("/updatelinea", methods=['POST'])
 def update_linea():
     # Captura los datos del formulario enviado
     print(request)
@@ -307,10 +294,7 @@ def update_linea():
         "mision": request.form.get('mision')
     }
 
-     # Verifica y limpia las fechas
-    
-
-     # Debug: Imprimir el formulario de datos
+    # Debug: Imprimir el formulario de datos
     print("Form Data: ", form_data)
     print("ID linea: ", id_linea_grupo)  
 
@@ -321,7 +305,6 @@ def update_linea():
             "table_name": "inv_linea_grupo",
             "json_data": form_data,
             "where_condition": f"id_linea_grupo = {id_linea_grupo}"
-                
         }
     })
 
@@ -331,7 +314,7 @@ def update_linea():
     if response.status_code == 200:
         output_params = response.json().get("outputParams", {})
         mensaje = output_params.get("mensaje", "Operación exitosa")
-        return jsonify({"message": mensaje}), 200
+        return jsonify({"message": mensaje}), 200  # Respuesta exitosa
     else:
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
-        return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500
+        return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500  # Respuesta de error

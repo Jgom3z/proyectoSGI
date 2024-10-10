@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Listado de Líneas de Investigación{% endblock %}
+{% block content %}
+<div class="container-top">
+  <p class="enlaces">
+    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
+    <span class="text-secondary">Líneas de Investigación</span>
+  </p>
+</div>
+<div class="container mt-4">
+  <h2>Líneas de Investigación</h2>
+  
+  <div class="container-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group col-4">
+            <button class="btn btn-usb btn-outline-secondary" type="button" id="searchLineaBtn">
+              <img src="{{ url_for('static', filename='icons/search.svg') }}" alt="Search Icon" />
+            </button>
+            <input type="search" class="form-control" placeholder="Buscar línea..." id="searchLinea" value="{{ search_term }}">
+          </div>
+        </div>
+        <div class="col-1 ms-auto">
+          <button type="button" class="btn btn-usb" data-bs-toggle="modal" data-bs-target="#crearLinea">
+            Crear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table" id="lineas" style="width: 100%; margin-top: 15px;">
+    <thead>
+      <tr>
+        <th>Nombre de la Línea</th>
+        <th>Grupo de Investigación</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for linea in lineas %}
+      <tr>
+        <td><a href="{{ url_for('idVistaLineasInvestigacion.detalle', id=linea.id_linea_grupo) }}">{{ linea.nombre_linea }}</a></td>
+        <td>{{ linea.nombre_grupo }}</td>
+        <td>{{ linea.estado }}</td>
+        <td>
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarLinea{{ linea.id_linea_grupo }}">Editar</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Modal para crear línea -->
+  <div class="modal fade" id="crearLinea" tabindex="-1" aria-labelledby="crearLineaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearLineaLabel">Crear Línea de Investigación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('idVistaLineasInvestigacion.crear') }}" method="POST">
+            <!-- Campos del formulario -->
+            <div class="mb-3">
+              <label for="nombre_linea" class="form-label">Nombre de la Línea:</label>
+              <input type="text" class="form-control" id="nombre_linea" name="nombre_linea" required>
+            </div>
+            <div class="mb-3">
+              <label for="id_grupo" class="form-label">Grupo de Investigación:</label>
+              <select class="form-select" id="id_grupo" name="id_grupo" required>
+                <option value="">Seleccione un grupo</option>
+                {% for grupo in grupos %}
+                  <option value="{{ grupo.id_grupo }}">{{ grupo.nombre_grupo }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-usb">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aquí puedes agregar más modales para editar y ver detalles -->
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Detalle de Línea de Investigación{% endblock %}
+{% block content %}
+<div class="container-top">
+  <p class="enlaces">
+    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
+    <a class="a-enlaces" href="{{ url_for('idVistaLineasInvestigacion.listar') }}">Líneas de Investigación \</a>
+    <span class="text-secondary">Detalle de Línea</span>
+  </p>
+</div>
+<div class="container mt-4">
+  <h2>{{ linea.nombre_linea }}</h2>
+  <p><strong>Grupo de Investigación:</strong> {{ linea.nombre_grupo }}</p>
+  <p><strong>Estado:</strong> {{ linea.estado }}</p>
+  <p><strong>Descripción:</strong> {{ linea.descripcion }}</p>
+  <!-- Agrega más detalles según sea necesario -->
+</div>
+{% endblock %}
