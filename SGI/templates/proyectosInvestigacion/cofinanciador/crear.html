@@ -1,0 +1,74 @@
+<div
+  class="modal fade"
+  id="crearCofinanciador"
+  tabindex="-1"
+  aria-labelledby="crearCofinanciadorLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearCofinanciadorLabel">
+          Crear Cofinanciador
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          class="row g-3"
+          action="/proyectos/crearCofinanciador"
+          method="POST"
+        >
+          <input
+            type="hidden"
+            value="{{ proyecto.id_proyecto }}"
+            name="id_proyecto"
+            id="id_proyecto"
+          />
+          <div class="col-md-6">
+            <label for="id_cofinanciador" class="form-label">Institución Cofinanciadora</label>
+            <select
+              class="form-select"
+              name="id_cofinanciador"
+              id="id_cofinanciador"
+              required
+            >
+              <option selected value="">Seleccionar</option>
+              {% for item in cofinanciadores %}
+              <option value="{{ item.id_cofinanciador }}">
+                {{ item.institucion }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+     
+          <div class="col-md-6">
+            <label for="contrapartida_especie" class="form-label">Contrapartida Espacie</label>
+            <input type="text" class="form-control" id="contrapartida_especie" name="contrapartida_especie" required>
+          </div>
+          <div class="col-md-6">
+            <label for="contrapartida_dinero" class="form-label">Contrapartida Dinero</label>
+            <input type="text" class="form-control" id="contrapartida_dinero" name="contrapartida_dinero" required>
+          </div>
+
+          <!--######################-->          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

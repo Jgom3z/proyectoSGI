@@ -1,0 +1,51 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="eliminarFile"
+  tabindex="-1"
+  aria-labelledby="eliminarFileLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarFileLabel">Eliminar Archivo</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="/files/eliminar-file" method="POST" id="formElimiarFile">
+          <div
+            class="text-wrap"
+            style="
+              width: auto;
+              word-break: break-word;
+              white-space: normal;
+              overflow-wrap: break-word;
+            "
+          >
+            ¿Estás seguro de que deseas eliminar el documento
+            <span id="inv_eliminar_file_display" class="fw-bold"></span>
+            ?
+          </div>
+
+          <input type="hidden" id="id_proyecto" name="id_proyecto" />
+          <input type="hidden" id="filename" name="filename" />
+          <input type="hidden" id="columnname" name="columnname" />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button form="formElimiarFile" type="submit" class="btn btn-primary">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<table class="table align-items-center ml-5" id="investigadores">
+    <thead>
+      <tr>
+        <th>Editar</th>
+        <th>Nombre</th>
+        <th>Identificación</th>
+        <th>Fecha</th>
+    </thead>
+    <tbody>
+      {% for item in AuxiliaresProyecto %}
+      <tr>
+        <td>
+          <button
+            class="btn btn-sm btn-light"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#editarProducto"
+            onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"
+          >
+            <img
+              src="{{ url_for('static', filename='icons/pencil.svg') }}"
+              alt="Search Icon"
+            />
+          </button>
+        </td>
+        <td>{{item.nombre_estudiante}}</td>
+        <td>{{item.identificacion}}</td>
+        <td>{{item.fecha}}</td>    
+      </tr>
+      {% endfor %} {% include 'proyectosInvestigacion/productos/editar.html' %}
+    </tbody>
+  </table>
+  

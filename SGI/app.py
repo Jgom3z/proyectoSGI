@@ -16,6 +16,7 @@ from vista.vistaInvestigadores import vistaInvestigadores
 from vista.vistaLineasInvestigacion import vistaLineasInvestigacion
 from vista.vistaProyectosFormacion import vistaProyectosFormacion
 from vista.vistaProyectosInvestigacion import vistaProyectosInvestigacion
+from vista.files import files_bp
 from vista.vistaSemillerosInvestigacion import vistaSemillerosInvestigacion
 
 app = Flask(__name__)
@@ -30,6 +31,7 @@ app.register_blueprint(vistaInvestigadores, url_prefix= '/investigadores')
 app.register_blueprint(vistaLineasInvestigacion)
 app.register_blueprint(vistaProyectosFormacion, url_prefix='/ProyectosFormacion')
 app.register_blueprint(vistaProyectosInvestigacion, url_prefix='/proyectos')
+app.register_blueprint(files_bp, url_prefix='/files')
 app.register_blueprint(vistaSemillerosInvestigacion, url_prefix='/semilleros')
 
 # Configuración de la URL de la API

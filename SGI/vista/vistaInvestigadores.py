@@ -6,6 +6,7 @@ import requests
 from vista.functions import paginate, now
 import os
 import logging
+from vista.select_list import facultad
 
 API_URL = os.getenv('API_URL')
 if not API_URL:
@@ -33,7 +34,8 @@ def listar():
     except requests.RequestException as e:
         logging.error(f"Error al consultar la API: {str(e)}")
         flash(f"Error al consultar la API: {str(e)}", "error")
-        return render_template('investigadores/listar.html', data=[], total_pages=0, page=1)
+        return render_template('investigadores/listar.html', data=[], 
+                               total_pages=0, page=1)
 
     search_term = request.args.get('search', '').lower()
 
@@ -50,23 +52,7 @@ def listar():
         page = 1
         route_pagination = 'idVistaInvestigadores.listar'
 
-    # Obtener lista de facultades para el formulario de creación
-    facultades_data = {
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_facultad",
-            "select_columns": "id_facultad, nombre_facultad",
-            "order_by": "nombre_facultad"
-        }
-    }
     
-    try:
-        facultades_response = requests.post(API_URL, json=facultades_data)
-        facultades_response.raise_for_status()
-        facultades = json.loads(facultades_response.json()['result'][0]['result'])
-    except requests.RequestException as e:
-        logging.error(f"Error al obtener facultades: {str(e)}")
-        facultades = []
 
     return render_template('investigadores/listar.html',
                            data=investigadores, 
@@ -74,7 +60,7 @@ def listar():
                            page=page, 
                            search_term=search_term,
                            route_pagination=route_pagination,
-                           facultades=facultades)
+                           facultad=facultad())
 
 @vistaInvestigadores.route('/crear', methods=['POST'])
 def crear():
@@ -107,7 +93,7 @@ def crear():
             logging.error(f"Error al crear investigador: {str(e)}")
             flash(f"Error al crear investigador: {str(e)}", "error")
 
-    return redirect(url_for('idVistaInvestigadores.listar'))
+    return redirect(url_for('idVistaInvestigadores.listar', facultad = facultad()))
 
 @vistaInvestigadores.route('/detalle/<int:id>', methods=['GET'])
 def detalle(id):
@@ -172,25 +158,9 @@ def editar(id):
             flash(f"Error al obtener detalles del investigador: {str(e)}", "error")
             return redirect(url_for('idVistaInvestigadores.listar'))
 
-        # Obtener lista de facultades para el formulario de edición
-        facultades_data = {
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_facultad",
-                "select_columns": "id_facultad, nombre_facultad",
-                "order_by": "nombre_facultad"
-            }
-        }
-        
-        try:
-            facultades_response = requests.post(API_URL, json=facultades_data)
-            facultades_response.raise_for_status()
-            facultades = json.loads(facultades_response.json()['result'][0]['result'])
-        except requests.RequestException as e:
-            logging.error(f"Error al obtener facultades: {str(e)}")
-            facultades = []
+       
 
-        return render_template('investigadores/editar.html', investigador=investigador, facultades=facultades)
+        return render_template('investigadores/editar.html', investigador=investigador, facultad=facultad)
 
     elif request.method == 'POST':
         # Procesar el formulario de edición
