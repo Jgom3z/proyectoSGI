@@ -1,0 +1,36 @@
+<table class="table align-items-center ml-5" id="investigadores">
+  <thead>
+    <tr>
+      <th>Editar</th>
+      <th>Institución</th>
+      <th>NIT</th>
+      <th>Contrapartida en especie</th>
+      <th>Contrapartida en dinero</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cofinanciadoresProyecto %}
+    <tr>
+      <td>
+        <button
+          class="btn btn-sm btn-light"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#editarProducto"
+          onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"
+        >
+          <img
+            src="{{ url_for('static', filename='icons/pencil.svg') }}"
+            alt="Search Icon"
+          />
+        </button>
+      </td>
+      <td>{{item.institucion}}</td>
+      <td>{{item.nit}}</td>
+      <td>{{item.contrapartida_especie}}</td>
+      <td>{{item.fecha_entrega}}</td>
+      <td>{{item.contrapartida_dinero}}</td>      
+    </tr>
+    {% endfor %} {% include 'proyectosInvestigacion/productos/editar.html' %}
+  </tbody>
+</table>
