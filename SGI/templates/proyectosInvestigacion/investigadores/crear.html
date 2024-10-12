@@ -1,0 +1,117 @@
+<div
+  class="modal fade"
+  id="crearInvestigador"
+  tabindex="-1"
+  aria-labelledby="crearInvestigadorLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearInvestigadorLabel">
+          Crear Investigador
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          class="row g-3"
+          action="/proyectos/crearInvestigador"
+          method="POST"
+        >
+          <input
+            type="hidden"
+            value="{{ proyecto.id_proyecto }}"
+            name="id_proyecto"
+            id="id_proyecto"
+          />
+          <div class="col-md-6">
+            <label for="id_investigador" class="form-label">Investigador</label>
+            <select
+              class="form-select"
+              name="id_investigador"
+              id="id_investigador"
+              required
+            >
+              <option selected value="">Seleccionar</option>
+              {% for item in investigadores %}
+              <option value="{{ item.id_investigador }}">
+                {{ item.nombre_investigador }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="tipo_participacion" class="form-label">Tipo Participación</label>
+            <select
+              class="form-select"
+              name="tipo_participacion"
+              id="tipo_participacion"
+              required
+            >
+              <option selected value="">Seleccionar</option>  
+              <option value="Investigador principal">Investigador principal</option>
+              <option value="Co-investigador">Co-investigador</option>
+              <option value="Director">Director</option>
+            </select>
+          </div>          
+          <div class="col-md-6">
+            <label for="horas_fase_1" class="form-label">Horas fase 1</label>
+            <input type="number" class="form-control" id="horas_fase_1" name="horas_fase_1">
+          </div>
+          <div class="col-md-6">
+            <label for="horas_fase_2" class="form-label">Horas fase 2</label>
+            <input type="number" class="form-control" id="horas_fase_2" name="horas_fase_2">
+          </div>
+          <div class="col-md-6">
+            <label for="horas_fase_3" class="form-label">Horas fase 3</label>
+            <input type="number" class="form-control" id="horas_fase_3" name="horas_fase_3">
+          </div>
+          <div class="col-md-6">
+            <label for="horas_fase_4" class="form-label">Horas fase 4</label>
+            <input type="number" class="form-control" id="horas_fase_4" name="horas_fase_4">
+          </div>
+          <div class="col-md-6">
+            <label for="horas_fase_5" class="form-label">Horas fase 5</label>
+            <input type="number" class="form-control" id="horas_fase_5" name="horas_fase_5">
+          </div>
+          <div class="col-md-6">
+            <label for="horas_fase_6" class="form-label">Horas fase 6</label>
+            <input type="number" class="form-control" id="horas_fase_6" name="horas_fase_6">
+          </div>
+          <div class="col-md-6">
+            <label for="estado" class="form-label">Estado</label>
+            <select
+              class="form-select"
+              name="estado"
+              id="estado"
+              required
+            >
+              <option selected value="">Seleccionar</option>  
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+              <option value="Pendiente">Pendiente</option>
+            </select>
+          </div>
+
+          <!--######################-->          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

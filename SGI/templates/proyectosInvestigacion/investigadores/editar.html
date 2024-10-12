@@ -1,0 +1,180 @@
+<div class="modal-body">
+  <div
+    class="modal fade"
+    id="editarInvestigador"
+    tabindex="-1"
+    aria-labelledby="editarInvestigadorLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarInvestigadorLabel">
+            Editar Proyecto de Investigación
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form
+            class="row g-3"
+            action="/proyectos/editarInvestigador"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              value="{{ proyecto.id_proyecto }}"
+              name="inv_id_proyecto"
+              id="inv_id_proyecto"
+            />
+            <input
+              type="hidden"
+              name="inv_id_investigador_proyecto"
+              id="inv_id_investigador_proyecto"
+            />
+            <div class="row">
+              <div class="col-6">
+                <label for="inv_id_investigador" class="form-label"
+                  >Investigador</label
+                >
+                <select
+                  class="form-select"
+                  name="inv_id_investigador"
+                  id="inv_id_investigador"
+                  required
+                >
+                  <option selected value="">Seleccionar</option>
+                  {% for item in investigadores %}
+                  <option value="{{ item.id_investigador }}">
+                    {{ item.nombre_investigador }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inv_tipo_participacion" class="form-label"
+                  >Tipo Participación</label
+                >
+                <select
+                  class="form-select"
+                  name="inv_tipo_participacion"
+                  id="inv_tipo_participacion"
+                  required
+                >
+                  <option selected value="">Seleccionar</option>
+                  <option value="Investigador principal">
+                    Investigador principal
+                  </option>
+                  <option value="Co-investigador">Co-investigador</option>
+                  <option value="Director">Director</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="inv_horas_fase_1" class="form-label"
+                  >Horas fase 1</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inv_horas_fase_1"
+                  name="inv_horas_fase_1"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="inv_horas_fase_2" class="form-label"
+                  >Horas fase 2</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inv_horas_fase_2"
+                  name="inv_horas_fase_2"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="inv_horas_fase_3" class="form-label"
+                  >Horas fase 3</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inv_horas_fase_3"
+                  name="inv_horas_fase_3"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="inv_horas_fase_4" class="form-label"
+                  >Horas fase 4</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inv_horas_fase_4"
+                  name="inv_horas_fase_4"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="inv_horas_fase_5" class="form-label"
+                  >Horas fase 5</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inv_horas_fase_5"
+                  name="inv_horas_fase_5"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="inv_horas_fase_6" class="form-label"
+                  >Horas fase 6</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inv_horas_fase_6"
+                  name="inv_horas_fase_6"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inv_estado" class="form-label">Estado</label>
+              <select
+                class="form-select"
+                name="inv_estado"
+                id="inv_estado"
+                required
+              >
+                <option selected value="">Seleccionar</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+                <option value="Pendiente">Pendiente</option>
+              </select>
+            </div>
+
+            <!--######################-->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-usb">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

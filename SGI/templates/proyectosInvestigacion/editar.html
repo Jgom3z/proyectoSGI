@@ -55,62 +55,7 @@
                 {% endfor %}
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="acta_inicio" class="form-label">Acta de Inicio</label>
-              <input type="file" class="form-control" id="acta_inicio" name="acta_inicio">
-              {% if proyecto.nombre_acta_inicio %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_acta_inicio }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="acta_finalizacion" class="form-label">Acta de Finalización</label>
-              <input type="file" class="form-control" id="acta_finalizacion" name="acta_finalizacion">
-              {% if proyecto.nombre_acta_finalizacion %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_acta_finalizacion }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="presupuesto" class="form-label">Presupuesto</label>
-              <input type="file" class="form-control" id="presupuesto" name="presupuesto">
-              {% if proyecto.nombre_presupuesto %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_presupuesto }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="propuesta" class="form-label">Propuesta</label>
-              <input type="file" class="form-control" id="propuesta" name="propuesta">
-              {% if proyecto.nombre_propuesta %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_propuesta }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="acta_comite" class="form-label">Acta de Comité</label>
-              <input type="file" class="form-control" id="acta_comite" name="acta_comite">
-              {% if proyecto.nombre_acta_comite %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_acta_comite }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="convenio_marco" class="form-label">Convenio Marco</label>
-              <input type="file" class="form-control" id="convenio_marco" name="convenio_marco">
-              {% if proyecto.nombre_convenio_marco %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_convenio_marco }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="convenio_especifico" class="form-label">Convenio Específico</label>
-              <input type="file" class="form-control" id="convenio_especifico" name="convenio_especifico">
-              {% if proyecto.nombre_convenio_especifico %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_convenio_especifico }}</small>
-              {% endif %}
-            </div>
-            <div class="col-md-6">
-              <label for="carta_de_intencion" class="form-label">Carta de Intención</label>
-              <input type="file" class="form-control" id="carta_de_intencion" name="carta_de_intencion">
-              {% if proyecto.nombre_carta_intencion %}
-                <small class="form-text text-muted">Archivo actual: {{ proyecto.nombre_carta_intencion }}</small>
-              {% endif %}
-            </div>
+            
             <div class="col-md-6">
               <label for="nombre_convocatoria" class="form-label">Nombre de la Convocatoria</label>
               <input type="text" class="form-control" id="nombre_convocatoria" name="nombre_convocatoria" value="{{ proyecto.nombre_convocatoria }}">

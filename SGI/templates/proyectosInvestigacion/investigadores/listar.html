@@ -1,0 +1,49 @@
+<!--investigadores-->
+<table class="table align-items-center ml-5" id="investigadores">
+  <thead>
+    <tr>
+      <th>Editar</th>
+      <th>Nombre</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in investigadoresProyecto %}
+    <tr>
+      <td>
+        <button
+          class="btn btn-sm btn-light"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#editarInvestigador"
+          onclick="loadData('/proyectos/get_investigador', id_investigador_proyecto='{{ item.id_investigador_proyecto }}')"
+        >
+          <img
+            src="{{ url_for('static', filename='icons/pencil.svg') }}"
+            alt="Search Icon"
+          />
+        </button>
+      </td>
+      <td>{{item.nombre_investigador}}</td>
+      <td>{{item.estado}}</td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalEliminarInvestigador"
+          onclick="loadDataDeleteInvestigador('{{ item.id_investigador_proyecto }}', '{{ item.id_proyecto }}')"
+        >
+          <img
+            src="{{ url_for('static', filename='icons/trash.svg') }}"
+            alt="Search Icon"
+          />
+        </button>
+      </td>
+    </tr>
+    {% endfor %} 
+    {% include 'proyectosInvestigacion/investigadores/editar.html' %}
+    {% include 'proyectosInvestigacion/investigadores/eliminar.html' %}
+  </tbody>
+</table>
