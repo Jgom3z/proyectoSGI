@@ -12,9 +12,18 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="text-investigador m-0 text-center flex-grow-1">{{ investigador.nombre_investigador }}</h3>
-      <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarInvestigador">
-        Editar
-      </button>
+      <div class="btn-group">
+        <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarInvestigador">
+          Editar
+        </button>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Asociar
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#" id="btnAgregarEstudiante" data-bs-toggle="modal" data-bs-target="#crearEstudianteModal">Asociar Grupo</a></li>
+          <li><a class="dropdown-item" href="#" id="btnAgregarPlan" data-bs-toggle="modal" data-bs-target="#crearPlanModal">Asociar linea</a></li>
+        </ul>
+      </div>
     </div>
     <div class="card-body">
       <table class="table table-bordered">
@@ -48,26 +57,199 @@
     </div>
   </div>
 
-  <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="true">Proyectos</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab" aria-controls="productos" aria-selected="false">Productos</button>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
-      <h4 class="mt-3">Proyectos del Investigador</h4>
-      <p>No hay proyectos disponibles.</p>
+  <div class="card py-2">
+    <div class="card-header">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active a-usb" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="true">
+            Proyectos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link a-usb" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab" aria-controls="productos" aria-selected="false">
+            Productos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link a-usb" id="grupos-tab" data-bs-toggle="tab" data-bs-target="#grupos" type="button" role="tab" aria-controls="grupos" aria-selected="false">
+            Grupos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link a-usb" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="false">
+            Líneas
+          </button>
+        </li>
+      </ul>
     </div>
-    <div class="tab-pane fade" id="productos" role="tabpanel" aria-labelledby="productos-tab">
-      <h4 class="mt-3">Productos del Investigador</h4>
-      <p>No hay productos disponibles.</p>
+    <div class="container my-2">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+          <!-- Proyectos -->
+          <table class="table align-items-center" id="proyectos">
+            <thead>
+              <tr>
+                <th>Proyecto</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Finalización</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Proyecto Innovador</td>
+                <td>01/01/2023</td>
+                <td>31/12/2023</td>
+                <td>Finalizado</td>
+              </tr>
+              <tr>
+                <td>Proyecto de Investigación XYZ</td>
+                <td>15/02/2024</td>
+                <td>16/11/2024</td>
+                <td>En progreso</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="productos" role="tabpanel" aria-labelledby="productos-tab">
+          <!-- Productos -->
+          <table class="table align-items-center" id="productos">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Fecha de Publicación</th>
+                <th>Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Artículo sobre Química</td>
+                <td>10/01/2023</td>
+                <td>Artículo</td>
+              </tr>
+              <tr>
+                <td>Libro sobre Investigaciones Ambientales</td>
+                <td>20/05/2023</td>
+                <td>Libro</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="grupos" role="tabpanel" aria-labelledby="grupos-tab">
+          <!-- Grupos -->
+          <table class="table align-items-center" id="grupos">
+            <thead>
+              <tr>
+                <th>Grupo</th>
+                <th>Rol</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Grupo de Innovación</td>
+                <td>Líder</td>
+              </tr>
+              <tr>
+                <td>Grupo de Avanzado</td>
+                <td>Investigador</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="lineas" role="tabpanel" aria-labelledby="lineas-tab">
+          <!-- Líneas -->
+          <table class="table align-items-center" id="lineas">
+            <thead>
+              <tr>
+                <th>Línea</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Línea de Investigación en Gestión Empresarial</td>
+              </tr>
+              <tr>
+                <td>Línea de Investigación en Innovación Tecnológica</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 {% include 'investigadores/editar.html' %}
+
+<!-- Modales para agregar estudiante y plan -->
+<div class="modal fade" id="crearEstudianteModal" tabindex="-1" aria-labelledby="crearEstudianteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearEstudianteModalLabel">Asociar Grupo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenido del modal para agregar estudiante -->
+        <form>
+          <!-- Campos del formulario -->
+          <div class="mb-3">
+            <label for="grupoEstudiante" class="form-label">Grupo para asociar a {{ investigador.nombre_investigador }}</label>
+            <select class="form-select" id="grupoEstudiante" required>
+              <option value="">Seleccione un grupo</option>
+              <option value="Grupo Avanzado">Grupo Avanzado</option>
+              <option value="Grupo de Derecho Constitucional">Grupo de Derecho Constitucional</option>
+              <option value="Grupo de Derecho Internacional">Grupo de Derecho Internacional</option>
+              <option value="Grupo de Investigación en Innovación">Grupo de Investigación en Innovación</option>
+              <option value="Grupo de Investigación en Innovación y Emprendimiento Empresarial">Grupo de Investigación en Innovación y Emprendimiento Empresarial</option>
+              <option value="Grupo de Investigación en Mercados y Estrategias Empresariales">Grupo de Investigación en Mercados y Estrategias Empresariales</option>
+              <option value="Grupo innovador">Grupo innovador</option>
+              <option value="Grupo Mercadeo">Grupo Mercadeo</option>
+            </select>
+          </div>
+          <!-- Otros campos según sea necesario -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Asociar Grupo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="crearPlanModal" tabindex="-1" aria-labelledby="crearPlanModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearPlanModalLabel">Asociar linea</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenido del modal para agregar plan -->
+        <form>
+          <!-- Campos del formulario -->
+          <div class="mb-3">
+            <label for="lineaPlan" class="form-label">Línea para asociar a {{ investigador.nombre_investigador }}</label>
+            <select class="form-select" id="lineaPlan" required>
+              <option value="">Seleccione una línea</option>
+              <option value="Línea de Investigación en Gestión Empresarial">Línea de Investigación en Gestión Empresarial</option>
+              <option value="Línea de Investigación en Innovación Tecnológica">Línea de Investigación en Innovación Tecnológica</option>
+              <option value="Línea de Investigación en Ciencias Ambientales">Línea de Investigación en Ciencias Ambientales</option>
+              <option value="Línea de Investigación en Innovación Tecnológica">Línea de Investigación en Innovación Tecnológica</option>
+              <option value="Línea de Investigación en Gestión Empresarial">Línea de Investigación en Gestión Empresarial</option>
+              <option value="Impacto de la dieta mediterránea en la prevención de enfermedades crónicas en adultos mayores">Impacto de la dieta mediterránea en la prevención de enfermedades crónicas en adultos mayores</option>
+            </select>
+          </div>
+          <!-- Otros campos según sea necesario -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Asociar linea</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
