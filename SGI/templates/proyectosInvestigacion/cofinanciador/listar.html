@@ -1,4 +1,4 @@
-<table class="table align-items-center ml-5" id="investigadores">
+<table class="table align-items-center ml-5" id="cofinanciadores">
   <thead>
     <tr>
       <th>Editar</th>
@@ -6,6 +6,7 @@
       <th>NIT</th>
       <th>Contrapartida en especie</th>
       <th>Contrapartida en dinero</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -16,8 +17,8 @@
           class="btn btn-sm btn-light"
           type="button"
           data-bs-toggle="modal"
-          data-bs-target="#editarProducto"
-          onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"
+          data-bs-target="#editarCofinanciador"
+          onclick="loadData('/proyectos/get_cofinanciador', id_cofinanciador='{{ item.id_cofinan_proyecto }}')"
         >
           <img
             src="{{ url_for('static', filename='icons/pencil.svg') }}"
@@ -28,9 +29,23 @@
       <td>{{item.institucion}}</td>
       <td>{{item.nit}}</td>
       <td>{{item.contrapartida_especie}}</td>
-      <td>{{item.fecha_entrega}}</td>
-      <td>{{item.contrapartida_dinero}}</td>      
+      <td>{{item.contrapartida_dinero}} proyecto{{item.id_proyecto}}</td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalEliminarCofinanciador"
+          onclick="loadDataDeleteCofinanciador('{{ item.id_cofinan_proyecto }}', '{{ item.id_proyecto }}')"
+        >
+          <img
+            src="{{ url_for('static', filename='icons/trash.svg') }}"
+            alt="Search Icon"
+          />
+        </button>
+      </td>
     </tr>
-    {% endfor %} {% include 'proyectosInvestigacion/productos/editar.html' %}
+    {% endfor %} {% include 'proyectosInvestigacion/cofinanciador/editar.html'
+    %} {% include 'proyectosInvestigacion/cofinanciador/eliminar.html' %}
   </tbody>
 </table>

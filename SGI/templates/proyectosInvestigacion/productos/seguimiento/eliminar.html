@@ -1,16 +1,16 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="ModalEliminarCofinanciador"
+  id="ModalEliminarSeguimiento"
   tabindex="-1"
-  aria-labelledby="ModalEliminarCofinanciadorLabel"
+  aria-labelledby="ModalEliminarSeguimientoLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ModalEliminarCofinanciadorLabel">
-          Eliminar Cofinanciador
+        <h5 class="modal-title" id="ModalEliminarSeguimientoLabel">
+          Eliminar Seguimiento
         </h5>
         <button
           type="button"
@@ -21,31 +21,37 @@
       </div>
       <div class="modal-body">        
         <form
-          action="/proyectos/eliminarCofinanciador"
+          action="/proyectos/eliminarSeguimiento"
           method="POST"
-          id="formElimiarCofinanciador"
+          id="formElimiarSeguimiento"
         > <p>¿Estás seguro de que deseas eliminar el registro con ID: 
-          <span id="cofe_eliminar_id_display" class="fw-bold"></span>?
+          <span id="seg_eliminar_id_display" class="fw-bold"></span>?
           <input
             type="hidden"
-            id="cofe_eliminar_id"
-            name="cofe_eliminar_id"
+            id="seg_eliminar_id"
+            name="seg_eliminar_id"
             readonly
           />
           <input
             type="hidden"
-            id="cofe_proyecto_id"
-            name="cofe_proyecto_id"
+            id="seg_proyecto_id"
+            name="seg_proyecto_id"
             readonly
           />
-        </form><br>
+          <input
+            type="hidden"
+            id="seg_path"
+            name="seg_path"
+            readonly
+          />
+        </form>
         <span class="text-danger">¡Esta acción no se prodrá deshacer!</span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Cerrar
         </button>
-        <button form="formElimiarCofinanciador" type="submit" class="btn btn-primary">
+        <button form="formElimiarSeguimiento" type="submit" class="btn btn-primary">
           Confirmar
         </button>
       </div>

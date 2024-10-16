@@ -6,7 +6,7 @@ import io
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from vista.vistaProyectosInvestigacion import obtener_proyecto_por_id
+#from vista.vistaProyectosInvestigacion import obtener_proyecto_por_id
 import asyncio
 # Configurar la URL de la API backend
 projectName = os.getenv('PROJECT_NAME')
@@ -218,7 +218,6 @@ def ver_archivo(id_proyecto, filename):
     # Si no es un archivo .docx, se envía el archivo original para ser visualizado
     return send_from_directory(upload_folder, filename)
 
-
 def convert_docx_to_pdf_in_memory(docx_path):
     # Crear un buffer en memoria
     pdf_buffer = io.BytesIO()
@@ -249,4 +248,84 @@ def convert_docx_to_pdf_in_memory(docx_path):
 
     return pdf_buffer
 
+
+def handle_file_upload_seguimiento(file, proyecto_id, field_name, custom_folder=None, base_upload_folder='uploads'):
+    if not file:
+        flash('No se seleccionó ningún archivo', 'danger')
+        return None
+
+    # Obtener la extensión del archivo original (mantener la extensión del archivo subido)
+    _, file_extension = os.path.splitext(file.filename)
+
+    # Usar el nombre del campo del formulario para el nombre del archivo
+    filename = secure_filename(f"{field_name}{file_extension}")
+
+    if filename == '':
+        return None
+
+    if not allowed_file(filename):
+        flash('Extensión de archivo no permitida', 'danger')
+        return None
+
+    # Crear la ruta donde se guardará el archivo, incluyendo la carpeta personalizada si se proporciona
+    if custom_folder:
+        # Ruta específica incluyendo custom_folder
+        proyecto_folder = os.path.join(custom_folder)
+    else:
+        # Usar solo el proyecto_id si no se proporciona una carpeta personalizada
+        proyecto_folder = os.path.join(base_upload_folder, str(proyecto_id))
+
+    # Asegurarse de que la carpeta del proyecto (y la carpeta personalizada si se proporcionó) exista
+    if not os.path.exists(proyecto_folder):
+        try:
+            os.makedirs(proyecto_folder)
+        except Exception as e:
+            flash(f'Error al crear la carpeta del proyecto: {e}', 'danger')
+            return None
+    try:
+        # Ruta absoluta completa
+        file_path = os.path.join(proyecto_folder, filename)
+        
+        # Guardar el archivo
+        file.save(file_path)
+
+        # Devolver la ruta completa del archivo guardado
+        return file_path
+
+    except Exception as e:
+        current_app.logger.error(f'Error al guardar el archivo: {e}')
+        flash(f'Error al guardar el archivo: {e}', 'danger')
+        return None
+
+@files_bp.route('/download-seguimiento/<path:file_path>', methods=['GET'])
+def descargar_soporte_seguimiento(file_path):
+    # Asegurarse de que el archivo existe en la ruta proporcionada
+    if not os.path.isfile(file_path):
+        print(f"Archivo no encontrado: {file_path}")
+        abort(404)  # Si no se encuentra el archivo, devolver un error 404
+
+    try:
+        # Descargar el archivo desde el directorio especificado en la ruta
+        directory = os.path.dirname(file_path)
+        filename = os.path.basename(file_path)
+        return send_from_directory(directory, filename, as_attachment=True)
+    except Exception as e:
+        print(f"Error al descargar el archivo: {e}")
+        abort(500)  # Si hay un error, devolver un error 500
+
+@files_bp.route('/delete-seguimiento/<path:file_path>', methods=['DELETE'])
+def eliminar_soporte_seguimiento(file_path):
+    # Asegurarse de que el archivo existe en la ruta proporcionada
+    if not os.path.isfile(file_path):
+        print(f"Archivo no encontrado: {file_path}")
+        return jsonify({"error": "Archivo no encontrado"}), 404  # Si no se encuentra el archivo, devolver un error 404
+
+    try:
+        # Eliminar el archivo
+        os.remove(file_path)
+        print(f"Archivo eliminado: {file_path}")
+        return jsonify({"message": "Archivo eliminado exitosamente"}), 200
+    except Exception as e:
+        print(f"Error al eliminar el archivo: {e}")
+        return jsonify({"error": "Error al eliminar el archivo"}), 500  # Si hay un error, devolver un error 500
 

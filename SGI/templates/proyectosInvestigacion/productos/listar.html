@@ -1,51 +1,123 @@
 <!--investigadores-->
 <table class="table align-items-center ml-5" id="investigadores">
-    <thead>
-      <tr>
-        <th>Editar</th>
-        <th>Tipo</th>
-        <th>Observación</th>
-        <th>Fecha de Inicio</th>
-        <th>Fecha de Entrega</th>
-        <th>Fecha de Finalización</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in productosProyecto %}
-      <tr>
-        <td>
-          <button
-            class="btn btn-sm btn-light"
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#editarProducto"
-            onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"
-          >
-            <img
-              src="{{ url_for('static', filename='icons/pencil.svg') }}"
-              alt="Search Icon"
-            />
-          </button>
-        </td>
-        <td>{{item.subtipo}}</td>
-        <td>{{item.observacion}}</td>
-        <td>{{item.fecha_inicio}}</td>
-        <td>{{item.fecha_entrega}}</td>
-        <td>{{item.fecha_publicacion}}</td>
-        <td class="text-center">
-          <button
-            type="button"
-            class="btn btn-sm btn-success"
-            data-bs-toggle="modal"
-            data-bs-target="#ModalVerProducto"  
-            onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_proyecto }}')"          
-          >
+  <thead>
+    <tr>
+      <th>Editar</th>
+      <th>Tipo</th>
+      <th>Observación</th>
+      <th>Fecha de Inicio</th>
+      <th>Fecha de Entrega</th>
+      <th>Fecha de Finalización</th>
+      <th>Seguimiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in productosProyecto %}
+    <tr>
+      <td>
+        <button
+          class="btn btn-sm btn-light"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#editarProducto"
+          onclick="loadData('/proyectos/get_producto', id_producto_proy='{{ item.id_prod_proy }}')"
+        >
+          <img
+            src="{{ url_for('static', filename='icons/pencil.svg') }}"
+            alt="Search Icon"
+          />
+        </button>
+      </td>
+      <td>{{item.subtipo}}</td>
+      <td>{{item.observacion}}</td>
+      <td>{{item.fecha_inicio}}</td>
+      <td>{{item.fecha_entrega}}</td>
+      <td>{{item.fecha_publicacion}}</td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#seguimiento"
+          onclick="loadDataSeguimiento('/proyectos/get_producto_seguimiento', id_prod_proy='{{ item.id_prod_proy }}')"
+        >
           Ver
-          </button>
-        </td>
-      </tr>
-      {% endfor %} 
-      {% include 'proyectosInvestigacion/productos/editar.html' %}
-    </tbody>
-  </table>
-  
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include 'proyectosInvestigacion/productos/editar.html' %} {% include
+'proyectosInvestigacion/productos/seguimiento/listar.html' %}
+
+<script>
+  function loadDataSeguimiento(url, id) {
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: { id: id },
+      success: function (response) {
+        if (response && response.data && response.ids_editar) {
+          const data = JSON.parse(response.data);
+          const idsFields = response.ids_editar;
+
+          const responseData = Array.isArray(data) ? data[0] : {};
+          console.log(responseData);
+
+          // Actualizar campos en el formulario de edición
+          Object.keys(idsFields).forEach((field) => {
+            const inputId = idsFields[field];
+            const value = responseData[field] || "";
+            const inputElement = document.getElementById(inputId);
+            if (inputElement) {
+              if (inputElement.type === "date") {
+                inputElement.value = formatDate(value);
+              } else {
+                inputElement.value = value;
+              }
+            }
+          });
+
+          // Llenar la tabla con los seguimientos si existen
+          if (response.seguimiento && Array.isArray(response.seguimiento)) {
+            const seguimientoData = response.seguimiento;
+            const tableBody = $("#seguimientoTableBody");
+            tableBody.empty(); // Limpiar la tabla antes de llenarla
+
+            seguimientoData.forEach(function (seg) {
+              let soporte = seg.nombre_soporte 
+              ? `<a href="/files/download-seguimiento/${seg.nombre_soporte}" target="_blank">Descargar</a>` 
+              : 'No disponible';
+
+              let row = `<tr>                            
+                            <td>${seg.observacion_seguimiento}</td>
+                            <td>${seg.fecha}</td>
+                            <td>${soporte}</td>
+                            <td class="text-center">
+                              <button
+                                type="button"
+                                class="btn btn-sm btn-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ModalEliminarSeguimiento"
+                                onclick="loadDataDeleteSeguimiento('${seg.id_seguimiento}', '${seg.id_producto_proyecto}', '${seg.nombre_soporte}')"
+                              >
+                                <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+                              </button>
+                            </td>
+                           </tr>`;
+              tableBody.append(row); // Agregar la fila a la tabla
+            });
+          } else {
+            alert("No se encontraron seguimientos");
+          }
+        } else {
+          alert("No se encontraron datos");
+        }
+      },
+      error: function () {
+        alert("Error al cargar datos");
+      },
+    });
+  }
+</script>

@@ -491,8 +491,8 @@ def estudiantesNotExistsSimellero(id):
         "limit_clause": "",
         "json_data": {},
         "select_columns": "es.id_estudiante, es.nombre_estudiante"
+        }
     }
-}
     
     response = requests.post(API_URL, json=select_data)
     if response.status_code != 200:

@@ -1,0 +1,88 @@
+<div
+  class="modal fade"
+  id="editarProducto"
+  tabindex="-1"
+  aria-labelledby="editarProductoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarProductoLabel">
+          Editar Producto
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          class="row g-3"
+          action="/proyectos/editarProducto"
+          method="POST"
+        >
+          <input
+            type="hidden"
+            value="{{ proyecto.id_proyecto }}"
+            name="pro_id_proyecto"
+            id="pro_id_proyecto"
+          />
+          <input
+          type="hidden"
+          name="pro_id_prod_proy"
+          id="pro_id_prod_proy"
+        />
+          <div class="col-md-6">
+            <label for="pro_id_producto" class="form-label">Tipo</label>
+            <select
+              class="form-select"
+              name="pro_id_producto"
+              id="pro_id_producto"
+              required
+            >
+              <option selected value="">Seleccionar</option>
+              {% for item in productos %}
+              <option value="{{ item.id_producto }}">
+                {{ item.subtipo }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="col-md-12">
+            <label for="pro_observacion" class="form-label">Observación</label>
+            <textarea class="form-control" id="pro_observacion" name="pro_observacion" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label for="pro_fecha_inicio" class="form-label">Fecha de Inicio</label>
+            <input type="date" class="form-control" id="pro_fecha_inicio" name="pro_fecha_inicio" required>
+          </div>
+          <div class="col-md-6">
+            <label for="pro_fecha_entrega" class="form-label">Fecha de Entrega</label>
+            <input type="date" class="form-control" id="pro_fecha_entrega" name="pro_fecha_entrega" required>
+          </div>
+          <div class="col-md-6">
+            <label for="pro_fecha_publicacion" class="form-label">Fecha de Publicación</label>
+            <input type="date" class="form-control" id="pro_fecha_publicacion" name="pro_fecha_publicacion" required>
+          </div>
+          
+
+          <!--######################-->          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

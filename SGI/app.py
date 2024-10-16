@@ -16,7 +16,7 @@ from vista.vistaInvestigadores import vistaInvestigadores
 from vista.vistaLineasInvestigacion import vistaLineasInvestigacion
 from vista.vistaProyectosFormacion import vistaProyectosFormacion
 from vista.vistaProyectosInvestigacion import vistaProyectosInvestigacion
-from vista.files import files_bp
+from vista.documentos_proyecto import files_bp
 from vista.vistaSemillerosInvestigacion import vistaSemillerosInvestigacion
 
 app = Flask(__name__)

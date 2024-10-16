@@ -1,0 +1,61 @@
+<div
+  class="modal fade"
+  id="seguimiento"
+  tabindex="-1"
+  aria-labelledby="seguimientoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <!-- 'modal-lg' para hacer el modal más ancho -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="seguimientoLabel">Seguimiento</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Observación Seguimiento</th>
+              <th>Fecha</th>
+              <th>Soporte</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="seguimientoTableBody">
+            <!-- Aquí se insertarán las filas dinámicamente -->
+            <!-- Los datos se cargan desde AJAX usando la función loadData -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-sm btn-usb"
+          data-bs-toggle="modal"
+          data-bs-target="#crearSeguimiento"
+        >
+          Agregar Seguimiento
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'proyectosInvestigacion/productos/seguimiento/crear.html' %}
+{% include 'proyectosInvestigacion/productos/seguimiento/eliminar.html' %}
+<script>
+  function loadDataDeleteSeguimiento(id, proyecto_id, path) {
+    document.getElementById("seg_eliminar_id").value = id;
+    document.getElementById("seg_eliminar_id_display").textContent = id;
+    document.getElementById("seg_proyecto_id").value = proyecto_id;
+    document.getElementById("seg_path").value = path;
+  }
+</script>

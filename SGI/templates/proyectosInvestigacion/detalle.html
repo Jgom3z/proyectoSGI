@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block title %}Detalle Proyecto{% endblock %} {%
 block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
-{%include'proyectosInvestigacion/documentos/eliminar.html' %} 
-{% include 'proyectosInvestigacion/investigadores/crear.html' %}
-{% include 'proyectosInvestigacion/productos/crear.html' %}
-{% include 'proyectosInvestigacion/cofinanciador/crear.html' %}
-{% include 'proyectosInvestigacion/auxiliar/crear.html' %}
+{%include'proyectosInvestigacion/documentos/eliminar.html' %} {% include
+'proyectosInvestigacion/investigadores/crear.html' %} {% include
+'proyectosInvestigacion/productos/crear.html' %} {% include
+'proyectosInvestigacion/cofinanciador/crear.html' %} {% include
+'proyectosInvestigacion/auxiliar/crear.html' %}
 
 <div class="route mx-3 bg-light">
   <p>
@@ -13,8 +13,9 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
     <a
       class="a-enlaces"
       href="{{ url_for('idVistaProyectosInvestigacion.listar') }}"
-      >Proyectos de investigación \</a>
-    
+      >Proyectos de investigación \</a
+    >
+
     <br id="break-line" />
     <!-- El <br> tiene un id único -->
     <span class="text-secondary">Detalle Proyecto</span>
@@ -93,14 +94,19 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
             </tbody>
           </table>
 
-          <h5 class="card-title mt-4">Documentos</h5>
+          <h3
+            class="text-proyecto m-0 text-left flex-grow-1 mt-5 text-center"
+            style="color: #b54f25"
+          >
+            Documentos📂
+          </h3>
+          <br />
           {% include'proyectosInvestigacion/documentos/listar.html' %}
         </div>
       </div>
     </div>
     <!-- Menú lateral derecho -->
 
-<<<<<<< HEAD
     <div
       class="offcanvas offcanvas-end"
       tabindex="-1"
@@ -133,11 +139,6 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
           >
             Agregar Investigador
           </button>
-=======
-      <h3 class="text-proyecto m-0 text-left flex-grow-1" style="color: #b54f25;">Documentos📂</h3><br>
-      {% include'proyectosInvestigacion/documentos/listar.html' %}
->>>>>>> 2960dad379b94315fb2400dc3626014a5b8b9799
-
           <button id="btnAgregarProducto" class="btn btn-usb btn-block mb-1">
             Agregar Producto
           </button>
@@ -156,7 +157,7 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
   </div>
 
   <!--Tab Opciones-->
-  <div class="card py-2" style="min-height: 300px;">
+  <div class="card py-2" style="min-height: 300px">
     <div class="card-header">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -203,14 +204,14 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         </li>
         <li class="nav-item" role="presentation">
           <button
-            class="nav-link a-usb"
-            id="presupuesto-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#presupuesto"
-            type="button"
-            role="tab"
-            aria-controls="presupuesto"
-            aria-selected="false"
+          class="nav-link a-usb"
+          id="presupuesto-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#presupuesto"
+          type="button"
+          role="tab"
+          aria-controls="presupuesto"
+          aria-selected="false"
           >
             Presupuesto
           </button>
@@ -290,7 +291,6 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
       >
         <!--productos-->
         {% include 'proyectosInvestigacion/productos/listar.html' %}
-        
       </div>
       <div
         class="tab-pane fade"
@@ -308,7 +308,7 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         aria-labelledby="presupuesto-tab"
       >
         <!--presupuesto-->
-        
+        <h3>Presupuesto</h3>
       </div>
       <div
         class="tab-pane fade"
@@ -317,7 +317,6 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         aria-labelledby="proyectosFormacion-tab"
       >
         <!--proyectosFormacion-->
-        
       </div>
       <div
         class="tab-pane fade"
@@ -331,8 +330,6 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
     </div>
   </div>
 </div>
-
-
 
 <script>
   function loadDataDeleteFile(id_proyecto, filename, columnname) {
@@ -364,7 +361,7 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         modal.show();
       }, 300); // Retraso de 300 ms (ajustable según sea necesario)
     });
-    document
+  document
     .getElementById("btnAgregarProducto")
     .addEventListener("click", function () {
       // Cerrar el offcanvas antes de abrir el modal
@@ -383,7 +380,7 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         modal.show();
       }, 300); // Retraso de 300 ms (ajustable según sea necesario)
     });
-    document
+  document
     .getElementById("btnAgregarCofinanciador")
     .addEventListener("click", function () {
       // Cerrar el offcanvas antes de abrir el modal
@@ -402,7 +399,7 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         modal.show();
       }, 300); // Retraso de 300 ms (ajustable según sea necesario)
     });
-    document
+  document
     .getElementById("btnAgregarAuxiliar")
     .addEventListener("click", function () {
       // Cerrar el offcanvas antes de abrir el modal
@@ -425,6 +422,11 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
     document.getElementById("inv_eliminar_id").value = id;
     document.getElementById("inv_eliminar_id_display").textContent = id;
     document.getElementById("inv_proyecto_id").value = proyecto_id;
+  }
+  function loadDataDeleteCofinanciador(id, proyecto_id) {
+    document.getElementById("cofe_eliminar_id").value = id;
+    document.getElementById("cofe_eliminar_id_display").textContent = id;
+    document.getElementById("cofe_proyecto_id").value = proyecto_id;
   }
   function loadDataDeletePlan(id, semilero_id) {
     document.getElementById("plan_eliminar_id").value = id;

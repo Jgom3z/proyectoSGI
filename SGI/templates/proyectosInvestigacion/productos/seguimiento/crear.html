@@ -1,0 +1,75 @@
+<div
+  class="modal fade"
+  id="crearSeguimiento"
+  tabindex="-1"
+  aria-labelledby="crearSeguimientoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearSeguimientoLabel">
+          Crear Seguimiento
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          class="row g-3"
+          action="/proyectos/crearSeguimiento"
+          method="POST"
+          enctype="multipart/form-data"
+          >
+          <input
+            type="hidden"
+            name="seg_id_producto_proyecto"
+            id="seg_id_producto_proyecto"
+          />
+          <input
+            type="hidden"
+            name="seg_id_proyecto"
+            id="seg_id_proyecto"
+          />
+
+          <div class="col-md-12">
+            <label for="observacion_seguimiento" class="form-label"
+              >Observación</label
+            >
+            <textarea
+              class="form-control"
+              id="observacion_seguimiento"
+              name="observacion_seguimiento"
+              required
+            ></textarea>
+          </div>
+          <div class="col-md-6">
+            <label for="file_seguimiento" class="form-label">Soporte</label>
+            <input
+              type="file"
+              class="form-control"
+              id="file_seguimiento"
+              name="file_seguimiento"
+              required
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
