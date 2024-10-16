@@ -126,24 +126,21 @@ def facultad():
         }
     }
 
-    # Realiza la solicitud a la API
     response = requests.post(API_URL, json=select_data)
 
-    # Verifica si la solicitud fue exitosa
     if response.status_code != 200:
         return f"Error al consultar la API: {response.status_code}"
 
-    # Verifica si el contenido de la respuesta es válido
     data = response.json()
     if 'result' in data and data['result']:
-        data_str = data['result'][0].get('result')  # Utiliza get() para evitar errores si 'result' es None
-        if data_str:  # Verifica que data_str no sea None o vacío
+        data_str = data['result'][0].get('result')
+        if data_str:
             try:
                 result = json.loads(data_str)
             except json.JSONDecodeError:
                 return "Error al decodificar el JSON de la API."
         else:
-            result = []  # Si data_str es None, devuelve una lista vacía
+            result = []
     else:
         result = []
 
