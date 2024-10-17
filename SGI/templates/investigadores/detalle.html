@@ -87,7 +87,11 @@
             <tbody>
               {% for proyecto in proyectos %}
               <tr>
-                <td>{{ proyecto.nombre_proyecto }}</td>
+                <td>
+                  <a class="a-td" href="{{ url_for('idVistaProyectosInvestigacion.detalle', id=proyecto.id_proyecto) }}">
+                    {{ proyecto.nombre_proyecto }}
+                  </a>
+                </td>
                 <td>{{ proyecto.fecha_inicio }}</td>
                 <td>{{ proyecto.fecha_final }}</td>
               </tr>
@@ -102,12 +106,20 @@
             <thead>
               <tr>
                 <th>Grupo</th>
+                <th>Fecha de Creación</th>
+                <th>Fecha de Finalización</th>
+                <th>Plan Estratégico</th>
               </tr>
             </thead>
             <tbody>
               {% for grupo in grupos %}
               <tr>
-                <td>{{ grupo.nombre_grupo }}</td>
+                <td>
+                  <a class="a-td" href="{{ url_for('idVistaGruposInvestigacion.detalle', id=grupo.id_grupo) }}">{{ grupo.nombre_grupo }}</a>
+                </td>
+                <td>{{ grupo.fecha_creacion }}</td>
+                <td>{{ grupo.fecha_finalizacion }}</td>
+                <td>{{ grupo.plan_estrategico }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -119,12 +131,14 @@
             <thead>
               <tr>
                 <th>Línea</th>
+                <th>Descripción</th>  <!-- Nueva columna -->
               </tr>
             </thead>
             <tbody>
               {% for linea in lineas %}
               <tr>
                 <td>{{ linea.nombre_linea }}</td>
+                <td>{{ linea.descripcion }}</td>  <!-- Nueva columna -->
               </tr>
               {% endfor %}
             </tbody>

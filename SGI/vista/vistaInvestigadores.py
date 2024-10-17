@@ -155,6 +155,10 @@ def detalle(id):
         proyectos = []
 
     # Consulta para obtener los grupos asociados al investigador
+   # ... código existente ...
+
+# Consulta para obtener los grupos asociados al investigador
+    # Consulta para obtener los grupos asociados al investigador
     select_data_grupos = {
         "procedure": "select_json_entity",
         "parameters": {
@@ -163,7 +167,7 @@ def detalle(id):
             "order_by": "",
             "limit_clause": "",
             "json_data": {},
-            "select_columns": "g.id_grupo, g.nombre_grupo"
+            "select_columns": "g.id_grupo, g.nombre_grupo, g.fecha_creacion, g.fecha_finalizacion, g.plan_estrategico"  # Agregar nuevas columnas
         }
     }
 
@@ -173,6 +177,8 @@ def detalle(id):
         data_grupos = response_grupos.json()
         if 'result' in data_grupos and data_grupos['result']:
             grupos = json.loads(data_grupos['result'][0]['result'])
+            # Eliminar duplicados
+            grupos = {grupo['id_grupo']: grupo for grupo in grupos}.values()  # Usar un diccionario para eliminar duplicados
         else:
             grupos = []
     except requests.RequestException as e:
@@ -181,16 +187,15 @@ def detalle(id):
         grupos = []
 
     # Consulta para obtener las líneas asociadas al investigador
-   # Consulta para obtener las líneas asociadas al investigador
     select_data_lineas = {
         "procedure": "select_json_entity",
         "parameters": {
-            "table_name": "inv_linea_investigador li INNER JOIN inv_linea_grupo l ON l.id_linea_grupo = li.id_linea_grupo",
+            "table_name": "inv_linea_investigador li INNER JOIN inv_linea_grupo l ON l.id_linea_grupo = li.id_linea",
             "where_condition": f"li.id_investigador = {id}",
             "order_by": "",
             "limit_clause": "",
             "json_data": {},
-            "select_columns": "l.id_linea_grupo, l.nombre_linea"
+            "select_columns": "l.id_linea_grupo, l.nombre_linea, l.descripcion"  # Agregar nueva columna
         }
     }
 
