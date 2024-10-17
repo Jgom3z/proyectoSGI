@@ -76,7 +76,10 @@ def detalle(id):
     else:
         return "Grupo no encontrado", 404
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
  
     lineas_data = {
         "procedure": "select_json_entity",

@@ -249,10 +249,14 @@ def editar(id):
             flash(f"Error al obtener detalles del investigador: {str(e)}", "error")
             return redirect(url_for('idVistaInvestigadores.listar'))
 
+<<<<<<< HEAD
         # Cargar las facultades
         facultades = facultad()  # Asegúrate de que esta función esté definida en select_list.py
+=======
+       
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
 
-        return render_template('investigadores/editar.html', investigador=investigador, facultades=facultades)
+        return render_template('investigadores/editar.html', investigador=investigador, facultad=facultad)
 
     elif request.method == 'POST':
         # Procesar el formulario de edición
