@@ -97,7 +97,8 @@ def crear():
 
 @vistaInvestigadores.route('/detalle/<int:id>', methods=['GET'])
 def detalle(id):
-    select_data = {
+    # Consulta para obtener los detalles del investigador
+    select_data_investigador = {
         "procedure": "select_json_entity",
         "parameters": {
             "table_name": "inv_investigadores i INNER JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
@@ -105,12 +106,12 @@ def detalle(id):
             "order_by": "",
             "limit_clause": "",
             "json_data": {},
-            "select_columns": "i.*, f.nombre_facultad"
+            "select_columns": ""
         }
     }
 
     try:
-        response = requests.post(API_URL, json=select_data)
+        response = requests.post(API_URL, json=select_data_investigador)
         response.raise_for_status()
         data = response.json()
         if 'result' in data and data['result']:
@@ -123,11 +124,101 @@ def detalle(id):
         flash(f"Error al obtener detalles del investigador: {str(e)}", "error")
         return redirect(url_for('idVistaInvestigadores.listar'))
 
-    # Aquí puedes agregar la lógica para obtener proyectos y productos del investigador
+    # Consulta para obtener los proyectos asociados al investigador
+    select_data_proyectos = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigador_proyecto ip INNER JOIN inv_proyecto p ON p.id_proyecto = ip.id_proyecto",
+            "where_condition": f"ip.id_investigador = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "p.id_proyecto, p.nombre_proyecto, p.fecha_inicio, p.fecha_final"
+        }
+    }
 
-    return render_template('investigadores/detalle.html', investigador=investigador)
+    try:
+        response_proyectos = requests.post(API_URL, json=select_data_proyectos)
+        response_proyectos.raise_for_status()
+        data_proyectos = response_proyectos.json()
+        if 'result' in data_proyectos and data_proyectos['result']:
+            proyectos = json.loads(data_proyectos['result'][0]['result'])
+        else:
+            proyectos = []
+    except requests.RequestException as e:
+        logging.error(f"Error al obtener proyectos del investigador: {str(e)}")
+        flash(f"Error al obtener proyectos del investigador: {str(e)}", "error")
+        proyectos = []
+    except (TypeError, json.JSONDecodeError) as e:
+        logging.error(f"Error al decodificar el JSON de proyectos: {str(e)}")
+        flash("Error al procesar los proyectos del investigador.", "error")
+        proyectos = []
 
-# ... (mantener las otras rutas como estaban)
+    # Consulta para obtener los grupos asociados al investigador
+   # ... código existente ...
+
+# Consulta para obtener los grupos asociados al investigador
+    # Consulta para obtener los grupos asociados al investigador
+    select_data_grupos = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_linea_grupo lg INNER JOIN inv_grupos g ON g.id_grupo = lg.id_grupo",
+            "where_condition": f"lg.id_lider = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "g.id_grupo, g.nombre_grupo, g.fecha_creacion, g.fecha_finalizacion, g.plan_estrategico"  # Agregar nuevas columnas
+        }
+    }
+
+    try:
+        response_grupos = requests.post(API_URL, json=select_data_grupos)
+        response_grupos.raise_for_status()
+        data_grupos = response_grupos.json()
+        if 'result' in data_grupos and data_grupos['result']:
+            grupos = json.loads(data_grupos['result'][0]['result'])
+            # Eliminar duplicados
+            grupos = {grupo['id_grupo']: grupo for grupo in grupos}.values()  # Usar un diccionario para eliminar duplicados
+        else:
+            grupos = []
+    except requests.RequestException as e:
+        logging.error(f"Error al obtener grupos del investigador: {str(e)}")
+        flash(f"Error al obtener grupos del investigador: {str(e)}", "error")
+        grupos = []
+
+    # Consulta para obtener las líneas asociadas al investigador
+    select_data_lineas = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_linea_investigador li INNER JOIN inv_linea_grupo l ON l.id_linea_grupo = li.id_linea",
+            "where_condition": f"li.id_investigador = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "l.id_linea_grupo, l.nombre_linea, l.descripcion"  # Agregar nueva columna
+        }
+    }
+
+    try:
+       response_lineas = requests.post(API_URL, json=select_data_lineas)
+       response_lineas.raise_for_status()
+       data_lineas = response_lineas.json()
+       logging.info(f"Respuesta de líneas: {data_lineas}")  # Agregado para depuración
+       if 'result' in data_lineas and data_lineas['result']:
+           lineas = json.loads(data_lineas['result'][0]['result'])
+       else:
+           lineas = []
+    except requests.RequestException as e:
+       logging.error(f"Error al obtener líneas del investigador: {str(e)}")
+       flash(f"Error al obtener líneas del investigador: {str(e)}", "error")
+       lineas = []
+    except (TypeError, json.JSONDecodeError) as e:
+       logging.error(f"Error al decodificar el JSON de líneas: {str(e)}")
+       flash("Error al procesar las líneas del investigador.", "error")
+       lineas = []
+
+    return render_template('investigadores/detalle.html', investigador=investigador, proyectos=proyectos, grupos=grupos, lineas=lineas,
+                           facultad = facultad())
 @vistaInvestigadores.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar(id):
     if request.method == 'GET':
@@ -158,9 +249,10 @@ def editar(id):
             flash(f"Error al obtener detalles del investigador: {str(e)}", "error")
             return redirect(url_for('idVistaInvestigadores.listar'))
 
-       
+        # Cargar las facultades
+        facultades = facultad()  # Asegúrate de que esta función esté definida en select_list.py
 
-        return render_template('investigadores/editar.html', investigador=investigador, facultad=facultad)
+        return render_template('investigadores/editar.html', investigador=investigador, facultades=facultades)
 
     elif request.method == 'POST':
         # Procesar el formulario de edición

@@ -76,6 +76,7 @@ def detalle(id):
     else:
         return "Grupo no encontrado", 404
 
+
  
     lineas_data = {
         "procedure": "select_json_entity",
@@ -136,9 +137,50 @@ def detalle(id):
     response = requests.post(API_URL, json=semilleros_data)
     semilleros = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 and response.json()['result'][0]['result'] else []
 
+  # Obtener líneas de investigación
+    lineas_data = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_linea_grupo",
+            "where_condition": f"id_grupo={id}",
+            "order_by": "nombre_linea",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "id_linea_grupo, nombre_linea, descripcion, estado"
+        }
+    }
+    response = requests.post(API_URL, json=lineas_data)
+    if response.status_code == 200 and response.json()['result'][0]['result']:
+        lineas = json.loads(response.json()['result'][0]['result'])
+        
+        # Eliminar duplicados
+        seen = set()
+        unique_lineas = []
+        for linea in lineas:
+            if linea['nombre_linea'] not in seen:
+                seen.add(linea['nombre_linea'])
+                unique_lineas.append(linea)
+        lineas = unique_lineas
+    else:
+        lineas = []
+
+    investigadores_data = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigadores i INNER JOIN inv_linea_grupo l ON i.id_linea_grupo = l.id_linea_grupo",
+            "where_condition": f"l.id_grupo={id}",
+            "order_by": "i.nombre_investigador",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "i.id_investigador, i.nombre_investigador, l.nombre_linea, i.estado"
+        }
+    }
+    response = requests.post(API_URL, json=investigadores_data)
+    investigadores = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 and response.json()['result'][0]['result'] else []
+    
     return render_template('grupos/detalle.html', 
                            grupo=grupo,
-                           lineas=lineas,
+                           lineas=lineas,  # Asegúrate de que esto se pase a la plantilla
                            proyectos=proyectos,
                            investigadores=investigadores,
                            semilleros=semilleros)

@@ -126,6 +126,40 @@ def facultad():
         }
     }
 
+    response = requests.post(API_URL, json=select_data)
+
+    if response.status_code != 200:
+        return f"Error al consultar la API: {response.status_code}"
+
+    data = response.json()
+    if 'result' in data and data['result']:
+        data_str = data['result'][0].get('result')
+        if data_str:
+            try:
+                result = json.loads(data_str)
+            except json.JSONDecodeError:
+                return "Error al decodificar el JSON de la API."
+        else:
+            result = []
+    else:
+        result = []
+
+    return result
+
+def productos():
+    select_data = {
+        "projectName": projectName,
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_producto",
+            "json_data": {},
+            "where_condition": "",
+            "select_columns": "id_producto, subtipo",
+            "order_by": "subtipo",
+            "limit_clause": ""
+        }
+    }
+
     # Realiza la solicitud a la API
     response = requests.post(API_URL, json=select_data)
 
