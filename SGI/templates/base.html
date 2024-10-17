@@ -181,10 +181,16 @@
     </div>-->
     
     
+<<<<<<< HEAD
     <div class="offcanvas offcanvas-start sidebar-usb-content" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="offcanvas-header d-flex justify-content-between align-items-center">
         <h5 class="offcanvas-title mx-auto fw-bolder" id="menuCollapseSemilleroLabel">Menú</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+=======
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header" style="background-color: gray;">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+>>>>>>> d57e711f4488251d32952eec002d502a4355f9b6
       </div>
       
       <div class="offcanvas-body sidebar-usb">
@@ -222,7 +228,8 @@
             >
           </li>
           <li>
-            <a href="/vistaProyectosInvestigacion"
+            <a
+              href="{{ url_for( 'idVistaProyectosInvestigacion.listar' ) }}"
               ><img
                 class="icons-menu"
                 src="{{ url_for('static', filename='img/proyectosI.png') }}"
@@ -238,18 +245,20 @@
             >
           </li>
           <li>
-            <a href="/vistaInvestigadores"
-              ><img
+            <a
+            href="{{ url_for( 'idVistaInvestigadores.listar' ) }}"
+            ><img
                 class="icons-menu"
                 src="{{ url_for('static', filename='img/investigadores.png') }}"
               />Investigadores</a
             >
           </li>
           <li>
-            <a href="/vistaEstudiantes"
-              ><img
+            <a
+            href="{{ url_for( 'idVistaEstudiantes.listar' ) }}"
+            ><img
                 class="icons-menu"
-                src="{{ url_for('static', filename='img/estudiantes.png') }}"
+                src="{{ url_for('static', filename='img/Estudiantes.png') }}"
               />Estudiantes</a
             >
           </li>

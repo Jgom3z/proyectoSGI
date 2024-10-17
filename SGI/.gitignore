@@ -1,0 +1,24 @@
+# Entornos virtuales
+venv/
+__pycache__/
+vista/__pycache__/
+.env
+
+uploads/
+# Archivos de entorno
+*.env
+
+
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de log
+*.log
+
+instance/
+.cache/
+
+uploads/

@@ -4,26 +4,23 @@
 <div class="container-top">
   <p class="enlaces">
     <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
-    <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
     <a class="a-enlaces" href="{{ url_for('idVistaInvestigadores.listar') }}">Investigadores \</a>
     <span class="text-secondary">Detalle Investigador</span>
   </p>
 </div>
 <div class="container mt-4">
   <div class="card">
-    <div class="card-header d-flex align-items-center">
-      <div class="flex-grow-1 text-center">
-        <h3 class="text-investigador m-0">
-          <strong>{{ investigador.nombre_investigador }}</strong>
-        </h3>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="text-investigador m-0 text-center flex-grow-1">{{ investigador.nombre_investigador }}</h3>
+      <div class="btn-group">
+        <button class="btn btn-usb" type="button" data-bs-toggle="modal" data-bs-target="#editarInvestigador">
+          Editar
+        </button>
+        
       </div>
-      <a href="{{ url_for('idVistaInvestigadores.editar', id=investigador.id_investigador) }}" class="btn btn-usb">Editar</a>
-      <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarInvestigadorModal">
-        Eliminar
-      </button>
     </div>
     <div class="card-body">
-      <table class="table">
+      <table class="table table-bordered">
         <tbody>
           <tr>
             <th>Identificación:</th>
@@ -44,57 +41,118 @@
             <td>{{ investigador.orcid }}</td>
           </tr>
           <tr>
-            <th>Tipo de Contrato:</th>
-            <td>{{ investigador.tipo_contrato }}</td>
             <th>Correo:</th>
             <td>{{ investigador.correo }}</td>
-          </tr>
-          <tr>
             <th>Teléfono:</th>
-            <td>{{ investigador.telefono or '-' }}</td>
-            <th>Fecha de Inicio:</th>
-            <td>{{ investigador.fecha_inicio }}</td>
-          </tr>
-          <tr>
-            <th>Fecha Final:</th>
-            <td>{{ investigador.fecha_final or '-' }}</td>
-            <th>Categoría Colciencias Esperada:</th>
-            <td>{{ investigador.categoria_colciencias_esperada }}</td>
-          </tr>
-          <tr>
-            <th>CvLAC:</th>
-            <td colspan="3">
-              {% if investigador.cvlac %}
-                <a href="{{ investigador.cvlac }}" target="_blank">{{ investigador.cvlac }}</a>
-              {% else %}
-                -
-              {% endif %}
-            </td>
+            <td>{{ investigador.telefono }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-</div>
 
-<!-- Modal de confirmación para eliminar investigador -->
-<div class="modal fade" id="eliminarInvestigadorModal" tabindex="-1" aria-labelledby="eliminarInvestigadorModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="eliminarInvestigadorModalLabel">Confirmar eliminación</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Está seguro de que desea eliminar este investigador?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <form action="{{ url_for('idVistaInvestigadores.eliminar', id=investigador.id_investigador) }}" method="post">
-          <button type="submit" class="btn btn-danger">Eliminar</button>
-        </form>
+  <div class="card py-2">
+    <div class="card-header">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active a-usb" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" type="button" role="tab" aria-controls="proyectos" aria-selected="true">
+            Proyectos
+          </button>
+        </li>
+        
+        <li class="nav-item" role="presentation">
+          <button class="nav-link a-usb" id="grupos-tab" data-bs-toggle="tab" data-bs-target="#grupos" type="button" role="tab" aria-controls="grupos" aria-selected="false">
+            Grupos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link a-usb" id="lineas-tab" data-bs-toggle="tab" data-bs-target="#lineas" type="button" role="tab" aria-controls="lineas" aria-selected="false">
+            Líneas
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="container my-2">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+          <!-- Proyectos -->
+          <table class="table align-items-center" id="proyectos">
+            <thead>
+              <tr>
+                <th>Proyecto</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Finalización</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for proyecto in proyectos %}
+              <tr>
+                <td>
+                  <a class="a-td" href="{{ url_for('idVistaProyectosInvestigacion.detalle', id=proyecto.id_proyecto) }}">
+                    {{ proyecto.nombre_proyecto }}
+                  </a>
+                </td>
+                <td>{{ proyecto.fecha_inicio }}</td>
+                <td>{{ proyecto.fecha_final }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="tab-pane fade" id="grupos" role="tabpanel" aria-labelledby="grupos-tab">
+          <!-- Grupos -->
+          <table class="table align-items-center" id="grupos">
+            <thead>
+              <tr>
+                <th>Grupo</th>
+                <th>Fecha de Creación</th>
+                <th>Fecha de Finalización</th>
+                <th>Plan Estratégico</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for grupo in grupos %}
+              <tr>
+                <td>
+                  <a class="a-td" href="{{ url_for('idVistaGruposInvestigacion.detalle', id=grupo.id_grupo) }}">{{ grupo.nombre_grupo }}</a>
+                </td>
+                <td>{{ grupo.fecha_creacion }}</td>
+                <td>{{ grupo.fecha_finalizacion }}</td>
+                <td>{{ grupo.plan_estrategico }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="lineas" role="tabpanel" aria-labelledby="lineas-tab">
+          <!-- Líneas -->
+          <table class="table align-items-center" id="lineas">
+            <thead>
+              <tr>
+                <th>Línea</th>
+                <th>Descripción</th>  <!-- Nueva columna -->
+              </tr>
+            </thead>
+            <tbody>
+              {% for linea in lineas %}
+              <tr>
+                <td>{{ linea.nombre_linea }}</td>
+                <td>{{ linea.descripcion }}</td>  <!-- Nueva columna -->
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+{% include 'investigadores/editar.html' %}
+
+
+
+
+
 {% endblock %}

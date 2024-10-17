@@ -1,14 +1,14 @@
 <div
   class="modal fade"
-  id="crearEstudianteSemillero"
+  id="editarProyecto"
   tabindex="-1"
-  aria-labelledby="crearEstudianteSemilleroLabel"
+  aria-labelledby="editarProyectoLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="crearEstudianteSemilleroLabel">Crear Semillero</h5>
+        <h5 class="modal-title" id="editarProyectoLabel">Crear Investigador</h5>
         <button
           type="button"
           class="btn-close"
@@ -17,26 +17,27 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form class="row g-3" action="/semilleros/crearEstudianteSemillero" method="POST">
-          <input type="hidden" value="{{ semillero.id_semillero }}" name="id_semillero" id="id_semillero">
+        <form class="row g-3" action="/investigadores/editarProyectoInvestigador" method="POST">
+          <input type="hidden" name="int_id_investigador" id="int_id_semillero">
+          <input type="hidden" name="int_id_proyecto_investigador" id="int_id_proyecto_investigador">
           <div class="col-md-12">
-            <label for="id_estudiante" class="form-label">Estudiante</label>
-            <select class="form-select" name="id_estudiante" id="id_estudiante" required>
+            <label for="int_id_proyecto" class="form-label">Proyecto</label>
+            <select class="form-select" name="int_id_proyecto" id="int_id_proyecto" required>
               <option selected value="">Seleccionar</option>
-              {% for item in estudiantesNotInSemillero %}
-                <option value="{{ item.id_estudiante }}">
-                  {{ item.nombre_estudiante   }} 
+              {% for item in proyectos %}
+                <option value="{{ item.id_proyecto }}">
+                  {{ item.nombre_proyecto   }} 
                 </option>
               {% endfor %}
             </select>
           </div>
           <div class="col-md-12">
-            <label for="fecha_final" class="form-label">Fecha Final</label>
+            <label for="int_fecha_final" class="form-label">Fecha Final</label>
             <input
               type="date"
               class="form-control"
-              name="fecha_final"
-              id="fecha_final"
+              name="int_fecha_final"
+              id="int_fecha_final"
               required
             />
           </div>          

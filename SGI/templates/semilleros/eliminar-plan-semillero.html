@@ -1,0 +1,27 @@
+  
+  <!-- Modal -->
+  <div class="modal fade" id="ModalEliminarPlan" tabindex="-1" aria-labelledby="ModalEliminarPlanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ModalEliminarPlanLabel">Eliminar Plan Semillero</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/semilleros/eliminar-plan" method="POST" id="formEliminarPlanSemillero">
+              <p>¿Estás seguro de que deseas eliminar el registro con ID: 
+                  <span id="plan_eliminar_id_display" class="fw-bold"></span>?
+                  <input type="hidden" id="plan_eliminar_id" name="plan_eliminar_id" readonly>
+                  <input type="hidden" id="plan_semillero_id" name="plan_semillero_id" readonly>
+              </p>
+              <span class="text-danger">¡Esta acción no se podrá deshacer!</span>
+          </form>
+      </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button form="formEliminarPlanSemillero" type="submit" class="btn btn-primary">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>

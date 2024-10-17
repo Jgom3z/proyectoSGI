@@ -1,89 +1,59 @@
-{% extends "base.html" %}
-{% block title %}Editar Investigador{% endblock %}
-{% block content %}
-<div class="container-top">
-  <p class="enlaces">
-    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
-    <a class="a-enlaces" href="/vistaInvestigaciones">Investigaciones \</a>
-    <a class="a-enlaces" href="{{ url_for('idVistaInvestigadores.listar') }}">Investigadores \</a>
-    <span class="text-secondary">Editar Investigador</span>
-  </p>
+
+<!-- SGI/templates/investigadores/editar.html -->
+<div class="modal fade" id="editarInvestigador" tabindex="-1" aria-labelledby="editarInvestigadorLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg"">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarInvestigadorLabel">Editar Investigador</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('idVistaInvestigadores.editar', id=investigador.id_investigador) }}" method="POST">
+          <div class="mb-3">
+            <label for="cedula" class="form-label">Identificación</label>
+            <input type="text" class="form-control" id="cedula" name="cedula" value="{{ investigador.cedula }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="nombre_investigador" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre_investigador" name="nombre_investigador" value="{{ investigador.nombre_investigador }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="id_facultad" class="form-label">Facultad</label>
+            <select class="form-select" id="id_facultad" name="id_facultad" required>
+                {% for facultad in facultades %}
+                    <option value="{{ facultad.id_facultad }}" {% if facultad.id_facultad == investigador.id_facultad %}selected{% endif %}>
+                        {{ facultad.nombre_facultad }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+          <div class="mb-3">
+            <label for="nivel_de_formacion" class="form-label">Nivel de Formación</label>
+            <input type="text" class="form-control" id="nivel_de_formacion" name="nivel_de_formacion" value="{{ investigador.nivel_de_formacion }}">
+          </div>
+          <div class="mb-3">
+            <label for="categoria_institucion" class="form-label">Categoría Institución</label>
+            <input type="text" class="form-control" id="categoria_institucion" name="categoria_institucion" value="{{ investigador.categoria_institucion }}">
+          </div>
+          <div class="mb-3">
+            <label for="categoria_colciencias" class="form-label">Categoría Colciencias</label>
+            <input type="text" class="form-control" id="categoria_colciencias" name="categoria_colciencias" value="{{ investigador.categoria_colciencias }}">
+          </div>
+          <div class="mb-3">
+            <label for="orcid" class="form-label">ORCID</label>
+            <input type="text" class="form-control" id="orcid" name="orcid" value="{{ investigador.orcid }}">
+          </div>
+          <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="correo" name="correo" value="{{ investigador.correo }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" value="{{ investigador.telefono }}">
+          </div>
+          <button type="submit" class="btn btn-usb">Guardar cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="container mt-4">
-  <h2>Editar Investigador</h2>
-  <form class="row g-3" action="{{ url_for('idVistaInvestigadores.editar', id=investigador.id_investigador) }}" method="POST">
-    <div class="col-md-6">
-      <label for="cedula" class="form-label">Identificación</label>
-      <input type="text" class="form-control" id="cedula" name="cedula" value="{{ investigador.cedula }}" required>
-    </div>
-    <div class="col-md-6">
-      <label for="nombre_investigador" class="form-label">Nombre del Investigador</label>
-      <input type="text" class="form-control" id="nombre_investigador" name="nombre_investigador" value="{{ investigador.nombre_investigador }}" required>
-    </div>
-    <div class="col-md-6">
-      <label for="id_facultad" class="form-label">Facultad</label>
-      <select class="form-select" id="id_facultad" name="id_facultad" required>
-        {% for facultad in facultades %}
-          <option value="{{ facultad.id_facultad }}" {% if facultad.id_facultad == investigador.id_facultad %}selected{% endif %}>
-            {{ facultad.nombre_facultad }}
-          </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col-md-6">
-      <label for="nivel_de_formacion" class="form-label">Nivel de Formación</label>
-      <select class="form-select" id="nivel_de_formacion" name="nivel_de_formacion" required>
-        <option value="Pregrado" {% if investigador.nivel_de_formacion == 'Pregrado' %}selected{% endif %}>Pregrado</option>
-        <option value="Especialización" {% if investigador.nivel_de_formacion == 'Especialización' %}selected{% endif %}>Especialización</option>
-        <option value="Maestría" {% if investigador.nivel_de_formacion == 'Maestría' %}selected{% endif %}>Maestría</option>
-        <option value="Doctorado" {% if investigador.nivel_de_formacion == 'Doctorado' %}selected{% endif %}>Doctorado</option>
-        <option value="Postdoctorado" {% if investigador.nivel_de_formacion == 'Postdoctorado' %}selected{% endif %}>Postdoctorado</option>
-      </select>
-    </div>
-    <div class="col-md-6">
-      <label for="correo" class="form-label">Correo</label>
-      <input type="email" class="form-control" id="correo" name="correo" value="{{ investigador.correo }}" required>
-    </div>
-    <div class="col-md-6">
-      <label for="telefono" class="form-label">Teléfono</label>
-      <input type="tel" class="form-control" id="telefono" name="telefono" value="{{ investigador.telefono }}">
-    </div>
-    <div class="col-md-6">
-      <label for="categoria_institucion" class="form-label">Categoría Institución</label>
-      <input type="text" class="form-control" id="categoria_institucion" name="categoria_institucion" value="{{ investigador.categoria_institucion }}">
-    </div>
-    <div class="col-md-6">
-      <label for="categoria_colciencias" class="form-label">Categoría Colciencias</label>
-      <input type="text" class="form-control" id="categoria_colciencias" name="categoria_colciencias" value="{{ investigador.categoria_colciencias }}">
-    </div>
-    <div class="col-md-6">
-      <label for="orcid" class="form-label">ORCID</label>
-      <input type="text" class="form-control" id="orcid" name="orcid" value="{{ investigador.orcid }}">
-    </div>
-    <div class="col-md-6">
-      <label for="tipo_contrato" class="form-label">Tipo de Contrato</label>
-      <input type="text" class="form-control" id="tipo_contrato" name="tipo_contrato" value="{{ investigador.tipo_contrato }}">
-    </div>
-    <div class="col-md-6">
-      <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-      <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ investigador.fecha_inicio }}">
-    </div>
-    <div class="col-md-6">
-      <label for="fecha_final" class="form-label">Fecha Final</label>
-      <input type="date" class="form-control" id="fecha_final" name="fecha_final" value="{{ investigador.fecha_final }}">
-    </div>
-    <div class="col-md-6">
-      <label for="categoria_colciencias_esperada" class="form-label">Categoría Colciencias Esperada</label>
-      <input type="text" class="form-control" id="categoria_colciencias_esperada" name="categoria_colciencias_esperada" value="{{ investigador.categoria_colciencias_esperada }}">
-    </div>
-    <div class="col-12">
-      <label for="cvlac" class="form-label">CvLAC</label>
-      <input type="url" class="form-control" id="cvlac" name="cvlac" value="{{ investigador.cvlac }}">
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-usb">Guardar Cambios</button>
-      <a href="{{ url_for('idVistaInvestigadores.detalle', id=investigador.id_investigador) }}" class="btn btn-secondary">Cancelar</a>
-    </div>
-  </form>
-</div>
-{% endblock %}

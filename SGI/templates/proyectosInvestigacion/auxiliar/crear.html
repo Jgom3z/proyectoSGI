@@ -1,0 +1,64 @@
+<div
+  class="modal fade"
+  id="crearAuxiliar"
+  tabindex="-1"
+  aria-labelledby="crearAuxiliarLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearAuxiliarLabel">
+          Crear Auxiliar
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          class="row g-3"
+          action="/proyectos/crearAuxiliar"
+          method="POST"
+        >
+          <input
+            type="hidden"
+            value="{{ proyecto.id_proyecto }}"
+            name="id_proyecto"
+            id="id_proyecto"
+          />
+          <div class="col-md-12">
+            <label for="id_estudiante" class="form-label">Estudiante</label>
+            <select
+              class="form-select"
+              name="id_estudiante"
+              id="id_estudiante"
+              required
+            >
+              <option selected value="">Seleccionar</option>
+              {% for item in estudiantes %}
+              <option value="{{ item.id_estudiante }}">
+                {{ item.nombre_estudiante }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <!--######################-->          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,12 @@
+# SGI/vista/vistaInvestigadores.py
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 import json
 import requests
 from vista.functions import paginate, now
 import os
 import logging
+from vista.select_list import facultad
 
 API_URL = os.getenv('API_URL')
 if not API_URL:
@@ -31,7 +34,8 @@ def listar():
     except requests.RequestException as e:
         logging.error(f"Error al consultar la API: {str(e)}")
         flash(f"Error al consultar la API: {str(e)}", "error")
-        return render_template('investigadores/listar.html', data=[], total_pages=0, page=1)
+        return render_template('investigadores/listar.html', data=[], 
+                               total_pages=0, page=1)
 
     search_term = request.args.get('search', '').lower()
 
@@ -41,179 +45,244 @@ def listar():
         if search_term:
             data = [item for item in data if any(search_term in str(value).lower() for value in item.values())]
         route_pagination = 'idVistaInvestigadores.listar'
-        investigadores, total_pages, page = paginate(data, route_pagination)
+        investigadores, total_pages, route_pagination, page = paginate(data, route_pagination)
     else:
         investigadores = []
         total_pages = 0
         page = 1
+        route_pagination = 'idVistaInvestigadores.listar'
 
-    logging.info(f"Número de investigadores: {len(investigadores)}")
     
-    facultades_data = {
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_facultad",
-            "where_condition": "",
-            "order_by": "nombre_facultad",
-            "limit_clause": "",
-            "json_data": {},
-            "select_columns": "id_facultad, nombre_facultad"
-        }
-    }
-    facultades_response = requests.post(API_URL, json=facultades_data)
-    facultades = json.loads(facultades_response.json()['result'][0]['result']) if facultades_response.status_code == 200 else []
 
     return render_template('investigadores/listar.html',
-                           data=investigadores, total_pages=total_pages,
-                           page=page, search_term=search_term,
-                           facultades=facultades)
-
-@vistaInvestigadores.route('/ver-detalle/<int:id>', methods=['GET'])
-def detalle(id):
-    select_data = {
-        "procedure": "select_json_entity",
-        "parameters": {
-            "table_name": "inv_investigadores i INNER JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
-            "where_condition": f"i.id_investigador={id}",
-            "order_by": "",
-            "limit_clause": "",
-            "json_data": {},
-            "select_columns": "i.*, f.nombre_facultad"
-        }
-    }
-
-    response = requests.post(API_URL, json=select_data)
-    if response.status_code != 200:
-        flash(f"Error al consultar la API: {response.status_code}", "error")
-        return redirect(url_for('idVistaInvestigadores.listar'))
-
-    data_investigador = response.json()
-    if 'result' in data_investigador and data_investigador['result'] and data_investigador['result'][0]['result']:
-        investigador = json.loads(data_investigador['result'][0]['result'])[0]
-    else:
-        flash("Investigador no encontrado", "error")
-        return redirect(url_for('idVistaInvestigadores.listar'))
-
-    return render_template('investigadores/detalle.html', investigador=investigador)
+                           data=investigadores, 
+                           total_pages=total_pages,
+                           page=page, 
+                           search_term=search_term,
+                           route_pagination=route_pagination,
+                           facultad=facultad())
 
 @vistaInvestigadores.route('/crear', methods=['POST'])
 def crear():
     if request.method == 'POST':
         nuevo_investigador = {
-            "cedula": request.form.get('cedula'),
-            "nombre_investigador": request.form.get('nombre_investigador'),
-            "categoria_institucion": request.form.get('categoria_institucion'),
-            "id_facultad": request.form.get('id_facultad'),
-            "categoria_colciencias": request.form.get('categoria_colciencias'),
-            "orcid": request.form.get('orcid'),
-            "tipo_contrato": request.form.get('tipo_contrato'),
-            "nivel_de_formacion": request.form.get('nivel_de_formacion'),
-            "correo": request.form.get('correo'),
-            "telefono": request.form.get('telefono'),
-            "fecha_inicio": request.form.get('fecha_inicio'),
-            "fecha_final": request.form.get('fecha_final'),
-            "categoria_colciencias_esperada": request.form.get('categoria_colciencias_esperada'),
-            "cvlac": request.form.get('cvlac')
+            "cedula": request.form['cedula'],
+            "nombre_investigador": request.form['nombre_investigador'],
+            "id_facultad": request.form['id_facultad'],
+            "categoria_institucion": request.form['categoria_institucion'],
+            "categoria_colciencias": request.form['categoria_colciencias'],
+            "orcid": request.form['orcid'],
+            "nivel_de_formacion": request.form['nivel_de_formacion'],
+            "correo": request.form['correo'],
+            "telefono": request.form['telefono']
         }
 
         insert_data = {
             "procedure": "insert_json_entity",
             "parameters": {
                 "table_name": "inv_investigadores",
-                "json_data": nuevo_investigador
+                "json_data": json.dumps(nuevo_investigador)
             }
         }
 
-        response = requests.post(API_URL, json=insert_data)
+        try:
+            response = requests.post(API_URL, json=insert_data)
+            response.raise_for_status()
+            flash('Investigador creado con éxito', 'success')
+        except requests.RequestException as e:
+            logging.error(f"Error al crear investigador: {str(e)}")
+            flash(f"Error al crear investigador: {str(e)}", "error")
 
-        if response.status_code == 200:
-            result = response.json()
-            if 'result' in result and result['result']:
-                nuevo_id = json.loads(result['result'][0]['result'])[0]['id_investigador']
-                flash('Investigador creado exitosamente', 'success')
-                return redirect(url_for('idVistaInvestigadores.detalle', id=nuevo_id))
-            else:
-                flash('Error al crear el investigador', 'error')
+    return redirect(url_for('idVistaInvestigadores.listar', facultad = facultad()))
+
+@vistaInvestigadores.route('/detalle/<int:id>', methods=['GET'])
+def detalle(id):
+    # Consulta para obtener los detalles del investigador
+    select_data_investigador = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigadores i INNER JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
+            "where_condition": f"i.id_investigador = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": ""
+        }
+    }
+
+    try:
+        response = requests.post(API_URL, json=select_data_investigador)
+        response.raise_for_status()
+        data = response.json()
+        if 'result' in data and data['result']:
+            investigador = json.loads(data['result'][0]['result'])[0]
         else:
-            flash(f'Error en la solicitud: {response.status_code}', 'error')
-
+            flash('Investigador no encontrado', 'error')
+            return redirect(url_for('idVistaInvestigadores.listar'))
+    except requests.RequestException as e:
+        logging.error(f"Error al obtener detalles del investigador: {str(e)}")
+        flash(f"Error al obtener detalles del investigador: {str(e)}", "error")
         return redirect(url_for('idVistaInvestigadores.listar'))
 
+    # Consulta para obtener los proyectos asociados al investigador
+    select_data_proyectos = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_investigador_proyecto ip INNER JOIN inv_proyecto p ON p.id_proyecto = ip.id_proyecto",
+            "where_condition": f"ip.id_investigador = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "p.id_proyecto, p.nombre_proyecto, p.fecha_inicio, p.fecha_final"
+        }
+    }
+
+    try:
+        response_proyectos = requests.post(API_URL, json=select_data_proyectos)
+        response_proyectos.raise_for_status()
+        data_proyectos = response_proyectos.json()
+        if 'result' in data_proyectos and data_proyectos['result']:
+            proyectos = json.loads(data_proyectos['result'][0]['result'])
+        else:
+            proyectos = []
+    except requests.RequestException as e:
+        logging.error(f"Error al obtener proyectos del investigador: {str(e)}")
+        flash(f"Error al obtener proyectos del investigador: {str(e)}", "error")
+        proyectos = []
+    except (TypeError, json.JSONDecodeError) as e:
+        logging.error(f"Error al decodificar el JSON de proyectos: {str(e)}")
+        flash("Error al procesar los proyectos del investigador.", "error")
+        proyectos = []
+
+    # Consulta para obtener los grupos asociados al investigador
+   # ... código existente ...
+
+# Consulta para obtener los grupos asociados al investigador
+    # Consulta para obtener los grupos asociados al investigador
+    select_data_grupos = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_linea_grupo lg INNER JOIN inv_grupos g ON g.id_grupo = lg.id_grupo",
+            "where_condition": f"lg.id_lider = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "g.id_grupo, g.nombre_grupo, g.fecha_creacion, g.fecha_finalizacion, g.plan_estrategico"  # Agregar nuevas columnas
+        }
+    }
+
+    try:
+        response_grupos = requests.post(API_URL, json=select_data_grupos)
+        response_grupos.raise_for_status()
+        data_grupos = response_grupos.json()
+        if 'result' in data_grupos and data_grupos['result']:
+            grupos = json.loads(data_grupos['result'][0]['result'])
+            # Eliminar duplicados
+            grupos = {grupo['id_grupo']: grupo for grupo in grupos}.values()  # Usar un diccionario para eliminar duplicados
+        else:
+            grupos = []
+    except requests.RequestException as e:
+        logging.error(f"Error al obtener grupos del investigador: {str(e)}")
+        flash(f"Error al obtener grupos del investigador: {str(e)}", "error")
+        grupos = []
+
+    # Consulta para obtener las líneas asociadas al investigador
+    select_data_lineas = {
+        "procedure": "select_json_entity",
+        "parameters": {
+            "table_name": "inv_linea_investigador li INNER JOIN inv_linea_grupo l ON l.id_linea_grupo = li.id_linea",
+            "where_condition": f"li.id_investigador = {id}",
+            "order_by": "",
+            "limit_clause": "",
+            "json_data": {},
+            "select_columns": "l.id_linea_grupo, l.nombre_linea, l.descripcion"  # Agregar nueva columna
+        }
+    }
+
+    try:
+       response_lineas = requests.post(API_URL, json=select_data_lineas)
+       response_lineas.raise_for_status()
+       data_lineas = response_lineas.json()
+       logging.info(f"Respuesta de líneas: {data_lineas}")  # Agregado para depuración
+       if 'result' in data_lineas and data_lineas['result']:
+           lineas = json.loads(data_lineas['result'][0]['result'])
+       else:
+           lineas = []
+    except requests.RequestException as e:
+       logging.error(f"Error al obtener líneas del investigador: {str(e)}")
+       flash(f"Error al obtener líneas del investigador: {str(e)}", "error")
+       lineas = []
+    except (TypeError, json.JSONDecodeError) as e:
+       logging.error(f"Error al decodificar el JSON de líneas: {str(e)}")
+       flash("Error al procesar las líneas del investigador.", "error")
+       lineas = []
+
+    return render_template('investigadores/detalle.html', investigador=investigador, proyectos=proyectos, grupos=grupos, lineas=lineas,
+                           facultad = facultad())
 @vistaInvestigadores.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar(id):
     if request.method == 'GET':
+        # Obtener los datos del investigador
         select_data = {
             "procedure": "select_json_entity",
             "parameters": {
-                "table_name": "inv_investigadores",
-                "where_condition": f"id_investigador={id}",
+                "table_name": "inv_investigadores i INNER JOIN inv_facultad f ON f.id_facultad = i.id_facultad",
+                "where_condition": f"i.id_investigador = {id}",
                 "order_by": "",
                 "limit_clause": "",
                 "json_data": {},
-                "select_columns": "*"
+                "select_columns": "i.*, f.nombre_facultad"
             }
         }
-        response = requests.post(API_URL, json=select_data)
-        if response.status_code != 200:
-            return f"Error al consultar la API: {response.status_code}"
 
-        data_investigador = response.json()
-        if 'result' in data_investigador and data_investigador['result']:
-            investigador = json.loads(data_investigador['result'][0]['result'])[0]
-        else:
-            return "Investigador no encontrado", 404
+        try:
+            response = requests.post(API_URL, json=select_data)
+            response.raise_for_status()
+            data = response.json()
+            if 'result' in data and data['result']:
+                investigador = json.loads(data['result'][0]['result'])[0]
+            else:
+                flash('Investigador no encontrado', 'error')
+                return redirect(url_for('idVistaInvestigadores.listar'))
+        except requests.RequestException as e:
+            logging.error(f"Error al obtener detalles del investigador: {str(e)}")
+            flash(f"Error al obtener detalles del investigador: {str(e)}", "error")
+            return redirect(url_for('idVistaInvestigadores.listar'))
 
-        facultades_data = {
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_facultad",
-                "where_condition": "",
-                "order_by": "nombre_facultad",
-                "limit_clause": "",
-                "json_data": {},
-                "select_columns": "id_facultad, nombre_facultad"
-            }
-        }
-        response = requests.post(API_URL, json=facultades_data)
-        facultades = json.loads(response.json()['result'][0]['result']) if response.status_code == 200 else []
+        # Cargar las facultades
+        facultades = facultad()  # Asegúrate de que esta función esté definida en select_list.py
 
         return render_template('investigadores/editar.html', investigador=investigador, facultades=facultades)
 
     elif request.method == 'POST':
+        # Procesar el formulario de edición
+        investigador_actualizado = {
+            "cedula": request.form['cedula'],
+            "nombre_investigador": request.form['nombre_investigador'],
+            "id_facultad": request.form['id_facultad'],
+            "categoria_institucion": request.form['categoria_institucion'],
+            "categoria_colciencias": request.form['categoria_colciencias'],
+            "orcid": request.form['orcid'],
+            "nivel_de_formacion": request.form['nivel_de_formacion'],
+            "correo": request.form['correo'],
+            "telefono": request.form['telefono']
+        }
+
         update_data = {
             "procedure": "update_json_entity",
             "parameters": {
                 "table_name": "inv_investigadores",
                 "where_condition": f"id_investigador={id}",
-                "json_data": request.form
+                "json_data": json.dumps(investigador_actualizado)
             }
         }
-        response = requests.post(API_URL, json=update_data)
-        if response.status_code != 200:
-            return f"Error al actualizar el investigador: {response.status_code}"
 
-        flash('Investigador actualizado exitosamente', 'success')
+        try:
+            response = requests.post(API_URL, json=update_data)
+            response.raise_for_status()
+            flash('Investigador actualizado exitosamente', 'success')
+        except requests.RequestException as e:
+            logging.error(f"Error al actualizar el investigador: {str(e)}")
+            flash(f"Error al actualizar el investigador: {str(e)}", "error")
+
         return redirect(url_for('idVistaInvestigadores.detalle', id=id))
-
-@vistaInvestigadores.route('/eliminar/<int:id>', methods=['POST'])
-def eliminar(id):
-    delete_data = {
-        "procedure": "delete_json_entity",
-        "parameters": {
-            "table_name": "inv_investigadores",
-            "where_condition": f"id_investigador={id}"
-        }
-    }
-
-    response = requests.post(API_URL, json=delete_data)
-
-    if response.status_code == 200:
-        result = response.json()
-        if 'result' in result and result['result']:
-            flash('Investigador eliminado exitosamente', 'success')
-        else:
-            flash('Error al eliminar el investigador', 'error')
-    else:
-        flash(f'Error en la solicitud: {response.status_code}', 'error')
-
-    return redirect(url_for('idVistaInvestigadores.listar'))

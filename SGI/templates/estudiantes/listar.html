@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Listado de Estudiantes{% endblock %}
+{% block content %}
+<div class="container-top">
+  <p class="enlaces">
+    <a class="a-enlaces" href="/vistaInicio">Inicio \ </a>
+    <span class="text-secondary">Estudiantes</span>
+  </p>
+</div>
+<div class="container mt-4">
+  <h2>Estudiantes</h2>
+  
+  <div class="container-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group col-4">
+            <button class="btn btn-usb btn-outline-secondary" type="button" id="searchEstudianteBtn">
+              <img src="{{ url_for('static', filename='icons/search.svg') }}" alt="Search Icon" />
+            </button>
+            <input type="search" class="form-control" placeholder="Buscar estudiante..." id="searchEstudiante" value="{{ search_term }}">
+          </div>
+        </div>
+        <div class="col-1 ms-auto">
+          <button type="button" class="btn btn-usb" data-bs-toggle="modal" data-bs-target="#crearEstudiante">
+            Crear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table" id="Estudiantes" style="width: 100%; margin-top: 15px;">
+    <thead>
+      <tr>
+        <th>Identificación</th>
+        <th>Nombre Completo</th>
+        <th>Código</th>
+        <th>Correo</th>
+        <th>Facultad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data %}
+      <tr>
+        <td>{{item.identificacion}}</td>
+        <td>{{item.nombre_estudiante}}</td>
+        <td>{{item.codigo}}</td>
+        <td>{{item.correo}}</td>
+        <td>{{item.nombre_facultad}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for(route_pagination, page=page - 1) }}" class="btn btn-primary btn-sm">&laquo; Anterior</a>
+    {% endif %}
+
+    <span class="text-center mx-5">Página {{ page }} de {{ total_pages }}</span>
+    {% if page < total_pages %}
+    <a href="{{ url_for(route_pagination, page=page + 1) }}" class="btn btn-primary btn-sm">Siguiente &raquo;</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Modal para crear estudiante -->
+<div class="modal fade" id="crearEstudiante" tabindex="-1" aria-labelledby="crearEstudianteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearEstudianteLabel">Crear Estudiante</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" action="{{ url_for('idVistaEstudiantes.crear') }}" method="POST">
+          <div class="col-md-6">
+            <label for="identificacion" class="form-label">Identificación</label>
+            <input type="text" class="form-control" id="identificacion" name="identificacion" required>
+          </div>
+          <div class="col-md-6">
+            <label for="nombre_estudiante" class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" id="nombre_estudiante" name="nombre_estudiante" required>
+          </div>
+          <div class="col-md-6">
+            <label for="codigo" class="form-label">Código</label>
+            <input type="text" class="form-control" id="codigo" name="codigo" required>
+          </div>
+          <div class="col-md-6">
+            <label for="id_facultad" class="form-label">Facultad</label>
+            <select class="form-select" id="id_facultad" name="id_facultad" required>
+              <option value="">Seleccione una facultad</option>
+              {% for facultad in facultades %}
+                <option value="{{ facultad.id_facultad }}">{{ facultad.nombre_facultad }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="correo" name="correo" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-usb">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  TableFilterV2("searchEstudiante", "searchEstudianteBtn", "/estudiantes/listar", 500);
+</script>
+
+{% endblock %}
