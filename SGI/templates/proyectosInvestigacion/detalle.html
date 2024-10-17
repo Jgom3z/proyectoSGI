@@ -17,6 +17,16 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
     
     <br id="break-line" />
     <!-- El <br> tiene un id único -->
+<<<<<<< HEAD
+=======
+    <a
+      class="a-enlaces"
+      href="{{ url_for('idVistaProyectosInvestigacion.listar') }}"
+      >Proyectos de investigación \</a>
+    
+    <br id="break-line" />
+    <!-- El <br> tiene un id único -->
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
     <span class="text-secondary">Detalle Proyecto</span>
   </p>
 </div>
@@ -29,6 +39,11 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
           <div class="flex-grow-1 text-center">
             <h3 class="text-proyecto m-0 text-center flex-grow-1">
               {{ proyecto.nombre_proyecto }}
+<<<<<<< HEAD
+=======
+            <h3 class="text-proyecto m-0 text-center flex-grow-1">
+              {{ proyecto.nombre_proyecto }}
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
             </h3>
           </div>
           <div class="btn-group" role="group">
@@ -61,6 +76,39 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
               src="{{ url_for('static', filename='icons/menu-right.svg')}}"
               alt=""
             />
+<<<<<<< HEAD
+=======
+          <div class="btn-group" role="group">
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#cargarDocumentos"
+            >
+              Cargar documentos
+            </button>
+            <button
+              class="btn btn-usb"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#editarProyecto"
+            >
+              Editar
+            </button>
+          </div>
+          <!-- Botón para mostrar/ocultar el menú -->
+          <button
+            class="btn btn-secundary float-end mx-2"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#menuCollapseProyecto"
+            aria-controls="menuCollapseProyecto"
+          >
+            <img
+              src="{{ url_for('static', filename='icons/menu-right.svg')}}"
+              alt=""
+            />
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
           </button>
         </div>
         <div class="card-body">
@@ -92,6 +140,37 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
               </tr>
             </tbody>
           </table>
+<<<<<<< HEAD
+=======
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th>Código:</th>
+                <td>{{ proyecto.codigo }}</td>
+                <th>Estado:</th>
+                <td>{{ proyecto.estado }}</td>
+              </tr>
+              <tr>
+                <th>Fecha de Inicio:</th>
+                <td>{{ proyecto.fecha_inicio }}</td>
+                <th>Fecha Final:</th>
+                <td>{{ proyecto.fecha_final }}</td>
+              </tr>
+              <tr>
+                <th>Convocatoria:</th>
+                <td>{{ proyecto.convocatoria }}</td>
+                <th>Grupo de Investigación:</th>
+                <td>{{ proyecto.nombre_grupo }}</td>
+              </tr>
+              <tr>
+                <th>Línea de Investigación:</th>
+                <td>{{ proyecto.nombre_linea }}</td>
+                <th>Nombre de la Convocatoria:</th>
+                <td>{{ proyecto.nombre_convocatoria }}</td>
+              </tr>
+            </tbody>
+          </table>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
 
           <h5 class="card-title mt-4">Documentos</h5>
           {% include'proyectosInvestigacion/documentos/listar.html' %}
@@ -100,6 +179,10 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
     </div>
     <!-- Menú lateral derecho -->
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
     <div
       class="offcanvas offcanvas-end"
       tabindex="-1"
@@ -132,6 +215,13 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
           >
             Agregar Investigador
           </button>
+<<<<<<< HEAD
+=======
+=======
+      <h3 class="text-proyecto m-0 text-left flex-grow-1" style="color: #b54f25;">Documentos📂</h3><br>
+      {% include'proyectosInvestigacion/documentos/listar.html' %}
+>>>>>>> 2960dad379b94315fb2400dc3626014a5b8b9799
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
 
           <button id="btnAgregarProducto" class="btn btn-usb btn-block mb-1">
             Agregar Producto
@@ -324,6 +414,185 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
         {% include 'proyectosInvestigacion/auxiliar/listar.html' %}
       </div>
     </div>
+<<<<<<< HEAD
+=======
+  </div>
+
+  <!--Tab Opciones-->
+  <div class="card py-2" style="min-height: 300px;">
+    <div class="card-header">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active a-usb"
+            id="investigadores-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#investigadores"
+            type="button"
+            role="tab"
+            aria-controls="investigadores"
+            aria-selected="true"
+          >
+            Investigadores
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="productos-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#productos"
+            type="button"
+            role="tab"
+            aria-controls="productos"
+            aria-selected="false"
+          >
+            Productos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="cofinanciador-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#cofinanciador"
+            type="button"
+            role="tab"
+            aria-controls="cofinanciador"
+            aria-selected="false"
+          >
+            Cofinanciador
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="presupuesto-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#presupuesto"
+            type="button"
+            role="tab"
+            aria-controls="presupuesto"
+            aria-selected="false"
+          >
+            Presupuesto
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="proyectosFormacion-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#proyectosFormacion"
+            type="button"
+            role="tab"
+            aria-controls="proyectosFormacion"
+            aria-selected="false"
+          >
+            Proyectos de Formaciones
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link a-usb"
+            id="auxiliar-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#auxiliar"
+            type="button"
+            role="tab"
+            aria-controls="auxiliar"
+            aria-selected="false"
+          >
+            Auxiliares
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="container my-2">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group col-4">
+            <button
+              class="btn btn-usb btn-outline-secondary text-white"
+              type="button"
+              id="button-search"
+            >
+              <img
+                class="text-ligth"
+                src="{{ url_for('static', filename='icons/search.svg') }}"
+                alt="Search Icon"
+              />
+            </button>
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Buscar ..."
+              aria-label="Example text with button addon"
+              aria-describedby="button-addon1"
+              id="input-search"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="tab-pane fade show active"
+        id="investigadores"
+        role="tabpanel"
+        aria-labelledby="investigadores-tab"
+      >
+        <!--Integrantes-->
+        {% include 'proyectosInvestigacion/investigadores/listar.html' %}
+      </div>
+      <div
+        class="tab-pane fade"
+        id="productos"
+        role="tabpanel"
+        aria-labelledby="productos-tab"
+      >
+        <!--productos-->
+        {% include 'proyectosInvestigacion/productos/listar.html' %}
+        
+      </div>
+      <div
+        class="tab-pane fade"
+        id="cofinanciador"
+        role="tabpanel"
+        aria-labelledby="cofinanciador-tab"
+      >
+        <!--cofinanciador-->
+        {% include 'proyectosInvestigacion/cofinanciador/listar.html' %}
+      </div>
+      <div
+        class="tab-pane fade"
+        id="presupuesto"
+        role="tabpanel"
+        aria-labelledby="presupuesto-tab"
+      >
+        <!--presupuesto-->
+        
+      </div>
+      <div
+        class="tab-pane fade"
+        id="proyectosFormacion"
+        role="tabpanel"
+        aria-labelledby="proyectosFormacion-tab"
+      >
+        <!--proyectosFormacion-->
+        
+      </div>
+      <div
+        class="tab-pane fade"
+        id="auxiliar"
+        role="tabpanel"
+        aria-labelledby="auxiliar-tab"
+      >
+        <!--auxiliar-->
+        {% include 'proyectosInvestigacion/auxiliar/listar.html' %}
+      </div>
+    </div>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
   </div>
 </div>
 
@@ -428,3 +697,108 @@ block content %} {% include'proyectosInvestigacion/documentos/cargar.html' %}
   }
 </script>
 {% include 'proyectosInvestigacion/editar.html' %} {% endblock content %}
+<<<<<<< HEAD
+=======
+
+
+
+<script>
+  function loadDataDeleteFile(id_proyecto, filename, columnname) {
+    document.getElementById("filename").value = filename;
+    document.getElementById("id_proyecto").value = id_proyecto;
+    document.getElementById("columnname").value = columnname;
+    document.getElementById("inv_eliminar_file_display").textContent = filename;
+  }
+  // Llama a la función createTableFilter con los IDs dinámicos
+  //TableFilter("input-search", "button-search", "integrantes");
+  //TableFilter("input-search", "button-search", "proyectos");
+  //TableFilter("input-search", "button-search", "planes");
+  document
+    .getElementById("btnAgregarInvestigador")
+    .addEventListener("click", function () {
+      // Cerrar el offcanvas antes de abrir el modal
+      var offcanvas = bootstrap.Offcanvas.getInstance(
+        document.getElementById("menuCollapseProyecto")
+      );
+      if (offcanvas) {
+        offcanvas.hide(); // Cerrar el offcanvas
+      }
+
+      // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+      setTimeout(function () {
+        var modal = new bootstrap.Modal(
+          document.getElementById("crearInvestigador")
+        );
+        modal.show();
+      }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+    });
+    document
+    .getElementById("btnAgregarProducto")
+    .addEventListener("click", function () {
+      // Cerrar el offcanvas antes de abrir el modal
+      var offcanvas = bootstrap.Offcanvas.getInstance(
+        document.getElementById("menuCollapseProyecto")
+      );
+      if (offcanvas) {
+        offcanvas.hide(); // Cerrar el offcanvas
+      }
+
+      // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+      setTimeout(function () {
+        var modal = new bootstrap.Modal(
+          document.getElementById("crearProducto")
+        );
+        modal.show();
+      }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+    });
+    document
+    .getElementById("btnAgregarCofinanciador")
+    .addEventListener("click", function () {
+      // Cerrar el offcanvas antes de abrir el modal
+      var offcanvas = bootstrap.Offcanvas.getInstance(
+        document.getElementById("menuCollapseProyecto")
+      );
+      if (offcanvas) {
+        offcanvas.hide(); // Cerrar el offcanvas
+      }
+
+      // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+      setTimeout(function () {
+        var modal = new bootstrap.Modal(
+          document.getElementById("crearCofinanciador")
+        );
+        modal.show();
+      }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+    });
+    document
+    .getElementById("btnAgregarAuxiliar")
+    .addEventListener("click", function () {
+      // Cerrar el offcanvas antes de abrir el modal
+      var offcanvas = bootstrap.Offcanvas.getInstance(
+        document.getElementById("menuCollapseProyecto")
+      );
+      if (offcanvas) {
+        offcanvas.hide(); // Cerrar el offcanvas
+      }
+
+      // Abrir el modal después de un pequeño retraso para evitar conflictos de enfoque
+      setTimeout(function () {
+        var modal = new bootstrap.Modal(
+          document.getElementById("crearAuxiliar")
+        );
+        modal.show();
+      }, 300); // Retraso de 300 ms (ajustable según sea necesario)
+    });
+  function loadDataDeleteInvestigador(id, proyecto_id) {
+    document.getElementById("inv_eliminar_id").value = id;
+    document.getElementById("inv_eliminar_id_display").textContent = id;
+    document.getElementById("inv_proyecto_id").value = proyecto_id;
+  }
+  function loadDataDeletePlan(id, semilero_id) {
+    document.getElementById("plan_eliminar_id").value = id;
+    document.getElementById("plan_eliminar_id_display").textContent = id;
+    document.getElementById("plan_semillero_id").value = semilero_id;
+  }
+</script>
+{% include 'proyectosInvestigacion/editar.html' %} {% endblock content %}
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9

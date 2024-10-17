@@ -20,13 +20,13 @@
           <div class="mb-3">
             <label for="id_facultad" class="form-label">Facultad</label>
             <select class="form-select" id="id_facultad" name="id_facultad" required>
-              {% for facultad in facultades %}
-                <option value="{{ facultad.id_facultad }}" {% if facultad.id_facultad == investigador.id_facultad %}selected{% endif %}>
-                  {{ facultad.nombre_facultad }}
-                </option>
-              {% endfor %}
+                {% for facultad in facultades %}
+                    <option value="{{ facultad.id_facultad }}" {% if facultad.id_facultad == investigador.id_facultad %}selected{% endif %}>
+                        {{ facultad.nombre_facultad }}
+                    </option>
+                {% endfor %}
             </select>
-          </div>
+        </div>
           <div class="mb-3">
             <label for="nivel_de_formacion" class="form-label">Nivel de Formación</label>
             <input type="text" class="form-control" id="nivel_de_formacion" name="nivel_de_formacion" value="{{ investigador.nivel_de_formacion }}">

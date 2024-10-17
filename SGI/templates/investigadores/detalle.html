@@ -65,11 +65,15 @@
             Proyectos
           </button>
         </li>
+<<<<<<< HEAD
+        
+=======
         <li class="nav-item" role="presentation">
           <button class="nav-link a-usb" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab" aria-controls="productos" aria-selected="false">
             Productos
           </button>
         </li>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
         <li class="nav-item" role="presentation">
           <button class="nav-link a-usb" id="grupos-tab" data-bs-toggle="tab" data-bs-target="#grupos" type="button" role="tab" aria-controls="grupos" aria-selected="false">
             Grupos
@@ -92,6 +96,26 @@
                 <th>Proyecto</th>
                 <th>Fecha de Inicio</th>
                 <th>Fecha de Finalización</th>
+<<<<<<< HEAD
+              </tr>
+            </thead>
+            <tbody>
+              {% for proyecto in proyectos %}
+              <tr>
+                <td>
+                  <a class="a-td" href="{{ url_for('idVistaProyectosInvestigacion.detalle', id=proyecto.id_proyecto) }}">
+                    {{ proyecto.nombre_proyecto }}
+                  </a>
+                </td>
+                <td>{{ proyecto.fecha_inicio }}</td>
+                <td>{{ proyecto.fecha_final }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+=======
                 <th>Estado</th>
               </tr>
             </thead>
@@ -135,12 +159,31 @@
             </tbody>
           </table>
         </div>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
         <div class="tab-pane fade" id="grupos" role="tabpanel" aria-labelledby="grupos-tab">
           <!-- Grupos -->
           <table class="table align-items-center" id="grupos">
             <thead>
               <tr>
                 <th>Grupo</th>
+<<<<<<< HEAD
+                <th>Fecha de Creación</th>
+                <th>Fecha de Finalización</th>
+                <th>Plan Estratégico</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for grupo in grupos %}
+              <tr>
+                <td>
+                  <a class="a-td" href="{{ url_for('idVistaGruposInvestigacion.detalle', id=grupo.id_grupo) }}">{{ grupo.nombre_grupo }}</a>
+                </td>
+                <td>{{ grupo.fecha_creacion }}</td>
+                <td>{{ grupo.fecha_finalizacion }}</td>
+                <td>{{ grupo.plan_estrategico }}</td>
+              </tr>
+              {% endfor %}
+=======
                 <th>Rol</th>
               </tr>
             </thead>
@@ -153,6 +196,7 @@
                 <td>Grupo de Avanzado</td>
                 <td>Investigador</td>
               </tr>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
             </tbody>
           </table>
         </div>
@@ -162,6 +206,18 @@
             <thead>
               <tr>
                 <th>Línea</th>
+<<<<<<< HEAD
+                <th>Descripción</th>  <!-- Nueva columna -->
+              </tr>
+            </thead>
+            <tbody>
+              {% for linea in lineas %}
+              <tr>
+                <td>{{ linea.nombre_linea }}</td>
+                <td>{{ linea.descripcion }}</td>  <!-- Nueva columna -->
+              </tr>
+              {% endfor %}
+=======
               </tr>
             </thead>
             <tbody>
@@ -171,6 +227,7 @@
               <tr>
                 <td>Línea de Investigación en Innovación Tecnológica</td>
               </tr>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
             </tbody>
           </table>
         </div>
@@ -181,6 +238,11 @@
 
 {% include 'investigadores/editar.html' %}
 
+<<<<<<< HEAD
+
+
+
+=======
 <!-- Modales para agregar estudiante y plan -->
 <div class="modal fade" id="crearEstudianteModal" tabindex="-1" aria-labelledby="crearEstudianteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -251,5 +313,6 @@
     </div>
   </div>
 </div>
+>>>>>>> 48d1917806ebf9f8935346552748eb850a8a59f9
 
 {% endblock %}

@@ -9,6 +9,7 @@ function loadData(url, id) {
         const idsFields = response.ids_editar;
 
         const responseData = Array.isArray(data) ? data[0] : {};
+        console.log(responseData);
 
         // Iterar sobre los campos y actualizar los valores
         Object.keys(idsFields).forEach(field => {

@@ -79,10 +79,46 @@
   </ul>
 
   <div class="tab-content" id="grupoTabsContent">
-    <!-- El contenido de las pestañas se mantiene igual -->
-    <!-- ... -->
+    <div class="tab-pane fade show active" id="lineas" role="tabpanel" aria-labelledby="lineas-tab">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linea in lineas %}
+                <tr>
+                    <td>{{ linea.nombre_linea }}</td>
+                    <td>{{ linea.descripcion }}</td>
+                    <td>{{ linea.estado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="investigadores" role="tabpanel" aria-labelledby="investigadores-tab">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Nombre</th>
+                  <th>Estado</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for investigador in investigadores %}
+              <tr>
+                  <td>{{ investigador.nombre_investigador }}</td>
+                  <td>{{ investigador.estado }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    <!-- ... otras pestañas para proyectos y semilleros ... -->
   </div>
-</div>
 
 {% include 'grupos/editar.html' %}
 
