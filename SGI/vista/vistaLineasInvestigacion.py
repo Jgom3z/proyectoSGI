@@ -318,3 +318,5 @@ def update_linea():
     else:
         error_message = response.json().get("message", "Error desconocido al actualizar el grupo")
         return jsonify({"message": f"Error al actualizar el grupo: {error_message}"}), 500  # Respuesta de error
+    
+    #comentario prueba
