@@ -1,0 +1,54 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="ModalEliminarAuxiliar"
+  tabindex="-1"
+  aria-labelledby="ModalEliminarAuxiliarLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalEliminarAuxiliarLabel">
+          Eliminar Auxiliar
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">        
+        <form
+          action="/proyectos/eliminarAuxiliar"
+          method="POST"
+          id="formElimiarAuxiliar"
+        > <p>¿Estás seguro de que deseas eliminar el registro con ID: 
+          <span id="aux_eliminar_id_display" class="fw-bold"></span>?
+          <input
+            type="hidden"
+            id="aux_eliminar_id"
+            name="aux_eliminar_id"
+            readonly
+          />
+          <input
+            type="hidden"
+            id="aux_proyecto_id"
+            name="aux_proyecto_id"
+            readonly
+          />
+        </form>
+        <span class="text-danger">¡Esta acción no se prodrá deshacer!</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+        <button form="formElimiarAuxiliar" type="submit" class="btn btn-primary">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

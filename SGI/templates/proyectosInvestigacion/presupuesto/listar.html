@@ -1,0 +1,21 @@
+<!--presupuesto-->
+<table class="table align-items-center ml-5" id="investigadores">
+    <thead>
+      <tr>
+        <th>Nombre rubro</th>
+        <th>Periodo</th>
+        <th>Monto</th>
+        <th>Financiado usb</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in presupuesto_proyecto %}
+      <tr>        
+        <td>{{item.nombre_rubro}}</td>
+        <td>{{item.periodo}}</td>
+        <td>{{item.monto}}</td>
+        <td>{{item.financiado_usb}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>

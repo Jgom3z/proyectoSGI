@@ -1,0 +1,21 @@
+<!--proyectos de formación-->
+<table class="table align-items-center ml-5" id="investigadores">
+    <thead>
+      <tr>
+        <th>Proyecto de formación </th>
+        <th>Investigador Asesor</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Terminación</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in proyectos_formacion %}
+      <tr>       
+        <td>{{item.nombre_proy_form}}</td>
+        <td>{{item.nombre_investigador}}</td>
+        <td>{{item.fecha_inicio}}</td>
+        <td>{{item.fecha_terminacion}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>

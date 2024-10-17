@@ -117,16 +117,17 @@ def detalle(id):
     return render_template('proyectosInvestigacion/detalle.html', 
                            proyecto=proyecto[0], 
                            grupos=grupos(), lineas = lineas(),
-                           investigadores_crear=investigadoresNotInProyecto(id), 
+                           investigadores_crear=investigadores_no_in_proyecto(id), 
                            investigadores=investigadores(), 
-                           investigadoresProyecto=investigadoresProyecto(id),
-                           productosProyecto=productosProyecto(id),
-                           cofinanciadoresProyecto=cofinanciadoresProyecto(id),
-                           AuxiliaresProyecto=AuxiliaresProyecto(id),
+                           investigadores_proyecto=investigadores_proyecto(id),
+                           productos_proyecto=productos_proyecto(id),
+                           cofinanciadores_proyecto=cofinanciadores_proyecto(id),
+                           auxiliares_proyecto=auxiliares_proyecto(id),
                            productos=productos(),
                            cofinanciadores=cofinanciadores(),
-                           estudiantes=estudiantesNotInProyecto(id),
-                           #seguimiento=seguimiento(),
+                           estudiantes=estudiantes_no_in_proyecto(id),
+                           presupuesto_proyecto=presupuesto_proyecto(id),
+                           proyectos_formacion=proyectos_formacion(id),
                            )
 
 
@@ -411,8 +412,6 @@ def eliminarCofinanciador():
         }
      }
 
-    print(id_proyecto)
-    
     response = requests.post(API_URL, json=delete_data)
     if response.status_code ==200:
         flash("El registro se eliminó correctamente", 'success')
@@ -450,6 +449,32 @@ def crearAuxiliar():
     
 
     return redirect(url_for('idVistaProyectosInvestigacion.detalle', id=id_proyecto))
+  
+@vistaProyectosInvestigacion.route('/eliminarAuxiliar', methods=[ 'POST'])
+def eliminarAuxiliar():
+    id_proyecto = request.form.get('aux_proyecto_id')
+    delete_data = {
+      "procedure": "delete_json_entity",
+        "parameters": {
+            "table_name": "inv_auxiliar_proyecto",
+            "where_condition": f"id_auxiliar_proyecto={request.form.get('aux_eliminar_id')}"
+        }
+     }
+    print(delete_data)
+    print(id_proyecto)
+    
+    response = requests.post(API_URL, json=delete_data)
+    if response.status_code ==200:
+        flash("El registro se eliminó correctamente", 'success')
+    else:
+        #flash("Algo salió mal, no pudimos realizar la operación solipersonada", "danger")
+        # Mostrar el mensaje de error detallado
+        error_message = response.json().get("message", "Error desconocido al guardar los datos")
+        return jsonify({"message": f"Error al guardar los datos: {error_message}"}), 500
+    
+    return redirect(url_for('idVistaProyectosInvestigacion.detalle', id=id_proyecto))
+
+   
   
 @vistaProyectosInvestigacion.route('/crearSeguimiento', methods=['POST'])
 def crearSeguimiento():
@@ -504,7 +529,7 @@ def crearSeguimiento():
 
 @vistaProyectosInvestigacion.route('/eliminarSeguimiento', methods=[ 'POST'])
 def eliminarSeguimiento():
-    json_data = productoProyectoById(request.form.get('seg_proyecto_id'))
+    json_data = producto_proyecto_by_id(request.form.get('seg_proyecto_id'))
     data = json.loads(json_data)
     id_proyecto = data[0].get('id_proyecto')
     delete_data = {
@@ -537,7 +562,7 @@ def get_investigador():
     investigador_id = request.form.get('id')
     if not investigador_id:
         return jsonify({"error": "ID is required"}), 400
-    response = investigadorProyectoById(investigador_id)
+    response = investigador_proyecto_by_id(investigador_id)
 
     data = response     
     #print(data) 
@@ -569,7 +594,7 @@ def get_producto():
     producto_id = request.form.get('id')
     if not producto_id:
         return jsonify({"error": "ID is required"}), 400
-    response = productoProyectoById(producto_id)
+    response = producto_proyecto_by_id(producto_id)
 
     data = response     
     #print(data) 
@@ -597,10 +622,10 @@ def get_producto_seguimiento():
     producto_id = request.form.get('id')
     if not producto_id:
         return jsonify({"error": "ID is required"}), 400
-    response = productoProyectoById(producto_id)
+    response = producto_proyecto_by_id(producto_id)
     data = response     
     
-    seguimiento= seguimientoProducto(producto_id)
+    seguimiento= seguimiento_producto(producto_id)
     if len(data) > 0:       
         ids_editar = {
                 "id_prod_proy": "seg_id_producto_proyecto",
@@ -621,7 +646,7 @@ def get_cofinanciador():
     cofinanciador_id = request.form.get('id')
     if not cofinanciador_id:
         return jsonify({"error": "ID is required"}), 400
-    response = cofinanciadorById(cofinanciador_id)
+    response = cofinanciador_by_id(cofinanciador_id)
     data = response     
     
     if len(data) > 0:       
@@ -641,7 +666,7 @@ def get_cofinanciador():
         return jsonify({"error": "Failed to retrieve data"}), 500
 
 #Select list Proyectos
-def investigadoresProyecto(id):
+def investigadores_proyecto(id):
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -668,7 +693,7 @@ def investigadoresProyecto(id):
     
     return result
 
-def productosProyecto(id):
+def productos_proyecto(id):
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -695,7 +720,7 @@ def productosProyecto(id):
     
     return result
 
-def cofinanciadoresProyecto(id):
+def cofinanciadores_proyecto(id):
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -722,7 +747,7 @@ def cofinanciadoresProyecto(id):
     
     return result
 
-def AuxiliaresProyecto(id):
+def auxiliares_proyecto(id):
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -730,7 +755,7 @@ def AuxiliaresProyecto(id):
                 "table_name": "inv_auxiliar_proyecto c INNER JOIN inv_estudiantes p ON p.id_estudiante = c.id_estudiante",
                 "json_data": {},
                 "where_condition":  f"c.id_proyecto={id}",
-                "select_columns": "p.id_estudiante,p.identificacion, p.nombre_estudiante, c.id_auxiliar_proyecto, c.fecha",
+                "select_columns": "c.id_proyecto, p.id_estudiante,p.identificacion, p.nombre_estudiante, c.id_auxiliar_proyecto, c.fecha",
                 "order_by": "p.nombre_estudiante",
                 "limit_clause": ""
             }
@@ -749,7 +774,65 @@ def AuxiliaresProyecto(id):
     
     return result
 
-def investigadorProyectoById(id):
+def presupuesto_proyecto(id):
+    select_data = {
+            "projectName": projectName,
+            "procedure": "select_json_entity",
+            "parameters": {
+                "table_name": "inv_presupuesto d LEFT OUTER JOIN inv_rubro a ON a.id_rubro = d.id_rubro",
+                "json_data": {},
+                "where_condition":  f"d.id_proyecto ={id}",
+                "select_columns": "d.id_presupuesto, a.nombre_rubro, d.periodo, d.monto, d.financiado_usb",
+                "order_by": "a.nombre_rubro",
+                "limit_clause": ""
+            }
+        }
+    
+    response = requests.post(API_URL, json=select_data)
+    if response.status_code != 200:
+        return f"Error al consultar la API: {response.status_code}"
+
+    select_data = response.json()
+    if 'result' in select_data and select_data['result']:
+        data_str = select_data['result'][0]['result']
+        result = json.loads(data_str)
+    else:
+        result = []
+    
+    return result
+
+def proyectos_formacion(id):
+    select_data = {
+            "projectName": projectName,
+            "procedure": "select_json_entity",
+            "parameters": {
+                "table_name": "inv_proyecto_formacion x INNER JOIN inv_proyecto k ON x.id_proyecto = k.id_proyecto INNER JOIN inv_investigadores i ON x.id_investigador = i.id_investigador",
+                "json_data": {},
+                "where_condition":  f"x.id_proyecto ={id}",
+                "select_columns": "x.id_proyecto_formacion, x.nombre_proy_form, i.nombre_investigador, x.fecha_inicio, x.fecha_terminacion",
+                "order_by": "x.nombre_proy_form",
+                "limit_clause": ""
+            }
+        }
+    
+    response = requests.post(API_URL, json=select_data)
+    if response.status_code != 200:
+        return f"Error al consultar la API: {response.status_code}"
+
+    select_data = response.json()
+    if 'result' in select_data and select_data['result']:
+        data_str = select_data['result'][0]['result']
+        result = json.loads(data_str)
+    else:
+        result = []
+    
+    return result
+
+
+
+
+
+def investigador_proyecto_by_id(id):
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -775,7 +858,7 @@ def investigadorProyectoById(id):
         result = []
     return result
 
-def productoProyectoById(id):
+def producto_proyecto_by_id(id):
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -801,8 +884,33 @@ def productoProyectoById(id):
         result = []
     return result
 
+def cofinanciador_by_id(id):
+    select_data = {
+            "projectName": projectName,
+            "procedure": "select_json_entity",
+            "parameters": {
+                "table_name": "inv_cofinanciador_proyecto",
+                "json_data": {},
+                "where_condition":  f"id_cofinan_proyecto={id}",
+                "select_columns": "",
+                "order_by": "",
+                "limit_clause": ""
+            }
+        }
+    
+    response = requests.post(API_URL, json=select_data)
+    if response.status_code != 200:
+        return f"Error al consultar la API: {response.status_code}"
 
-def investigadoresNotInProyecto(id):    
+    select_data = response.json()
+    if 'result' in select_data and select_data['result']:
+        data_str = select_data['result'][0]['result']
+        result = data_str
+    else:
+        result = []
+    return result
+
+def investigadores_no_in_proyecto(id):    
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -830,7 +938,7 @@ def investigadoresNotInProyecto(id):
     return result
 
 
-def estudiantesNotInProyecto(id):    
+def estudiantes_no_in_proyecto(id):    
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -858,7 +966,7 @@ def estudiantesNotInProyecto(id):
     return result
 
 
-def seguimientoProducto(id):    
+def seguimiento_producto(id):    
     select_data = {
             "projectName": projectName,
             "procedure": "select_json_entity",
@@ -885,28 +993,5 @@ def seguimientoProducto(id):
     
     return result
 
-def cofinanciadorById(id):
-    select_data = {
-            "projectName": projectName,
-            "procedure": "select_json_entity",
-            "parameters": {
-                "table_name": "inv_cofinanciador_proyecto",
-                "json_data": {},
-                "where_condition":  f"id_cofinan_proyecto={id}",
-                "select_columns": "",
-                "order_by": "",
-                "limit_clause": ""
-            }
-        }
-    
-    response = requests.post(API_URL, json=select_data)
-    if response.status_code != 200:
-        return f"Error al consultar la API: {response.status_code}"
 
-    select_data = response.json()
-    if 'result' in select_data and select_data['result']:
-        data_str = select_data['result'][0]['result']
-        result = data_str
-    else:
-        result = []
-    return result
+
