@@ -1,16 +1,16 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="ModalEliminarIntegrante"
+  id="ModalEliminarInvestigador"
   tabindex="-1"
-  aria-labelledby="ModalEliminarIntegranteLabel"
+  aria-labelledby="ModalEliminarInvestigadorLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ModalEliminarIntegranteLabel">
-          Eliminar Integrante
+        <h5 class="modal-title" id="ModalEliminarInvestigadorLabel">
+          Eliminar Investigador
         </h5>
         <button
           type="button"
@@ -21,7 +21,7 @@
       </div>
       <div class="modal-body">        
         <form
-          action="/semilleros/eliminar-integrante"
+          action="/proyectos/eliminarInvestigador"
           method="POST"
           id="formElimiarIntegrante"
         > <p>¿Estás seguro de que deseas eliminar el registro con ID: 
@@ -34,8 +34,8 @@
           />
           <input
             type="hidden"
-            id="inv_semillero_id"
-            name="inv_semillero_id"
+            id="inv_proyecto_id"
+            name="inv_proyecto_id"
             readonly
           />
         </form>

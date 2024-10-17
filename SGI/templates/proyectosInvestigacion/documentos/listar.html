@@ -1,0 +1,253 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th class="text-center" scope="col">Nombre de Archivo</th>
+      <th class="text-center" scope="col">Descargar</th>
+      <th class="text-center" scope="col">Ver</th>
+      <th class="text-center" scope="col">Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if proyecto.nombre_acta_inicio %}
+    <tr>
+      <td class="text-center"><b>Acta de Inicio</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_acta_inicio) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_acta_inicio) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_acta_inicio }}', 'nombre_acta_inicio')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_acta_finalizacion %}
+    <tr>
+      <td class="text-center"><b>Acta de Finalización</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_acta_finalizacion) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_acta_finalizacion) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_acta_finalizacion }}', 'nombre_acta_finalizacion')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_presupuesto %}
+    <tr>
+      <td class="text-center"><b>Presupuesto</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_presupuesto) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_presupuesto) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_presupuesto }}', 'nombre_presupuesto')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_propuesta %}
+    <tr>
+      <td class="text-center"><b>Propuesta</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_propuesta) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_propuesta) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_propuesta }}', 'nombre_propuesta')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_acta_comite %}
+    <tr>
+      <td class="text-center"><b>Acta de Comité</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_acta_comite) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_acta_comite) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_acta_comite }}', 'nombre_acta_comite')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_convenio_marco %}
+    <tr>
+      <td class="text-center"><b>Convenio Marco</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_convenio_marco) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_convenio_marco) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_convenio_marco }}', 'nombre_convenio_marco')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_convenio_especifico %}
+    <tr>
+      <td class="text-center"><b>Convenio Específico</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_convenio_especifico) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_convenio_especifico) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_convenio_especifico }}', 'nombre_convenio_especifico')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %} {% if proyecto.nombre_carta_intencion %}
+    <tr>
+      <td class="text-center"><b>Carta de Intención</b></td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-warning btn-sm"
+          href="{{ url_for('files.descargar', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_carta_intencion) }}"
+          ><img src="{{ url_for('static', filename='icons/download.svg') }}"
+        /></a>
+      </td>
+      <td class="text-center">
+        <a
+          class="btn btn-outline-success btn-sm"
+          target="_blank"
+          href="{{ url_for('files.ver_archivo', id_proyecto=proyecto.id_proyecto, filename=proyecto.nombre_carta_intencion) }}"
+          ><img src="{{ url_for('static', filename='icons/eye-share.svg') }}" />
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarFile"
+          onclick="loadDataDeleteFile('{{ proyecto.id_proyecto }}', '{{ proyecto.nombre_carta_intencion }}', 'nombre_carta_intencion')"
+        >
+          <img src="{{ url_for('static', filename='icons/trash.svg') }}" />
+        </button>
+      </td>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
